@@ -77,7 +77,7 @@ U32 val;
 	#endif
 
 	pos = hn->hn_PCIDevIOBase + addr;
-	val = pd->InWord( pos );
+	val = pd->InLong( pos );
 
 	return( val );
 }
