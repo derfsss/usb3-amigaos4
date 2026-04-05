@@ -93,6 +93,10 @@ U32 retval;
 
 	struct RealFunctionNode *fn = (PTR) msg->Function;
 
+	usbbase->usb_IExec->DebugPrintF( "USB2: HUB_Entry: addr=%ld tier=%ld port=%ld HCD=#%ld\n",
+		(U32) fn->fkt_Address, (U32) fn->fkt_Tier, (U32) fn->fkt_PortNr,
+		fn->fkt_HCD ? fn->fkt_HCD->hn_HCDIndex : -1 );
+
 	#ifdef DO_PANIC
 
 	if ( FUNCTION_VALID(fn) != VSTAT_Okay )
@@ -103,7 +107,7 @@ U32 retval;
 	#endif
 
 	#ifdef DO_DEBUG
-	U32 startadr = fn->fkt_Address; // used later
+	U32 startadr = fn->fkt_Address;
 	usbbase->usb_IExec->DebugPrintF( "\n##\n## HUB_Entry : Adr #%lu : Enter\n##\n\n", fn->fkt_Address );
 	#endif
 

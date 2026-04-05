@@ -79,7 +79,7 @@ U32 wait;
 
 		if ( mask & hn->hn_HUB_Signal.sig_Signal_Mask )
 		{
-//			usbbase->usb_IExec->DebugPrintF( " : ROOTHUB_HANDLE_CHANGE\n" );
+			usbbase->usb_IExec->DebugPrintF( "USB2: HCD#%ld: hn_HUB_Signal fired\n", hn->hn_HCDIndex );
 
 			ROOTHUB_HANDLE_CHANGE( hn );
 		}

@@ -51,14 +51,6 @@ S32 err;
 
 	// --
 
-	#if 0
-	usbbase->usb_IExec->Disable();
-	usbbase->usb_IExec->DebugPrintF( "\nHUB : Handle Port Change\n" );
-	usbbase->usb_IExec->DebugPrintF( "HUB Tier    : %lu\n", in->Function->fkt_Tier );
-	usbbase->usb_IExec->DebugPrintF( "Port        : %lu\n", port );
-	usbbase->usb_IExec->Enable();
-	#endif
-
 	// --
 
 	#ifdef DO_STABLE
@@ -83,7 +75,8 @@ S32 err;
 		goto bailout;
 	}
 
-	USBDEBUG( "Port Stat $%04lx:%04lx", stat.wPortChange, stat.wPortStatus );
+	usbbase->usb_IExec->DebugPrintF( "USB2: Port_Chg: port=%ld status=0x%04lx change=0x%04lx err=%ld\n",
+		port, (U32) stat.wPortStatus, (U32) stat.wPortChange, err );
 
 	// -- Handle Port Change
 

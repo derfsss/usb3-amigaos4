@@ -58,6 +58,8 @@ U8 *data;
 
 	IExec = usbbase->usb_IExec;
 
+	IExec->DebugPrintF( "USB2: HUB_Interrupt: enter (ports=%ld tier=%ld)\n", in->Ports, in->Function->fkt_Tier );
+
 	while( max-- )
 	{
 		ioreq = (PTR) IExec->GetMsg( in->Res_Interrupt->MsgPort );
@@ -71,7 +73,7 @@ U8 *data;
 		{
 			case USB2Err_NoError:
 			{
-				USBDEBUG( "HUB : Int : Okay" );
+				IExec->DebugPrintF( "USB2: HUB_Interrupt: OK actual=%ld\n", ioreq->io_Actual );
 
 				in->ErrorCnt = 0;
 
@@ -92,7 +94,7 @@ U8 *data;
 							}
 							else
 							{
-								USBDEBUG( "HUB : Int : Port %lu Status Change", port );
+								IExec->DebugPrintF( "USB2: HUB_Interrupt: Port %ld change!\n", port );
 
 								HUB__Port_Chg( usbbase, in, port );
 							}

@@ -26,6 +26,11 @@ S32 len;
 
 	ioreq = hn->hn_HUB_Interrupts.uh_Head;
 
+	if ( ! ioreq )
+	{
+		usbbase->usb_IExec->DebugPrintF( "USB2: Handle_Change: NO IORequests in queue (HCD #%ld)\n", hn->hn_HCDIndex );
+	}
+
 	while( ioreq )
 	{
 		next = Node_Next( ioreq );
@@ -33,15 +38,14 @@ S32 len;
 
 		len = __Interrupt_Read( usbbase, hn, ioreq->req_Public.io_Data, ioreq->req_Public.io_Length );
 
+		usbbase->usb_IExec->DebugPrintF( "USB2: Handle_Change: IntRead len=%ld (HCD #%ld)\n", len, hn->hn_HCDIndex );
+
 		if ( len > 0 )
 		{
 			NODE_REMNODE( & hn->hn_HUB_Interrupts, ioreq );
 
 			ioreq->req_Public.io_Actual = len;
 			ioreq->req_Public.io_Error = USB2Err_NoError;
-//			ioreq->req_PublicStat = IORS_User;
-//			MSGPORT_REPLYMSG(ioreq);
-//			IOREQUEST_ACTIVE_SUB( ioreq );
 
 			HCD_REPLY( ioreq );
 			ioreq = NULL;
