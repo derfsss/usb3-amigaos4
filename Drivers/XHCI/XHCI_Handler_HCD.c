@@ -69,6 +69,9 @@ U32 ctrl;
 			U32 evt_cc   = XHCI_TRB_GET_COMPCODE( LE_SWAP32( trb->trb_status ) );
 			U32 evt_len  = XHCI_TRB_GET_XFERLEN( LE_SWAP32( trb->trb_status ) );
 
+			usbbase->usb_IExec->DebugPrintF( "XHCI: TransferEvent slot=%ld cc=%ld residual=%ld\n",
+				evt_slot, evt_cc, evt_len );
+
 			struct RealRequest *scan = hn->hn_Active_Transfer_List.uh_Head;
 
 			while( scan )

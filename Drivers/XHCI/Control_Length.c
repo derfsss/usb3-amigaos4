@@ -30,6 +30,9 @@ U32 actual;
 		if (( ioreq->req_Public.io_Command == CMD_READ ) && ( ioreq->req_Public.io_Data ))
 		{
 			MEM_COPY( ioreq->req_HCD.XHCI.DataBuffer, ioreq->req_Public.io_Data, actual );
+
+			usbbase->usb_IExec->DebugPrintF( "XHCI: Control_Length: copied %ld bytes (cc=%ld)\n",
+				actual, ioreq->req_HCD.XHCI.CompletionCode );
 		}
 	}
 
