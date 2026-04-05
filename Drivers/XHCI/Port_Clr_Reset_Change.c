@@ -30,7 +30,7 @@ struct _XHCI *xhci;
 
 	TASK_NAME_LEAVE();
 
-	return( TRUE );
+	return( USB2Err_NoError );
 }
 
 // --

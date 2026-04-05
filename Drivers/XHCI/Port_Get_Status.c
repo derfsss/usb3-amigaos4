@@ -89,7 +89,16 @@ U32 speed;
 		retval |= HUBF_Chg_Over_Current;
 	}
 
-	if (( status & XHCI_PS_PRC ) || ( xhci->PortResetChange[ port ] ))
+	// Use software PortResetChange flag only (matching EHCI pattern).
+	// Clear hardware PRC to prevent it from triggering spurious changes.
+	if ( status & XHCI_PS_PRC )
+	{
+		U32 clr = status & ~XHCI_PS_CHANGE_MASK;
+		clr |= XHCI_PS_PRC;
+		PCI_WRITELONG( xhci->OpBase + XHCI_PORTSC( port - 1 ), clr );
+	}
+
+	if ( xhci->PortResetChange[ port ] )
 	{
 		retval |= HUBF_Chg_Reset;
 	}

@@ -117,7 +117,11 @@ S32 errcode;
 	}
 	#endif
 
+	usbbase->usb_IExec->DebugPrintF( "USB2: Port_Feature_Clr: IO_DO enter (port=%ld sel=%ld)\n", port, sel );
+
 	IO_DO( ioreq );
+
+	usbbase->usb_IExec->DebugPrintF( "USB2: Port_Feature_Clr: IO_DO done (err=%ld)\n", (S32) ioreq->io_Error );
 
 	usbbase->usb_IExec->Disable();
 	if (( ioreq->io_Error  == USB2Err_NoError )
