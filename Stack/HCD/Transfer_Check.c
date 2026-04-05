@@ -92,17 +92,35 @@ S32 remove;
 
 		HCD_TRANSFER_REMOVE( hn, ioreq );
 
-		TASK_NAME_SET( "HCD : __HCD_Transfer_Check : 6" );
+		// Retry on transient errors (CRC/transaction error) if not forced
+		// and retries remain. Do NOT retry STALL or BABBLE.
+		if (( ! Force )
+		&&	( ioreq->req_Public.io_Error == USB2Err_Host_Timeout )
+		&&	( ioreq->req_RetryCount < ioreq->req_RetryMax ))
+		{
+			ioreq->req_RetryCount++;
+			ioreq->req_Public.io_Error = 0;
 
-		HCD_REPLY(ioreq);
+			usbbase->usb_IExec->DebugPrintF( "USB2: Retry %ld/%ld for IOReq %p\n",
+				(U32) ioreq->req_RetryCount, (U32) ioreq->req_RetryMax, ioreq );
 
-		TASK_NAME_SET( "HCD : __HCD_Transfer_Check : 7" );
+			// Re-submit: rebuild and re-add to hardware
+			HCD_ADD_REQUEST( hn, ioreq );
+		}
+		else
+		{
+			TASK_NAME_SET( "HCD : __HCD_Transfer_Check : 6" );
 
-		ioreq = NULL;
+			HCD_REPLY(ioreq);
 
-		// --
-		// Start next IOReq if there are any queued
-		HCD_RESTART_ENDPOINT( hn, ep );
+			TASK_NAME_SET( "HCD : __HCD_Transfer_Check : 7" );
+
+			ioreq = NULL;
+
+			// --
+			// Start next IOReq if there are any queued
+			HCD_RESTART_ENDPOINT( hn, ep );
+		}
 
 		TASK_NAME_SET( "HCD : __HCD_Transfer_Check : 9" );
 	}

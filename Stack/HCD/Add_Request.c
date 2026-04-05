@@ -71,6 +71,10 @@ S32 err;
 		ioreq->req_DoingDestall = FALSE;
 	}
 
+	// Initialize retry tracking for new submissions
+	ioreq->req_RetryCount = 0;
+	ioreq->req_RetryMax   = 3;
+
 	// --
 	// Now figure out if we can execute the Request
 	// or maybe the pipe is stalled

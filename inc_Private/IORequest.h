@@ -79,6 +79,8 @@ struct RealRequest
 
 	U8								req_TimerAdded;
 	U8								req_DoingDestall;
+	U8								req_RetryCount;
+	U8								req_RetryMax;
 
 	#if 0
 //	U8								rr_HCDControlled;			// HCD has control, need to Reply it
