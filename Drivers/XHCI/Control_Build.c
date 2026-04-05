@@ -14,8 +14,6 @@
 // --
 
 // XHCI handles SET_ADDRESS internally via the Address Device command.
-// When the stack sends a SET_ADDRESS control transfer, we intercept it
-// here and perform Enable Slot + Slot_Alloc + Address Device instead.
 
 static S32 XHCI_Handle_SetAddress( struct USB2_HCDNode *hn, struct RealRequest *ioreq )
 {
@@ -24,6 +22,7 @@ struct RealFunctionNode *fn;
 U32 slotid;
 U32 port;
 U32 speed;
+U32 desired_addr;
 
 	struct USBBase *usbbase = hn->hn_USBBase;
 
@@ -33,7 +32,11 @@ U32 speed;
 	port  = fn->fkt_PortNr;
 	speed = fn->fkt_Speed;
 
-	usbbase->usb_IExec->DebugPrintF( "XHCI: SET_ADDRESS intercepted (port=%ld speed=%ld)\n", port, speed );
+	// Get desired address from setup packet (fn->fkt_Address is temporarily 0)
+	desired_addr = LE_SWAP16( ioreq->req_Public.io_SetupData->Value );
+
+	usbbase->usb_IExec->DebugPrintF( "XHCI: SET_ADDRESS intercepted (port=%ld speed=%ld addr=%ld)\n",
+		port, speed, desired_addr );
 
 	// Enable a device slot
 	slotid = XHCI_Cmd_EnableSlot( hn );
@@ -42,7 +45,7 @@ U32 speed;
 	{
 		USBERROR( "XHCI: SET_ADDRESS: Enable Slot failed" );
 		ioreq->req_Public.io_Error = USB2Err_Host_HostError;
-		return( TRUE );	// handled (with error)
+		return( TRUE );
 	}
 
 	// Allocate slot resources (contexts, EP0 ring)
@@ -64,32 +67,46 @@ U32 speed;
 		return( TRUE );
 	}
 
-	// Success — the XHCI controller has assigned an address.
-	// The stack expects this to work like a normal SET_ADDRESS success.
+	// Store address-to-slot mapping for future transfers
+	if ( desired_addr < 128 )
+	{
+		xhci->SlotID_ByAddress[ desired_addr ] = (U8) slotid;
+	}
+
 	ioreq->req_Public.io_Error = 0;
 	ioreq->req_Public.io_Actual = 0;
 
-	usbbase->usb_IExec->DebugPrintF( "XHCI: SET_ADDRESS complete (slot=%ld)\n", slotid );
+	usbbase->usb_IExec->DebugPrintF( "XHCI: SET_ADDRESS complete (slot=%ld addr=%ld)\n",
+		slotid, desired_addr );
 
-	return( FALSE );	// not handled by normal HCD path — we did it inline
+	// Return TRUE — SET_ADDRESS completed synchronously
+	return( TRUE );
 }
 
 // --
 
 SEC_CODE S32 XHCI_Control_Build( struct USB2_HCDNode *hn, struct RealRequest *ioreq )
 {
+struct RealFunctionNode *fn;
 struct USB2_SetupData *setup;
+struct _XHCI *xhci;
+struct XHCI_Slot *slot;
+struct XHCI_Ring *ring;
+struct XHCI_TRB trb;
 S32 handled;
+U32 slotid;
+U32 data_len;
+U32 trt;
+U32 status_dir;
 
-	#if defined( DO_PANIC ) || defined( DO_ERROR ) || defined( DO_DEBUG ) || defined( DO_INFO )
 	struct USBBase *usbbase = hn->hn_USBBase;
-	#endif
-
 	TASK_NAME_ENTER( "XHCI : XHCI_Control_Build" );
 
-	handled = TRUE;
-
+	fn    = ioreq->req_Function;
 	setup = ioreq->req_Public.io_SetupData;
+	xhci  = & hn->hn_HCD.XHCI;
+
+	handled = TRUE;
 
 	if ( ! setup )
 	{
@@ -98,7 +115,8 @@ S32 handled;
 		goto bailout;
 	}
 
-	// Check if this is a SET_ADDRESS request — XHCI handles this internally
+	// -- SET_ADDRESS is handled internally by XHCI
+
 	if (( setup->RequestType == ( REQTYPE_Write | REQTYPE_Standard | REQTYPE_Device ) )
 	&&	( setup->RequestCode == REQCODE_Set_Address ))
 	{
@@ -106,12 +124,137 @@ S32 handled;
 		goto bailout;
 	}
 
-	// TODO Phase 3c: Build Setup/Data/Status TRBs for other control transfers
-	// For now, return error for unsupported transfers
-	USBERROR( "XHCI: Control_Build: not yet implemented (req=0x%02lx)", (U32) setup->RequestCode );
-	ioreq->req_Public.io_Error = USB2Err_Host_UnknownError;
+	// -- General control transfer: Build Setup/Data/Status TRBs
+
+	// Look up slot ID from device address
+	slotid = xhci->SlotID_ByAddress[ fn->fkt_Address ];
+
+	if ( ! slotid )
+	{
+		USBERROR( "XHCI: Control_Build: no slot for address %ld", (U32) fn->fkt_Address );
+		ioreq->req_Public.io_Error = USB2Err_Stack_FunctionNotFound;
+		goto bailout;
+	}
+
+	slot = xhci->Slots[ slotid ];
+
+	if ( ! slot )
+	{
+		USBERROR( "XHCI: Control_Build: slot %ld not allocated", slotid );
+		ioreq->req_Public.io_Error = USB2Err_Stack_FunctionNotFound;
+		goto bailout;
+	}
+
+	ring = & slot->transfer_ring[0];	// EP0
+
+	// -- Initialize IORequest XHCI state
+
+	MEM_SET( & ioreq->req_HCD.XHCI, 0, sizeof( struct __xhci ) );
+	ioreq->req_HCD.XHCI.SlotID = slotid;
+
+	// -- Determine transfer type
+
+	data_len = ioreq->req_Public.io_Length;
+
+	if ( data_len == 0 )
+	{
+		trt = XHCI_TRB_TRT_NODATA;
+		status_dir = XHCI_TRB_DIR_IN;		// No data → status IN
+	}
+	else if ( ioreq->req_Public.io_Command == CMD_READ )
+	{
+		trt = XHCI_TRB_TRT_IN;
+		status_dir = 0;						// Data IN → status OUT
+	}
+	else
+	{
+		trt = XHCI_TRB_TRT_OUT;
+		status_dir = XHCI_TRB_DIR_IN;		// Data OUT → status IN
+	}
+
+	// -- Setup Stage TRB (type=2, IDT=Immediate Data)
+
+	usbbase->usb_IExec->DebugPrintF( "XHCI: Control_Build: Setup TRB (req=0x%02lx len=%ld)\n",
+		(U32) setup->RequestCode, data_len );
+
+	{
+		U32 *sd32 = (U32 *) setup;
+
+		MEM_SET( & trb, 0, sizeof( trb ) );
+
+		// Setup packet goes inline as immediate data (already in LE wire format)
+		trb.trb_param_lo = sd32[0];
+		trb.trb_param_hi = sd32[1];
+		trb.trb_status   = LE_SWAP32( XHCI_TRB_SET_XFERLEN( 8 ) | XHCI_TRB_SET_INTR( 0 ) );
+		trb.trb_control  = LE_SWAP32( XHCI_TRB_SET_TYPE( XHCI_TRB_SETUP ) | XHCI_TRB_IDT | trt );
+
+		XHCI_Ring_Enqueue_TRB( hn, ring, & trb );
+	}
+
+	// -- Data Stage TRB (type=3, optional)
+
+	if ( data_len > 0 )
+	{
+		PTR  bounce;
+		U32  bounce_phy;
+
+		// Allocate DMA bounce buffer
+		bounce = MEMORY_ALLOC( MEMID_HCD_20k, FALSE );
+
+		if ( ! bounce )
+		{
+			USBERROR( "XHCI: Control_Build: error allocating DMA buffer" );
+			ioreq->req_Public.io_Error = USB2Err_Stack_NoMemory;
+			goto bailout;
+		}
+
+		bounce_phy = ((struct Mem_FreeNode *) bounce)->mfn_Addr;
+
+		// Store in IORequest for later copy-back and free
+		ioreq->req_HCD.XHCI.DataBuffer    = bounce;
+		ioreq->req_HCD.XHCI.DataBufferPhy = bounce_phy;
+		ioreq->req_HCD.XHCI.DataBufferLen = data_len;
+
+		// For OUT transfers, copy data to bounce buffer
+		if (( ioreq->req_Public.io_Command != CMD_READ ) && ( ioreq->req_Public.io_Data ))
+		{
+			MEM_COPY( ioreq->req_Public.io_Data, bounce, data_len );
+		}
+		else
+		{
+			MEM_SET( bounce, 0, data_len );
+		}
+
+		MEM_SET( & trb, 0, sizeof( trb ) );
+
+		trb.trb_param_lo = LE_SWAP32( bounce_phy );
+		trb.trb_param_hi = 0;
+		trb.trb_status   = LE_SWAP32( XHCI_TRB_SET_XFERLEN( data_len ) | XHCI_TRB_SET_TDSIZE( 0 ) | XHCI_TRB_SET_INTR( 0 ) );
+		trb.trb_control  = LE_SWAP32( XHCI_TRB_SET_TYPE( XHCI_TRB_DATA ) |
+			( ( ioreq->req_Public.io_Command == CMD_READ ) ? XHCI_TRB_DIR_IN : 0 ) );
+
+		XHCI_Ring_Enqueue_TRB( hn, ring, & trb );
+	}
+
+	// -- Status Stage TRB (type=4, IOC=1)
+
+	MEM_SET( & trb, 0, sizeof( trb ) );
+
+	trb.trb_status  = 0;
+	trb.trb_control = LE_SWAP32( XHCI_TRB_SET_TYPE( XHCI_TRB_STATUS ) | XHCI_TRB_IOC | status_dir );
+
+	XHCI_Ring_Enqueue_TRB( hn, ring, & trb );
+
+	// -- Transfer needs hardware processing
+
+	handled = FALSE;
 
 bailout:
+
+	if ( ! ioreq->req_Public.io_Error )
+	{
+		// Error might have been set by subroutines
+	}
 
 	TASK_NAME_LEAVE();
 

@@ -64,7 +64,45 @@ U32 ctrl;
 		}
 		else if ( type == XHCI_TRB_TRANSFER_EVENT )
 		{
-			// Transfer Event — will be handled by Transfer_Check in later phases
+			// Transfer Event — match to pending IORequest by slot ID
+			U32 evt_slot = XHCI_TRB_GET_SLOT( ctrl );
+			U32 evt_cc   = XHCI_TRB_GET_COMPCODE( LE_SWAP32( trb->trb_status ) );
+			U32 evt_len  = XHCI_TRB_GET_XFERLEN( LE_SWAP32( trb->trb_status ) );
+
+			struct RealRequest *scan = hn->hn_Active_Transfer_List.uh_Head;
+
+			while( scan )
+			{
+				if ( scan->req_HCD.XHCI.SlotID == evt_slot )
+				{
+					scan->req_HCD.XHCI.Completed     = 1;
+					scan->req_HCD.XHCI.CompletionCode = evt_cc;
+					scan->req_HCD.XHCI.Residual       = evt_len;
+
+					if ( evt_cc != XHCI_CC_SUCCESS && evt_cc != XHCI_CC_SHORT_PACKET )
+					{
+						switch( evt_cc )
+						{
+							case XHCI_CC_STALL:
+								scan->req_Public.io_Error = USB2Err_Host_Stall;
+								break;
+							case XHCI_CC_BABBLE:
+								scan->req_Public.io_Error = USB2Err_Host_Overflow;
+								break;
+							case XHCI_CC_USB_TRANSACTION:
+								scan->req_Public.io_Error = USB2Err_Host_Timeout;
+								break;
+							default:
+								scan->req_Public.io_Error = USB2Err_Host_UnknownError;
+								break;
+						}
+					}
+
+					break;
+				}
+
+				scan = Node_Next( scan );
+			}
 		}
 
 		// Advance dequeue index

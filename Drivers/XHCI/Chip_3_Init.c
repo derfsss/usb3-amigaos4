@@ -26,6 +26,10 @@ S32 retval;
 	retval = FALSE;
 	xhci = & hn->hn_HCD.XHCI;
 
+	// -- Zero address-to-slot mapping
+
+	MEM_SET( xhci->SlotID_ByAddress, 0, 128 );
+
 	// -- Zero DCBAA
 
 	usbbase->usb_IExec->DebugPrintF( "XHCI: Init : 1 : Zero DCBAA\n" );

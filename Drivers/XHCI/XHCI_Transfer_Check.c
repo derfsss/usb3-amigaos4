@@ -13,11 +13,9 @@
 
 // --
 
-// Stub — will be implemented in Phase 3c
-
-SEC_CODE S32 XHCI_Transfer_Check( struct USB2_HCDNode *hn UNUSED, struct RealRequest *ioreq UNUSED )
+SEC_CODE S32 XHCI_Transfer_Check( struct USB2_HCDNode *hn UNUSED, struct RealRequest *ioreq )
 {
-	return( FALSE );
+	return( ioreq->req_HCD.XHCI.Completed != 0 ) ? TRUE : FALSE;
 }
 
 // --

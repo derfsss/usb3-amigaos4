@@ -379,6 +379,9 @@ struct _XHCI
 	// Port tracking
 	U8 *					PortResetChange;
 
+	// Address-to-slot mapping (USB address 0-127 → XHCI slot ID)
+	U8						SlotID_ByAddress[128];
+
 	// Signals
 	struct USB2_Signal		Signal_Event;		// Event ring interrupt
 	struct USB2_Signal		Signal_Command;		// Command completion

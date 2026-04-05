@@ -54,6 +54,10 @@ SEC_CODE void	XHCI_Interrupt_Add( struct USB2_HCDNode *hn, struct RealRequest *i
 SEC_CODE void	XHCI_Interrupt_Remove( struct USB2_HCDNode *hn, struct RealRequest *ioreq );
 SEC_CODE U32	XHCI_Interrupt_Length( struct USB2_HCDNode *hn, struct RealRequest *ioreq );
 
+// -- Transfer Ring helper
+
+SEC_CODE U32	XHCI_Ring_Enqueue_TRB( struct USB2_HCDNode *hn, struct XHCI_Ring *ring, struct XHCI_TRB *trb );
+
 // -- Command Ring operations
 
 SEC_CODE U32	XHCI_Cmd_EnableSlot( struct USB2_HCDNode *hn );

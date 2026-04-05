@@ -91,6 +91,71 @@ static U32 XHCI_EP0MaxPacket( U32 usb_speed )
 
 // --
 
+// Enqueue a TRB onto a transfer ring (does NOT ring doorbell)
+// Returns physical address of the enqueued TRB, or 0 on failure
+
+SEC_CODE U32 XHCI_Ring_Enqueue_TRB( struct USB2_HCDNode *hn UNUSED, struct XHCI_Ring *ring, struct XHCI_TRB *trb )
+{
+struct XHCI_TRB *ring_trb;
+U32 ctrl;
+U32 idx;
+U32 phy;
+
+	idx = ring->enqueue;
+	phy = ring->phys + ( idx * XHCI_TRB_SIZE );
+
+	ring_trb = & ring->trbs[ idx ];
+
+	// Write param and status first, control last (cycle bit activates)
+	ring_trb->trb_param_lo = trb->trb_param_lo;
+	ring_trb->trb_param_hi = trb->trb_param_hi;
+	ring_trb->trb_status   = trb->trb_status;
+
+	ctrl = trb->trb_control;
+
+	if ( ring->cycle )
+	{
+		ctrl |= LE_SWAP32( XHCI_TRB_CYCLE );
+	}
+	else
+	{
+		ctrl &= ~LE_SWAP32( XHCI_TRB_CYCLE );
+	}
+
+	ring_trb->trb_control = ctrl;
+
+	// Advance enqueue
+	idx++;
+
+	// Check for Link TRB at end of ring
+	if ( idx >= ( ring->size - 1 ) )
+	{
+		struct XHCI_TRB *link = & ring->trbs[ ring->size - 1 ];
+
+		ctrl = LE_SWAP32( link->trb_control );
+
+		if ( ring->cycle )
+		{
+			ctrl |= XHCI_TRB_CYCLE;
+		}
+		else
+		{
+			ctrl &= ~XHCI_TRB_CYCLE;
+		}
+
+		link->trb_control = LE_SWAP32( ctrl );
+
+		ring->cycle ^= 1;
+		idx = 0;
+	}
+
+	ring->enqueue = idx;
+
+	return( phy );
+}
+
+// --
+
 // Allocate and initialize a device slot with EP0
 
 SEC_CODE S32 XHCI_Slot_Alloc( struct USB2_HCDNode *hn, U32 slotid, U32 port, U32 usb_speed )

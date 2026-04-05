@@ -38,14 +38,16 @@ struct __ehci
 	U32						Start_Slot;
 };
 
-#if 0
-
 struct __xhci
 {
-	U32 					XHCI_dummy;
+	U32						SlotID;				// XHCI slot for this transfer
+	U32						Completed;			// Set by Handler_HCD on Transfer Event
+	U32						CompletionCode;		// XHCI completion code
+	U32						Residual;			// Residual bytes from event
+	PTR						DataBuffer;			// DMA bounce buffer (virtual)
+	U32						DataBufferPhy;		// Physical address
+	U32						DataBufferLen;		// Requested length
 };
-
-#endif
 
 /*[ Real Private Struct ]***************************************************/
 
@@ -104,7 +106,7 @@ struct RealRequest
 		struct __ohci				OHCI;
 //		struct __uhci				UHCI;
 		struct __ehci				EHCI;
-//		struct __xhci				XHCI;
+		struct __xhci				XHCI;
 	}								req_HCD;
 };
 
