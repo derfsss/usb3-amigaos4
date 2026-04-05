@@ -166,46 +166,60 @@ PTR buf;
 	}
 
 	/* -- Data -- */
-	// todo add support for Data over 20kb
+	// TD chaining loop: supports data phases larger than 20KB
+	// by splitting into multiple TDs, each handling up to 20480 bytes.
 
 	if ( ioreq->req_Public.io_Length )
 	{
-		data = EHCI_Get_TDBuffer( hn );
+		U32 l;
 
-		if ( ! data )
-		{
-			USBDEBUG( "EHCI_Control_Build : 4 : Error Allocating Memory" );
-			// Link it, so it can be free again
-			last->ptd_virt_next = status;
-			err = USB2Err_Stack_NoMemory;
-			goto bailout;
-		}
-
-		last->td_td_next = LE_SWAP32( data->ptd_self_phy );
-		last->ptd_virt_next	= data;
-		last = data;
-
-		len		 = ( ioreq->req_Public.io_Length );
+		len		 = ioreq->req_Public.io_Length;
 		pid		 = ( ioreq->req_Public.io_Command == CMD_READ ) ? EHCI_TD_PID_IN : EHCI_TD_PID_OUT;
-		buf		 = ( ioreq->req_Public.io_Command == CMD_READ ) ? NULL : ioreq->req_Public.io_Data ;
+		buf		 = ( ioreq->req_Public.io_Command == CMD_READ ) ? NULL : ioreq->req_Public.io_Data;
 
-		val		 = EHCI_TD_SET_PID( pid );
-		val		|= EHCI_TD_SET_CERR( 3 );
-		val		|= EHCI_TD_SET_TOGGLE( 1 );
-		val		|= EHCI_TD_SET_BYTES( len );
-		val		|= EHCI_TD_ACTIVE;
-
-		data->td_status		= LE_SWAP32( val );
-		data->td_td_alt		= LE_SWAP32( status->ptd_self_phy );
-
-		if ( ! EHCI_Get_20kBuffer( hn, NULL, data, buf, len ))
+		do
 		{
-			USBDEBUG( "Error allocating buffer" );
-			// Link it, so it can be free again
-			last->ptd_virt_next = status;
-			err = USB2Err_Stack_NoMemory;
-			goto bailout;
+			data = EHCI_Get_TDBuffer( hn );
+
+			if ( ! data )
+			{
+				USBDEBUG( "EHCI_Control_Build : 4 : Error Allocating Memory" );
+				last->ptd_virt_next = status;
+				err = USB2Err_Stack_NoMemory;
+				goto bailout;
+			}
+
+			last->td_td_next	= LE_SWAP32( data->ptd_self_phy );
+			last->ptd_virt_next	= data;
+			last = data;
+
+			l = MIN( 20480, len );
+
+			val		 = EHCI_TD_SET_PID( pid );
+			val		|= EHCI_TD_SET_CERR( 3 );
+			val		|= EHCI_TD_SET_TOGGLE( 1 );
+			val		|= EHCI_TD_SET_BYTES( l );
+			val		|= EHCI_TD_ACTIVE;
+
+			data->td_status		= LE_SWAP32( val );
+			data->td_td_alt		= LE_SWAP32( status->ptd_self_phy );
+
+			if ( ! EHCI_Get_20kBuffer( hn, NULL, data, buf, l ))
+			{
+				USBDEBUG( "EHCI_Control_Build : Error allocating buffer" );
+				last->ptd_virt_next = status;
+				err = USB2Err_Stack_NoMemory;
+				goto bailout;
+			}
+
+			if ( buf )
+			{
+				buf += l;
+			}
+
+			len -= l;
 		}
+		while( len );
 	}
 
 	/* -- Status -- */
