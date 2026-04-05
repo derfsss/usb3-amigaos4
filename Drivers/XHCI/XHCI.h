@@ -54,6 +54,21 @@ SEC_CODE void	XHCI_Interrupt_Add( struct USB2_HCDNode *hn, struct RealRequest *i
 SEC_CODE void	XHCI_Interrupt_Remove( struct USB2_HCDNode *hn, struct RealRequest *ioreq );
 SEC_CODE U32	XHCI_Interrupt_Length( struct USB2_HCDNode *hn, struct RealRequest *ioreq );
 
+// -- Command Ring operations
+
+SEC_CODE U32	XHCI_Cmd_EnableSlot( struct USB2_HCDNode *hn );
+SEC_CODE S32	XHCI_Cmd_DisableSlot( struct USB2_HCDNode *hn, U32 slotid );
+SEC_CODE S32	XHCI_Cmd_AddressDevice( struct USB2_HCDNode *hn, U32 slotid, U32 bsr );
+SEC_CODE S32	XHCI_Cmd_ConfigureEndpoint( struct USB2_HCDNode *hn, U32 slotid );
+SEC_CODE S32	XHCI_Cmd_EvaluateContext( struct USB2_HCDNode *hn, U32 slotid );
+SEC_CODE S32	XHCI_Cmd_ResetEndpoint( struct USB2_HCDNode *hn, U32 slotid, U32 dci );
+SEC_CODE S32	XHCI_Cmd_StopEndpoint( struct USB2_HCDNode *hn, U32 slotid, U32 dci );
+
+// -- Slot management
+
+SEC_CODE S32	XHCI_Slot_Alloc( struct USB2_HCDNode *hn, U32 slotid, U32 port, U32 usb_speed );
+SEC_CODE void	XHCI_Slot_Free( struct USB2_HCDNode *hn, U32 slotid );
+
 /***************************************************************************/
 
 #endif // DRIVERS_XHCI_XHCI_H
