@@ -177,6 +177,11 @@ PTR node;
 	usbbase->usb_IMMU			= (PTR) IExec->GetInterface( (PTR) mySysBase, "mmu", 1, NULL );
 	usbbase->usb_IUSB2			= (PTR) IExec->GetInterface( (PTR) usbbase, "main", 1, NULL );
 
+	IExec->DebugPrintF( "USB2: ExpansionBase=%p IExpansion=%p IPCI=%p\n",
+		usbbase->usb_ExpansionBase, usbbase->usb_IExpansion, usbbase->usb_IPCI );
+	IExec->DebugPrintF( "USB2: ITimer=%p IMMU=%p IUSB2=%p\n",
+		usbbase->usb_ITimer, usbbase->usb_IMMU, usbbase->usb_IUSB2 );
+
 	if (( ! usbbase->usb_IUtility )
 	||	( ! usbbase->usb_IExpansion )
 	||	( ! usbbase->usb_IPCI )
@@ -184,6 +189,9 @@ PTR node;
 	||	( ! usbbase->usb_ITimer )
 	||	( ! usbbase->usb_IUSB2 ))
 	{
+		IExec->DebugPrintF( "USB2: Interface check FAILED: IUtility=%p IExpansion=%p IPCI=%p IMMU=%p ITimer=%p IUSB2=%p\n",
+			usbbase->usb_IUtility, usbbase->usb_IExpansion, usbbase->usb_IPCI,
+			usbbase->usb_IMMU, usbbase->usb_ITimer, usbbase->usb_IUSB2 );
 		goto bailout;
 	}
 

@@ -100,7 +100,7 @@ U32 retval;
 
 	TASK_NAME_ENTER( "HID_Entry" );
 
-//	struct RealFunctionNode *fn = (PTR) msg->Function;
+	struct RealFunctionNode *fn = (PTR) msg->Function;
 
 	#ifdef DO_DEBUG
 	U32 startadr = fn->fkt_Address;

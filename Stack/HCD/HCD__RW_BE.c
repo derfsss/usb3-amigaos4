@@ -29,8 +29,8 @@ U8 val;
 
 	pos = hn->hn_PCIDevIOBase + addr;
 
-//	__asm volatile ("sync");
-//	__asm volatile ("eieio");
+	__asm volatile ("sync");
+	__asm volatile ("eieio");
 	val = *((volatile U8 *)( pos ));
 
 	return( val );
@@ -55,8 +55,8 @@ U16 val;
 
 	pos = hn->hn_PCIDevIOBase + addr;
 
-//	__asm volatile ("sync");
-//	__asm volatile ("eieio");
+	__asm volatile ("sync");
+	__asm volatile ("eieio");
 	val = *((volatile U16 *)( pos ));
 
 	return( val );
@@ -81,8 +81,8 @@ U32 val;
 
 	pos = hn->hn_PCIDevIOBase + addr;
 
-//	__asm volatile ("sync");
-//	__asm volatile ("eieio");
+	__asm volatile ("sync");
+	__asm volatile ("eieio");
 	val = *((volatile U32 *)( pos ));
 
 	return( val );
@@ -106,8 +106,8 @@ U32 pos;
 
 	pos = hn->hn_PCIDevIOBase + addr;
 
-//	__asm volatile ("sync");
-//	__asm volatile ("eieio");
+	__asm volatile ("sync");
+	__asm volatile ("eieio");
 	*((volatile U8 *)( pos )) = val;
 }
 
@@ -129,8 +129,8 @@ U32 pos;
 
 	pos = hn->hn_PCIDevIOBase + addr;
 
-//	__asm volatile ("sync");
-//	__asm volatile ("eieio");
+	__asm volatile ("sync");
+	__asm volatile ("eieio");
 	*((volatile U16 *)( pos )) = val;
 }
 
@@ -152,8 +152,8 @@ U32 pos;
 
 	pos = hn->hn_PCIDevIOBase + addr;
 
-//	__asm volatile ("sync");
-//	__asm volatile ("eieio");
+	__asm volatile ("sync");
+	__asm volatile ("eieio");
 	*((volatile U32 *)( pos )) = val;
 }
 

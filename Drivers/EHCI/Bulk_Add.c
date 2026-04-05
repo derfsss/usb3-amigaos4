@@ -56,14 +56,12 @@ struct EHCI_QH *last;
 struct EHCI_QH *qh;
 
 	TASK_NAME_ENTER( "EHCI : EHCI_Bulk_Add" );
-//	USBERROR( "EHCI_Bulk_Add" );
-//	hn->hn_USBBase->usb_IExec->DebugPrintF( "EHCI_Bulk_Add : IOReq %p\n", ioreq );
 
-//	#if defined( DO_PANIC ) || defined( DO_ERROR ) || defined( DO_DEBUG ) || defined( DO_INFO )
-//	EHCI_Door_Bell_Init( hn, __FILE__ );
-//	#else
-//	EHCI_Door_Bell_Init( hn );
-//	#endif
+	#if defined( DO_PANIC ) || defined( DO_ERROR ) || defined( DO_DEBUG ) || defined( DO_INFO )
+	EHCI_Door_Bell_Init( hn, __FILE__ );
+	#else
+	EHCI_Door_Bell_Init( hn );
+	#endif
 
 	// --
 	// Find last QH and add it after
@@ -105,11 +103,11 @@ struct EHCI_QH *qh;
 
 	// --
 	// Now flush EHCI's async prefetch
-//	#if defined( DO_PANIC ) || defined( DO_ERROR ) || defined( DO_DEBUG ) || defined( DO_INFO )
-//	EHCI_Door_Bell_Wait( hn, __FILE__ );
-//	#else
-//	EHCI_Door_Bell_Wait( hn );
-//	#endif
+	#if defined( DO_PANIC ) || defined( DO_ERROR ) || defined( DO_DEBUG ) || defined( DO_INFO )
+	EHCI_Door_Bell_Wait( hn, __FILE__ );
+	#else
+	EHCI_Door_Bell_Wait( hn );
+	#endif
 
 	// --
 	ioreq->req_PublicStat = IORS_HCD_Active;

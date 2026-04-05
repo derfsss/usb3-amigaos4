@@ -49,9 +49,12 @@
 
 // --
 
-SEC_CODE S32 EHCI_Enough_Bandwidth( struct USB2_HCDNode *hn UNUSED, struct RealRequest *ioreq UNUSED )
+SEC_CODE S32 EHCI_Enough_Bandwidth( struct USB2_HCDNode *hn, struct RealRequest *ioreq )
 {
+struct USB2_EndPointNode *ep;
 U32 retval;
+U32 cnt;
+U32 max_per_slot;
 
 	#if defined( DO_PANIC ) || defined( DO_ERROR ) || defined( DO_DEBUG ) || defined( DO_INFO )
 	struct USBBase *usbbase = hn->hn_USBBase;
@@ -60,6 +63,27 @@ U32 retval;
 	TASK_NAME_ENTER( "EHCI : EHCI_Enough_Bandwidth" );
 
 	retval = TRUE;
+
+	ep = ioreq->req_EndPoint;
+
+	// EHCI spec: periodic schedule should not exceed 80% of a microframe.
+	// Limit each slot in the bandwidth tree to a reasonable number of
+	// concurrent interrupt endpoints. The BandWidth[] array tracks how
+	// many endpoints are assigned per slot via EHCI_Slot_Find.
+	// With 256 slots in the tree, cap each slot at 16 endpoints.
+
+	max_per_slot = 16;
+
+	for ( cnt = 0 ; cnt < 256 ; cnt++ )
+	{
+		if ( hn->hn_HCD.EHCI.BandWidth[ cnt ] >= max_per_slot )
+		{
+			USBERROR( "EHCI_Enough_Bandwidth : Slot %ld full (%ld endpoints)",
+				cnt, hn->hn_HCD.EHCI.BandWidth[ cnt ] );
+			retval = FALSE;
+			break;
+		}
+	}
 
 	TASK_NAME_LEAVE();
 
