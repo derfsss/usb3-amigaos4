@@ -411,6 +411,10 @@ DEPS		:= $(patsubst %.c,$(OBJDIR)/%.d,$(SRCS2))
 
 all: $(BINDIR)/$(TARGET)
 
+# Static analysis build — run: make analyze
+analyze: CFLAGS += -fanalyzer
+analyze: all
+
 ###########################################################################
 
 $(BINDIR)/$(TARGET): $(OBJS) | $(BINDIR)
