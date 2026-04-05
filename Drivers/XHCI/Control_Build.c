@@ -38,23 +38,29 @@ U32 desired_addr;
 	usbbase->usb_IExec->DebugPrintF( "XHCI: SET_ADDRESS intercepted (port=%ld speed=%ld addr=%ld)\n",
 		port, speed, desired_addr );
 
-	// Enable a device slot
-	slotid = XHCI_Cmd_EnableSlot( hn );
+	// The slot was already created during Port_Set_Reset with BSR=1.
+	// Look it up from address 0 (default address).
+	slotid = xhci->SlotID_ByAddress[0];
 
 	if ( ! slotid )
 	{
-		USBERROR( "XHCI: SET_ADDRESS: Enable Slot failed" );
-		ioreq->req_Public.io_Error = USB2Err_Host_HostError;
-		return( TRUE );
-	}
+		// Fallback: create slot now if not done during port reset
+		slotid = XHCI_Cmd_EnableSlot( hn );
 
-	// Allocate slot resources (contexts, EP0 ring)
-	if ( ! XHCI_Slot_Alloc( hn, slotid, port, speed ) )
-	{
-		USBERROR( "XHCI: SET_ADDRESS: Slot Alloc failed" );
-		XHCI_Cmd_DisableSlot( hn, slotid );
-		ioreq->req_Public.io_Error = USB2Err_Stack_NoMemory;
-		return( TRUE );
+		if ( ! slotid )
+		{
+			USBERROR( "XHCI: SET_ADDRESS: Enable Slot failed" );
+			ioreq->req_Public.io_Error = USB2Err_Host_HostError;
+			return( TRUE );
+		}
+
+		if ( ! XHCI_Slot_Alloc( hn, slotid, port, speed ) )
+		{
+			USBERROR( "XHCI: SET_ADDRESS: Slot Alloc failed" );
+			XHCI_Cmd_DisableSlot( hn, slotid );
+			ioreq->req_Public.io_Error = USB2Err_Stack_NoMemory;
+			return( TRUE );
+		}
 	}
 
 	// Issue Address Device command (bsr=0 for full address assignment)
@@ -66,6 +72,9 @@ U32 desired_addr;
 		ioreq->req_Public.io_Error = USB2Err_Host_HostError;
 		return( TRUE );
 	}
+
+	// Clear address 0 mapping
+	xhci->SlotID_ByAddress[0] = 0;
 
 	// Store address-to-slot mapping for future transfers
 	if ( desired_addr < 128 )

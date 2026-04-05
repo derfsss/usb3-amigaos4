@@ -64,10 +64,55 @@ S32 retval;
 
 	if ( val & XHCI_PS_PED )
 	{
-		usbbase->usb_IExec->DebugPrintF( "XHCI: Port %ld reset complete, speed=%ld\n",
-			port, ( val & XHCI_PS_SPEED_MASK ) >> XHCI_PS_SPEED_SHIFT );
+		U32 speed = ( val & XHCI_PS_SPEED_MASK ) >> XHCI_PS_SPEED_SHIFT;
+		U32 usb_speed;
 
-		retval = TRUE;
+		// Map XHCI speed to USB speed enum
+		switch( speed )
+		{
+			case XHCI_PS_SPEED_FS: usb_speed = USBSPEED_Full; break;
+			case XHCI_PS_SPEED_LS: usb_speed = USBSPEED_Low; break;
+			case XHCI_PS_SPEED_HS: usb_speed = USBSPEED_High; break;
+			case XHCI_PS_SPEED_SS: usb_speed = USBSPEED_Super; break;
+			default:               usb_speed = USBSPEED_Full; break;
+		}
+
+		usbbase->usb_IExec->DebugPrintF( "XHCI: Port %ld reset complete, speed=%ld\n",
+			port, speed );
+
+		// XHCI requires Enable Slot + Address Device (BSR=1) immediately
+		// after port reset, before any control transfers can happen.
+		// This sets up the slot and EP0 without assigning a USB address.
+		{
+			U32 slotid = XHCI_Cmd_EnableSlot( hn );
+
+			if ( slotid )
+			{
+				if ( XHCI_Slot_Alloc( hn, slotid, port - 1, usb_speed ) )
+				{
+					if ( XHCI_Cmd_AddressDevice( hn, slotid, 1 ) )	// BSR=1
+					{
+						// Store slot at address 0 for initial control transfers
+						xhci->SlotID_ByAddress[0] = (U8) slotid;
+
+						usbbase->usb_IExec->DebugPrintF( "XHCI: Port %ld slot %ld ready (BSR mode)\n",
+							port, slotid );
+					}
+					else
+					{
+						USBERROR( "XHCI: Port %ld Address Device BSR failed", port );
+						XHCI_Slot_Free( hn, slotid );
+						XHCI_Cmd_DisableSlot( hn, slotid );
+					}
+				}
+				else
+				{
+					XHCI_Cmd_DisableSlot( hn, slotid );
+				}
+			}
+		}
+
+		retval = USB2Err_NoError;
 	}
 	else
 	{
