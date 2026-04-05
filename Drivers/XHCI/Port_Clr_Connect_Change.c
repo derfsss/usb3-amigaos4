@@ -27,10 +27,10 @@ U32 val;
 	xhci = & hn->hn_HCD.XHCI;
 
 	// Read PORTSC, clear all change bits except CSC (which we want to clear)
-	val = PCI_READLONG( xhci->OpBase + XHCI_PORTSC( port ) );
+	val = PCI_READLONG( xhci->OpBase + XHCI_PORTSC( port - 1 ) );
 	val &= ~XHCI_PS_CHANGE_MASK;
 	val |= XHCI_PS_CSC;
-	PCI_WRITELONG( xhci->OpBase + XHCI_PORTSC( port ), val );
+	PCI_WRITELONG( xhci->OpBase + XHCI_PORTSC( port - 1 ), val );
 
 	TASK_NAME_LEAVE();
 

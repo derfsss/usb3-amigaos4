@@ -26,13 +26,13 @@ U32 val;
 
 	xhci = & hn->hn_HCD.XHCI;
 
-	val = PCI_READLONG( xhci->OpBase + XHCI_PORTSC( port ) );
+	val = PCI_READLONG( xhci->OpBase + XHCI_PORTSC( port - 1 ) );
 
 	// Preserve non-change bits, clear change bits, set PP
 	val &= ~XHCI_PS_CHANGE_MASK;
 	val |= XHCI_PS_PP;
 
-	PCI_WRITELONG( xhci->OpBase + XHCI_PORTSC( port ), val );
+	PCI_WRITELONG( xhci->OpBase + XHCI_PORTSC( port - 1 ), val );
 
 	TASK_NAME_LEAVE();
 

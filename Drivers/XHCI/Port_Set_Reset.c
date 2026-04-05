@@ -27,17 +27,17 @@ S32 retval;
 	xhci = & hn->hn_HCD.XHCI;
 
 	// Set Port Reset bit (preserve non-change bits, clear change bits)
-	val = PCI_READLONG( xhci->OpBase + XHCI_PORTSC( port ) );
+	val = PCI_READLONG( xhci->OpBase + XHCI_PORTSC( port - 1 ) );
 	val &= ~XHCI_PS_CHANGE_MASK;
 	val |= XHCI_PS_PR;
-	PCI_WRITELONG( xhci->OpBase + XHCI_PORTSC( port ), val );
+	PCI_WRITELONG( xhci->OpBase + XHCI_PORTSC( port - 1 ), val );
 
 	// Wait for Port Reset Change
 	for ( cnt = 0 ; cnt < 500 ; cnt++ )
 	{
 		HCD_WAIT_MS( hn, 1 );
 
-		val = PCI_READLONG( xhci->OpBase + XHCI_PORTSC( port ) );
+		val = PCI_READLONG( xhci->OpBase + XHCI_PORTSC( port - 1 ) );
 
 		if ( val & XHCI_PS_PRC )
 		{
@@ -54,13 +54,13 @@ S32 retval;
 	// Clear PRC (write 1 to clear, preserve other bits)
 	val &= ~XHCI_PS_CHANGE_MASK;
 	val |= XHCI_PS_PRC;
-	PCI_WRITELONG( xhci->OpBase + XHCI_PORTSC( port ), val );
+	PCI_WRITELONG( xhci->OpBase + XHCI_PORTSC( port - 1 ), val );
 
 	// Mark software reset change
 	xhci->PortResetChange[ port ] = 1;
 
 	// Read back to check port is enabled
-	val = PCI_READLONG( xhci->OpBase + XHCI_PORTSC( port ) );
+	val = PCI_READLONG( xhci->OpBase + XHCI_PORTSC( port - 1 ) );
 
 	if ( val & XHCI_PS_PED )
 	{

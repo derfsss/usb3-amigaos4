@@ -26,7 +26,10 @@ U32 speed;
 	xhci = & hn->hn_HCD.XHCI;
 	retval = 0;
 
-	status = PCI_READLONG( xhci->OpBase + XHCI_PORTSC( port ) );
+	// Port numbers from HUB driver are 1-based, XHCI PORTSC is 0-based
+	status = PCI_READLONG( xhci->OpBase + XHCI_PORTSC( port - 1 ) );
+
+	usbbase->usb_IExec->DebugPrintF( "XHCI: Port_Get_Status(%ld) PORTSC=0x%08lx\n", port, status );
 
 	// Connection
 	if ( status & XHCI_PS_CCS )
