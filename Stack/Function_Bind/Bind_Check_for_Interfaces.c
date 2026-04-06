@@ -28,13 +28,20 @@ S32 old;
 
 	// --
 
+	usbbase->usb_IExec->DebugPrintF( "USB: IFC_Entry: dn=%p entry=%p lock...\n", dn, dn ? dn->dn_Entry : 0 );
+
 	if ( DRIVER_LOCK( dn ) == LSTAT_Okay )
 	{
+		usbbase->usb_IExec->DebugPrintF( "USB: IFC_Entry: locked, entry=%p filename=%p\n",
+			dn->dn_Entry, dn->dn_Filename );
+
 		/**/ if ( dn->dn_Entry )
 		{
-//			USBERROR( "__myIFC_Entry : 2 : DN    %p : Entry %p", dn, dn->dn_Entry );
+			usbbase->usb_IExec->DebugPrintF( "USB: IFC_Entry: calling entry %p\n", dn->dn_Entry );
 
 			dn->dn_Entry( usbbase, & dn->dn_Message.rdm_Public );
+
+			usbbase->usb_IExec->DebugPrintF( "USB: IFC_Entry: entry returned\n" );
 		}
 		else if (( dn->dn_Filename ) && ( usbbase->usb_DriverDirLock ))
 		{
@@ -108,35 +115,30 @@ U32 retval;
 
 	retval = TASK_Return_Stack_Error;
 
+	usbbase->usb_IExec->DebugPrintF( "USB: _StartIfc: 1 alloc driver\n" );
+
 	dn = DRIVER_ALLOC( fn, as );
 
 	if ( ! dn )
 	{
-		USBERROR( "_Start_Interface : Error allocating memory" );
+		usbbase->usb_IExec->DebugPrintF( "USB: _StartIfc: DRIVER_ALLOC failed\n" );
 		goto bailout;
 	}
+
+	usbbase->usb_IExec->DebugPrintF( "USB: _StartIfc: 2 dn=%p entry=%p\n", dn, fdn->fdn_Entry );
 
 	dn->dn_Entry = fdn->fdn_Entry;
 	dn->dn_Filename = fdn->fdn_Driver_Filename;
 
-	// -- Init Public Message
-
-	// Alloc check FN
-//	if ( FUNCTION_VALID(fn) != VSTAT_Okay )
-//	{
-//		USBERROR( "_Start_Interface : Function Valid error (%p)", fn );
-//		goto bailout;
-//	}
-
 	dn->dn_Message.rdm_Public.IUSB2 = usbbase->usb_IUSB2;
 	dn->dn_Message.rdm_Public.Function = (PTR) fn;
 	dn->dn_Message.rdm_Public.ConfigDescriptors = (PTR) fn->fkt_Config_Desc_Buf;
-	
+
 	// --
 
 	if ( INTERFACE_VALIDGROUP(ig) != VSTAT_Okay )
 	{
-		USBERROR( "_Start_Interface : Interface Group Valid error (%p)", ig );
+		usbbase->usb_IExec->DebugPrintF( "USB: _StartIfc: VALIDGROUP failed ig=%p\n", ig );
 		goto bailout;
 	}
 
@@ -144,9 +146,12 @@ U32 retval;
 
 	if ( INTERFACE_VALIDHEADER(ih) != VSTAT_Okay )
 	{
-		USBERROR( "_Start_Interface : Interface Header Valid error (%p)", ih );
+		usbbase->usb_IExec->DebugPrintF( "USB: _StartIfc: VALIDHEADER failed ih=%p\n", ih );
 		goto bailout;
 	}
+
+	usbbase->usb_IExec->DebugPrintF( "USB: _StartIfc: 3 ih=%p ih_Active=%p ih_Owner=%p\n",
+		ih, ih->ih_Active, ih->ih_Owner );
 
 	#ifdef DO_DEBUG
 
@@ -159,12 +164,18 @@ U32 retval;
 
 	if ( ih->ih_Owner )
 	{
-		// Allready claimed
-//		USBERROR( "Skipping Interface (claimed) : FN    %p : Class %ld", ig->ig_Function, ig->ig_Class );
+		usbbase->usb_IExec->DebugPrintF( "USB: _StartIfc: ALREADY OWNED by %p\n", ih->ih_Owner );
 		goto bailout;
 	}
 
-//	USBERROR( "Found Interface (possible) : FN    %p : Class %ld", ig->ig_Function, ig->ig_Class );
+	if ( ! ih->ih_Active )
+	{
+		usbbase->usb_IExec->DebugPrintF( "USB: _StartIfc: ih_Active is NULL!\n" );
+		goto bailout;
+	}
+
+	usbbase->usb_IExec->DebugPrintF( "USB: _StartIfc: 4 starting task '%s'\n",
+		fdn->fdn_Title ? fdn->fdn_Title : "(null)" );
 
 	dn->dn_Message.rdm_Public.Interface = (PTR) & ih->ih_Public ;
 	dn->dn_Message.rdm_Public.InterfaceDescriptor = (PTR) ih->ih_Active->in_Descriptor;
@@ -183,6 +194,8 @@ U32 retval;
 	);
 
 	// --
+
+	usbbase->usb_IExec->DebugPrintF( "USB: _StartIfc: 5 TASK_START returned stat=0x%08lx\n", (U32) stat );
 
 	retval = stat;
 
