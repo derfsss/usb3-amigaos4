@@ -516,7 +516,8 @@ va_list ap;
 
 //	USBDEBUG( "__EndPointRes_ObtainTags : REG   %p : (%s)", reg, (file)?file:"<NULL>" );
 
-	usbbase->usb_IExec->DebugPrintF( "USB: EPR_ObtainTags: reg=%p locking...\n", reg );
+	usbbase->usb_IExec->DebugPrintF( "USB: EPR_ObtainTags: reg=%p locking... [%s]\n",
+		reg, usbbase->usb_IExec->FindTask(NULL)->tc_Node.ln_Name );
 
 	if ( REGISTER_LOCK( reg ) == LSTAT_Okay )
 	{

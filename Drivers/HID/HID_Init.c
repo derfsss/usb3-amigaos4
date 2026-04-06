@@ -70,9 +70,11 @@ U32 cnt;
 		TAG_END
 	);
 
+	usbbase->usb_IExec->DebugPrintF( "USB: HID_Init: 5 Res_Interrupt=%p\n", in->Res_Interrupt );
+
 	if ( ! in->Res_Interrupt )
 	{
-		USBDEBUG( "HID_Init : Error obtaining EndPoint Resource" );
+		usbbase->usb_IExec->DebugPrintF( "USB: HID_Init: Interrupt EP FAILED\n" );
 		goto bailout;
 	}
 
@@ -119,21 +121,23 @@ U32 cnt;
 
 	// -- Check Supported modes
 
+	usbbase->usb_IExec->DebugPrintF( "USB: HID_Init: 6 mode=%ld\n", in->Driver_Mode );
+
 	/**/ if ( in->Driver_Mode == HID_DMode_Boot )
 	{
 		/**/ if ( ifcdsc->InterfaceProtocol == USBHID_PROTOCOL_KEYBOARD )
 		{
-			USBDEBUG( "HID_Init : Boot Keyboard" );
+			usbbase->usb_IExec->DebugPrintF( "USB: HID_Init: Boot Keyboard!\n" );
 			in->Driver_Type = HID_DType_Keyboard;
 		}
 		else if ( ifcdsc->InterfaceProtocol == USBHID_PROTOCOL_MOUSE )
 		{
-			USBDEBUG( "HID_Init : Boot Mouse" );
+			usbbase->usb_IExec->DebugPrintF( "USB: HID_Init: Boot Mouse!\n" );
 			in->Driver_Type = HID_DType_Mouse;
 		}
 		else
 		{
-			USBDEBUG( "HID_Init : Unsupported HID Boot protocol (%ld)", ifcdsc->InterfaceProtocol );
+			usbbase->usb_IExec->DebugPrintF( "USB: HID_Init: Unsupported boot protocol %ld\n", (U32) ifcdsc->InterfaceProtocol );
 			goto bailout;
 		}
 	}
