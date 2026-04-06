@@ -140,9 +140,26 @@ U32 status_dir;
 	{
 		U32 cfg_slotid = xhci->SlotID_ByAddress[ fn->fkt_Address ];
 
-		if ( cfg_slotid && fn->fkt_Config_Active )
+		// Use fkt_Config_Active if set, else use first config in list
+		struct USB2_ConfigNode *cfg_to_use = fn->fkt_Config_Active;
+
+		if ( ! cfg_to_use )
 		{
+			cfg_to_use = fn->fkt_Configs.uh_Head;
+		}
+
+		usbbase->usb_IExec->DebugPrintF( "XHCI: SET_CONFIG: slot=%ld cfgActive=%p cfgHead=%p cfgToUse=%p\n",
+			cfg_slotid, fn->fkt_Config_Active, fn->fkt_Configs.uh_Head, cfg_to_use );
+
+		if ( cfg_slotid && cfg_to_use )
+		{
+			// Temporarily set active config for ConfigureEndpoints to use
+			struct USB2_ConfigNode *saved = fn->fkt_Config_Active;
+			fn->fkt_Config_Active = cfg_to_use;
+
 			XHCI_Slot_ConfigureEndpoints( hn, cfg_slotid, fn );
+
+			fn->fkt_Config_Active = saved;
 		}
 	}
 
