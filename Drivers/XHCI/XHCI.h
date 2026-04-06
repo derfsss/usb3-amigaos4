@@ -72,6 +72,8 @@ SEC_CODE S32	XHCI_Cmd_StopEndpoint( struct USB2_HCDNode *hn, U32 slotid, U32 dci
 
 SEC_CODE S32	XHCI_Slot_Alloc( struct USB2_HCDNode *hn, U32 slotid, U32 port, U32 usb_speed );
 SEC_CODE void	XHCI_Slot_Free( struct USB2_HCDNode *hn, U32 slotid );
+SEC_CODE U32	XHCI_Endpoint_DCI( U32 ep_number, U32 ep_direction );
+SEC_CODE S32	XHCI_Slot_ConfigureEndpoints( struct USB2_HCDNode *hn, U32 slotid, struct RealFunctionNode *fn );
 
 /***************************************************************************/
 

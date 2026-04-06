@@ -133,6 +133,19 @@ U32 status_dir;
 		goto bailout;
 	}
 
+	// -- SET_CONFIGURATION: set up endpoint contexts before sending to device
+
+	if (( setup->RequestType == ( REQTYPE_Write | REQTYPE_Standard | REQTYPE_Device ) )
+	&&	( setup->RequestCode == REQCODE_Set_Configuration ))
+	{
+		U32 cfg_slotid = xhci->SlotID_ByAddress[ fn->fkt_Address ];
+
+		if ( cfg_slotid && fn->fkt_Config_Active )
+		{
+			XHCI_Slot_ConfigureEndpoints( hn, cfg_slotid, fn );
+		}
+	}
+
 	// -- General control transfer: Build Setup/Data/Status TRBs
 
 	// Look up slot ID from device address

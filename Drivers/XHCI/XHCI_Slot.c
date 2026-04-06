@@ -349,3 +349,188 @@ U32 cnt;
 }
 
 // --
+
+// Compute XHCI Device Context Index from endpoint number + direction
+
+SEC_CODE U32 XHCI_Endpoint_DCI( U32 ep_number, U32 ep_direction )
+{
+	if ( ep_number == 0 )
+	{
+		return( 1 );	// EP0 is always DCI 1 (bidirectional control)
+	}
+
+	// DCI = ep_number * 2 + direction (0=OUT, 1=IN)
+	return( ep_number * 2 + ( ( ep_direction & EPDIR_In ) ? 1 : 0 ) );
+}
+
+// --
+
+// Set up endpoint contexts for all non-EP0 endpoints in a configuration.
+// Called when SET_CONFIGURATION is intercepted.
+// Builds the Input Context with endpoint contexts and issues Configure Endpoint.
+
+SEC_CODE S32 XHCI_Slot_ConfigureEndpoints( struct USB2_HCDNode *hn, U32 slotid, struct RealFunctionNode *fn )
+{
+struct _XHCI *xhci;
+struct XHCI_Slot *slot;
+struct XHCI_InputCtrlCtx *icc;
+struct XHCI_SlotCtx *sctx;
+struct XHCI_EPCtx *epctx;
+struct USB2_ConfigNode *cfg;
+struct USB2_InterfaceHeader *ifh;
+struct USB2_InterfaceNode *ifn;
+struct USB2_EndPointNode *ep;
+// Note: USB2_InterfaceGroup declared in scope below
+U32 ctx_size;
+U32 dci;
+U32 max_dci;
+U32 add_flags;
+U32 xhci_ep_type;
+U8 *inp;
+
+	struct USBBase *usbbase = hn->hn_USBBase;
+
+	xhci     = & hn->hn_HCD.XHCI;
+	slot     = xhci->Slots[ slotid ];
+	ctx_size = xhci->ContextSize;
+
+	if ( ! slot )
+	{
+		USBERROR( "XHCI: ConfigureEndpoints: slot %ld not found", slotid );
+		return( FALSE );
+	}
+
+	// Clear Input Context
+	inp = (U8 *) slot->input_ctx;
+	MEM_SET( inp, 0, 4096 );
+
+	add_flags = (1U << 0);	// Always add Slot Context (bit 0)
+	max_dci   = 1;			// At least EP0
+
+	// Walk all endpoints in the active configuration
+	cfg = fn->fkt_Config_Active;
+
+	if ( ! cfg )
+	{
+		USBERROR( "XHCI: ConfigureEndpoints: no active config" );
+		return( FALSE );
+	}
+
+	// Walk interface groups → interface headers → active interface node → endpoints
+	{
+	struct USB2_InterfaceGroup *ig;
+
+	ig = cfg->cfg_InterfaceGroups.uh_Head;
+
+	while( ig )
+	{
+		ifh = ig->ig_Group.uh_Head;
+
+		while( ifh )
+		{
+			ifn = ifh->ih_Active;
+
+			if ( ifn )
+			{
+			ep = ifn->in_EndPoints.uh_Head;
+
+			while( ep )
+			{
+				if ( ep->ep_Number == 0 )
+				{
+					ep = Node_Next( ep );
+					continue;	// Skip EP0
+				}
+
+				dci = XHCI_Endpoint_DCI( ep->ep_Number, ep->ep_Direction );
+
+				if ( dci > 31 || dci < 2 )
+				{
+					ep = Node_Next( ep );
+					continue;
+				}
+
+				// Allocate transfer ring for this endpoint if needed
+				if ( ! slot->transfer_ring[ dci - 1 ].trbs )
+				{
+					if ( ! XHCI_Ring_Init( usbbase, & slot->transfer_ring[ dci - 1 ] ) )
+					{
+						USBERROR( "XHCI: ConfigureEndpoints: ring alloc failed for DCI %ld", dci );
+						return( FALSE );
+					}
+				}
+
+				// Determine XHCI EP type
+				if ( ep->ep_Type == EPATT_Type_Bulk )
+				{
+					xhci_ep_type = ( ep->ep_Direction & EPDIR_In ) ? XHCI_EP_BULK_IN : XHCI_EP_BULK_OUT;
+				}
+				else if ( ep->ep_Type == EPATT_Type_Interrupt )
+				{
+					xhci_ep_type = ( ep->ep_Direction & EPDIR_In ) ? XHCI_EP_INTR_IN : XHCI_EP_INTR_OUT;
+				}
+				else if ( ep->ep_Type == EPATT_Type_Isochronous )
+				{
+					xhci_ep_type = ( ep->ep_Direction & EPDIR_In ) ? XHCI_EP_ISOCH_IN : XHCI_EP_ISOCH_OUT;
+				}
+				else
+				{
+					xhci_ep_type = XHCI_EP_CONTROL;
+				}
+
+				// Fill Endpoint Context in Input Context
+				epctx = (struct XHCI_EPCtx *)( inp + ctx_size * ( dci + 1 ) );
+
+				epctx->ep_info1 = LE_SWAP32(
+					XHCI_EPCTX_SET_CERR( 3 ) |
+					XHCI_EPCTX_SET_INTERVAL( ep->ep_Interval > 0 ? ep->ep_Interval : 0 ) );
+
+				epctx->ep_info2 = LE_SWAP32(
+					XHCI_EPCTX_SET_EPTYPE( xhci_ep_type ) |
+					XHCI_EPCTX_SET_MAXPKT( ep->ep_MaxPacketSize ) );
+
+				epctx->ep_dequeue_lo = LE_SWAP32( slot->transfer_ring[ dci - 1 ].phys | XHCI_EPCTX_DCS );
+				epctx->ep_dequeue_hi = 0;
+
+				epctx->ep_tx_info = LE_SWAP32(
+					XHCI_EPCTX_SET_AVGTRB( ep->ep_MaxPacketSize ) |
+					XHCI_EPCTX_SET_MAXESIT( ep->ep_MaxPacketSize ) );
+
+				add_flags |= (1U << dci);
+
+				if ( dci > max_dci )
+				{
+					max_dci = dci;
+				}
+
+				usbbase->usb_IExec->DebugPrintF( "XHCI: ConfigEP: DCI=%ld type=%ld maxpkt=%ld interval=%ld\n",
+					dci, xhci_ep_type, ep->ep_MaxPacketSize, ep->ep_Interval );
+
+				ep = Node_Next( ep );
+			}
+			}	// if ifn
+
+			ifh = Node_Next( ifh );
+		}
+
+		ig = Node_Next( ig );
+	}
+	}	// interface group scope
+
+	// Fill Input Control Context
+	icc = (struct XHCI_InputCtrlCtx *) inp;
+	icc->icc_drop = 0;
+	icc->icc_add  = LE_SWAP32( add_flags );
+
+	// Update Slot Context with max DCI
+	sctx = (struct XHCI_SlotCtx *)( inp + ctx_size );
+	sctx->sc_info1 = LE_SWAP32( XHCI_SCTX_SET_CTXENT( max_dci ) );
+
+	usbbase->usb_IExec->DebugPrintF( "XHCI: ConfigureEndpoints: slot=%ld max_dci=%ld add=0x%08lx\n",
+		slotid, max_dci, add_flags );
+
+	// Issue Configure Endpoint command
+	return( XHCI_Cmd_ConfigureEndpoint( hn, slotid ) );
+}
+
+// --

@@ -41,6 +41,7 @@ struct __ehci
 struct __xhci
 {
 	U32						SlotID;				// XHCI slot for this transfer
+	U32						DCI;				// Device Context Index (endpoint)
 	U32						Completed;			// Set by Handler_HCD on Transfer Event
 	U32						CompletionCode;		// XHCI completion code
 	U32						Residual;			// Residual bytes from event
