@@ -53,7 +53,8 @@ S32 retval;
 
 		if ( fn->fkt_Initialized )
 		{
-			USBDEBUG( "__Function_Init          : Stat 111 --- Okay" );
+			usbbase->usb_IExec->DebugPrintF( "USB: Init done: addr=%ld cfgActive=%p class=%ld\n",
+				(U32) fn->fkt_Address, fn->fkt_Config_Active, (U32) fn->fkt_Class );
 			retval = TRUE;
 		}
 		else

@@ -24,7 +24,8 @@ SEC_CODE S32 __Function_Bind( struct USBBase *usbbase, struct RealFunctionNode *
 enum FDSTAT stat;
 S32 retval;
 
-//	usbbase->usb_IExec->DebugPrintF( "\n##\n## __Function_Bind : FN    %p\n##\n\n", fn );
+	usbbase->usb_IExec->DebugPrintF( "USB: Bind: fn=%p addr=%ld class=%ld cfgActive=%p init=%ld\n",
+		fn, (U32) fn->fkt_Address, (U32) fn->fkt_Class, fn->fkt_Config_Active, (U32) fn->fkt_Initialized );
 
 	// --
 

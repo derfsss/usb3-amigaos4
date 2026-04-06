@@ -32,6 +32,10 @@ int error;
 		goto bailout;
 	}
 
+	// Default SubClass/Protocol to wildcard if not specified
+	fdn->fdn_SubClass = FDSUBCLASS_Any;
+	fdn->fdn_Protocol = FDPROTOCOL_Any;
+
 	// --
 
 	while(( tag = MISC_NEXTTAGITEM( & taglist )))

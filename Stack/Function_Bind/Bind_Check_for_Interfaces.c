@@ -272,10 +272,19 @@ S32 stat;
 
 	fdn = Header_Head( & usbbase->usb_FDriver_Header );
 
+	usbbase->usb_IExec->DebugPrintF( "USB: _CheckIfc: first fdn=%p ig_class=%ld\n", fdn, (U32) ig->ig_Class );
+
 	while( fdn )
 	{
+		usbbase->usb_IExec->DebugPrintF( "USB: _CheckIfc: fdn=%p type=%ld class=%ld title=%s\n",
+			fdn, (U32) fdn->fdn_Type, (U32) fdn->fdn_Class,
+			fdn->fdn_Title ? fdn->fdn_Title : "(null)" );
+
 		while( fdn->fdn_Type == USB2Val_FDriver_Interface )
 		{
+			usbbase->usb_IExec->DebugPrintF( "USB: _CheckIfc match: fdn class=%ld sub=%ld proto=%ld vs ig class=%ld sub=%ld proto=%ld\n",
+				(U32) fdn->fdn_Class, (U32) fdn->fdn_SubClass, (U32) fdn->fdn_Protocol,
+				(U32) ig->ig_Class, (U32) ig->ig_SubClass, (U32) ig->ig_Protocol );
 //			usbbase->usb_IExec->DebugPrintF( "FDN Check Interface : %p\n", fdn );
 
 			if ( fdn->fdn_Detach )
@@ -305,7 +314,12 @@ S32 stat;
 //			USBDEBUG( "Found Interface [ possible : '%s' ]", (fdn->fdn_Title)?fdn->fdn_Title:"" );
 //			USBERROR( "Found Interface [ possible : '%s' ]", (fdn->fdn_Title)?fdn->fdn_Title:"" );
 
+			usbbase->usb_IExec->DebugPrintF( "USB: _CheckIfc: MATCH! Starting '%s'\n",
+				fdn->fdn_Title ? fdn->fdn_Title : "(null)" );
+
 			stat = _Start_Interface( usbbase, fn, fdn, ig, as );
+
+			usbbase->usb_IExec->DebugPrintF( "USB: _CheckIfc: _Start_Interface returned %ld\n", (S32) stat );
 
 			if ( myIS_TASKRETURN_ERR( stat ))
 			{
@@ -346,17 +360,22 @@ enum FDSTAT stat;
 
 	cn = fn->fkt_Config_Active;
 
+	usbbase->usb_IExec->DebugPrintF( "USB: CheckInterfaces: cfgActive=%p addr=%ld\n", cn, (U32) fn->fkt_Address );
+
 	if ( cn )
 	{
 		ig = cn->cfg_InterfaceGroups.uh_Head;
 
+		usbbase->usb_IExec->DebugPrintF( "USB: CheckInterfaces: first ig=%p\n", ig );
+
 		while( ig )
 		{
+			usbbase->usb_IExec->DebugPrintF( "USB: CheckInterfaces: ig=%p class=%ld sub=%ld proto=%ld\n",
+				ig, (U32) ig->ig_Class, (U32) ig->ig_SubClass, (U32) ig->ig_Protocol );
+
 			if ( _Check_Interface( usbbase, fn, ig, as ))
 			{
 				stat = FDSTAT_Found;
-				// We have to check all Interfaces
-				// so no exit on found
 			}
 
 			ig = Node_Next( ig );
