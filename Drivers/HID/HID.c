@@ -100,12 +100,27 @@ U32 retval;
 
 	TASK_NAME_ENTER( "HID_Entry" );
 
+	usbbase->usb_IExec->DebugPrintF( "USB: HID_Entry: msg=%p\n", msg );
+
+	if ( ! msg )
+	{
+		usbbase->usb_IExec->DebugPrintF( "USB: HID_Entry: msg is NULL!\n" );
+		return( TASK_Return_Error );
+	}
+
+	usbbase->usb_IExec->DebugPrintF( "USB: HID_Entry: msg->Function=%p msg->Interface=%p msg->IUSB2=%p\n",
+		msg->Function, msg->Interface, msg->IUSB2 );
+
+	if ( ! msg->Function )
+	{
+		usbbase->usb_IExec->DebugPrintF( "USB: HID_Entry: Function is NULL!\n" );
+		return( TASK_Return_Error );
+	}
+
 	struct RealFunctionNode *fn = (PTR) msg->Function;
 
-	#ifdef DO_DEBUG
-	U32 startadr = fn->fkt_Address;
-	usbbase->usb_IExec->DebugPrintF( "\n##\n## HID_Entry : Adr #%lu : Enter\n##\n\n", fn->fkt_Address );
-	#endif
+	usbbase->usb_IExec->DebugPrintF( "USB: HID_Entry: fn=%p addr=%ld tier=%ld\n",
+		fn, (U32) fn->fkt_Address, (U32) fn->fkt_Tier );
 
 	// --
 
@@ -124,6 +139,8 @@ U32 retval;
 
 	// --
 
+	usbbase->usb_IExec->DebugPrintF( "USB: HID_Entry: allocating intern\n" );
+
 	in = MEM_ALLOCVEC( sizeof( struct intern ), TRUE );
 
 	if ( in )
@@ -132,6 +149,8 @@ U32 retval;
 		in->StructID = ID_IN_HID;
 		#endif
 		in->StartMsg = msg;
+
+		usbbase->usb_IExec->DebugPrintF( "USB: HID_Entry: calling HID_Init\n" );
 
 		if ( HID_Init( usbbase, in ))
 		{
