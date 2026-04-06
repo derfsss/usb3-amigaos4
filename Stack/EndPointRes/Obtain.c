@@ -69,11 +69,13 @@ U32 to;
 
 	// --
 	
+	usbbase->usb_IExec->DebugPrintF( "USB: EPR_ObtainList: enter reg=%p\n", reg );
+
 	epr = ENDPOINTRES_ALLOC();
 
 	if ( ! epr )
 	{
-		USBERROR( "__EndPointRes_ObtainList : Error allocating memory" );
+		usbbase->usb_IExec->DebugPrintF( "USB: EPR_ObtainList: ALLOC FAILED\n" );
 		goto bailout;
 	}
 
@@ -250,10 +252,11 @@ U32 to;
 	}
 	else
 	{
-//		USBDEBUG( "__EndPointRes_ObtainList : 6 :" );
-
 		cn = fn->fkt_Config_Active;
 		ig = ( cn ) ? cn->cfg_InterfaceGroups.uh_Head : NULL;
+
+		usbbase->usb_IExec->DebugPrintF( "USB: EPR_ObtainList: search EP type=%ld dir=%ld ifcnr=%ld cn=%p ig=%p\n",
+			eptype, epdir, ifcnr, cn, ig );
 
 		epn = NULL;
 
@@ -263,6 +266,9 @@ U32 to;
 
 			while( ih )
 			{
+				usbbase->usb_IExec->DebugPrintF( "USB: EPR_ObtainList: ih=%p owner=%p reg=%p fn_owner=%p ih_num=%ld\n",
+					ih, ih->ih_Owner, reg, fn->fkt_Owner, (U32) ih->ih_Number );
+
 				if ((( ih->ih_Owner == reg ) || ( fn->fkt_Owner == reg ))
 				&& (( ifcnr == -1U ) || ( ifcnr == ih->ih_Number )))
 				{
@@ -322,9 +328,11 @@ U32 to;
 
 //	USBDEBUG( "__EndPointRes_ObtainList : 7 :" );
 
+	usbbase->usb_IExec->DebugPrintF( "USB: EPR_ObtainList: search done epn=%p\n", epn );
+
 	if ( ENDPOINT_VALID(epn) != VSTAT_Okay )
 	{
-		USBERROR( "__EndPointRes_ObtainList : EndPoint Node not found : EP    %p", epn );
+		usbbase->usb_IExec->DebugPrintF( "USB: EPR_ObtainList: EP NOT FOUND\n" );
 		goto bailout;
 	}
 
@@ -508,19 +516,25 @@ va_list ap;
 
 //	USBDEBUG( "__EndPointRes_ObtainTags : REG   %p : (%s)", reg, (file)?file:"<NULL>" );
 
+	usbbase->usb_IExec->DebugPrintF( "USB: EPR_ObtainTags: reg=%p locking...\n", reg );
+
 	if ( REGISTER_LOCK( reg ) == LSTAT_Okay )
 	{
+		usbbase->usb_IExec->DebugPrintF( "USB: EPR_ObtainTags: locked, calling ObtainList\n" );
+
 		va_start( ap, reg );
 
 		epr = ENDPOINTRES_OBTAINLIST( reg, va_getlinearva( ap, struct TagItem * ));
 
 		va_end( ap );
 
+		usbbase->usb_IExec->DebugPrintF( "USB: EPR_ObtainTags: ObtainList returned epr=%p\n", epr );
+
 		REGISTER_UNLOCK( reg );
 	}
 	else
 	{
-		USBERROR( "__EndPointRes_ObtainTags : Error Locking : REG %p : (%s)", reg, (file)?file:"<NULL>" );
+		usbbase->usb_IExec->DebugPrintF( "USB: EPR_ObtainTags: LOCK FAILED\n" );
 		epr = NULL;
 	}
 
