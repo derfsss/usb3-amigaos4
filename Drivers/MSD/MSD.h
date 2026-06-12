@@ -271,6 +271,7 @@ S32 MSD_Cmd_0014_TD_AddChangeInt( struct USBBase *usbbase UNUSED, struct MSDDevi
 S32 MSD_Cmd_0015_TD_RemChangeInt( struct USBBase *usbbase UNUSED, struct MSDDevice *msddev UNUSED, struct IOStdReq *ioreq );
 S32 MSD_Cmd_0016_TD_GetGeometry( struct USBBase *usbbase, struct MSDDevice *msddev UNUSED, struct IOStdReq *ioreq );
 S32 MSD_Cmd_0018_TD_Read64( struct USBBase *usbbase, struct MSDDevice *msddev UNUSED, struct IOStdReq *ioreq );
+S32 MSD_Cmd_0019_TD_Write64( struct USBBase *usbbase, struct MSDDevice *msddev UNUSED, struct IOStdReq *ioreq );
 S32 MSD_Cmd_4000_NSCmd_DeviceQuery( struct USBBase *usbbase UNUSED, struct MSDDevice *msddev UNUSED, struct IOStdReq *ioreq );
 S32 MSD_Cmd_A004_NSCmd_GetGeometry64( struct USBBase *usbbase, struct MSDDevice *msddev UNUSED, struct IOStdReq *ioreq );
 S32 MSD_Cmd_A005_NSCmd_ChangeUnit( struct USBBase *usbbase, struct MSDDevice *msddev UNUSED, struct IOStdReq *ioreq );
@@ -300,6 +301,7 @@ S32 MSD_SCSI_ReadCapacity10( struct USBBase *usbbase, struct MSDDisk *msddisk, s
 S32 MSD_SCSI_RequestSense( struct USBBase *usbbase, struct MSDDisk *msddisk, struct DoBulkResult *dbr, PTR mem, U32 reqlen );
 S32 MSD_SCSI_TestUnitReady( struct USBBase *usbbase, struct MSDDisk *msddisk, struct DoBulkResult *dbr );
 S32 MSD_SCSI_Write10( struct USBBase *usbbase, struct MSDDisk *msddisk, struct DoBulkResult *dbr, U32 blk_start, U32 blk_blocks, PTR mem, U32 *actual_ptr );
+S32 MSD_SCSI_Write16( struct USBBase *usbbase, struct MSDDisk *msddisk, struct DoBulkResult *dbr, U64 blk_start, U32 blk_blocks, PTR mem, U32 *actual_ptr );
 S32 MSD_Disk_TestUnitReady( struct USBBase *usbbase, struct MSDDisk *msddisk );
 
 void MSD_Main( struct USBBase *usbbase, struct MSDDevice *msddev );

@@ -48,7 +48,7 @@ SEC_RODATA static const U16 _DevNSDCmds[] =
 /* 0017 */	//	TD_EJECT,
 /* 0018 */	//	TD_LASTCOMM,			// not a real command just Last 'Normal' TD entry
 /* 0018 */	TD_READ64,					// TD64 Cmd - Unoffical commands
-/* 0019 */	//	TD_WRITE64,				// TD64 Cmd
+/* 0019 */	TD_WRITE64,					// TD64 Cmd
 /* 001A */	//	TD_SEEK64,				// TD64 Cmd
 /* 001B */	//	TD_FORMAT64,			// TD64 Cmd
 /* 001C */	HD_SCSICMD,					// Direct-SCSI cmd
@@ -67,7 +67,7 @@ SEC_RODATA static const U16 _DevNSDCmds[] =
 /* A006 */	NSCMD_TD_ADDSTATCALLBACK,	// Mounter.lib
 /* A007 */	NSCMD_TD_REMSTATCALLBACK,	// Mounter.lib
 /* C000 */	NSCMD_TD_READ64,			// NSCMD - New Style Commands
-/* C001 */	//	NSCMD_TD_WRITE64,		// NSCMD
+/* C001 */	NSCMD_TD_WRITE64,			// NSCMD
 /* C002 */	//	NSCMD_TD_SEEK64,		// NSCMD
 /* C003 */	//	NSCMD_TD_FORMAT64,		// NSCMD
 /* E000 */	//	NSCMD_ETD_READ64,		// TDF_EXTCOM + NSCMD_TD_READ64
