@@ -18,6 +18,10 @@
 // Called from Bulk_Remove/Interrupt_Remove for IORequests that are
 // being removed (AbortIO, timeout, detach) before their Transfer Event
 // arrived. No-op for transfers that already completed.
+//
+// Removes can run in any task context, but blocking commands are only
+// legal from the HCD task (see Function_Detach) -- from anywhere else
+// the stop+flush is queued on the slot and XHCI_Handler_HCD drains it.
 
 SEC_CODE void XHCI_Transfer_Abort( struct USB3_HCDNode *hn, struct RealRequest *ioreq )
 {
@@ -48,9 +52,30 @@ U32 deq;
 		return;
 	}
 
+	// Nothing of this transfer reached the device as far as we know
+	ioreq->req_HCD.XHCI.Residual = ioreq->req_HCD.XHCI.DataBufferLen;
+
 	// Dead controller: nothing to cancel at the hardware level
 	if ( PCI_READLONG( xhci->OpBase + XHCI_USBSTS ) & XHCI_STS_HCH )
 	{
+		return;
+	}
+
+	if ( usbbase->usb_IExec->FindTask( NULL ) != xhci->HCDTask )
+	{
+		// Wrong context for blocking commands -- defer to the HCD task
+		usbbase->usb_IExec->DebugPrintF(
+			"USB3: Transfer_Abort: slot=%ld dci=%ld deferred to HCD task\n",
+			slotid, dci );
+
+		slot->PendingStopDCI |= ( 1UL << dci );
+
+		if ( xhci->HCDTask )
+		{
+			usbbase->usb_IExec->Signal( xhci->HCDTask,
+				xhci->Signal_Event.sig_Signal_Mask );
+		}
+
 		return;
 	}
 
@@ -68,9 +93,6 @@ U32 deq;
 		| ( ring->cycle ? 1 : 0 );
 
 	XHCI_Cmd_SetTRDequeue( hn, slotid, dci, deq );
-
-	// Nothing of this transfer reached the device as far as we know
-	ioreq->req_HCD.XHCI.Residual = ioreq->req_HCD.XHCI.DataBufferLen;
 
 	// Restart the endpoint for any TDs enqueued after the flush point
 	PCI_WRITELONG( xhci->DoorbellBase + 4 * slotid, dci );

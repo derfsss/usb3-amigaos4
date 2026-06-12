@@ -12,6 +12,120 @@
 #include "XHCI.h"
 
 // --
+// Drain deferred per-slot work queued by Function_Detach and
+// Transfer_Abort from non-HCD contexts: endpoint stop+flush requests
+// and slot disposal. Only ever entered from the HCD task; DrainBusy
+// guards against recursion (the command waits below call back into
+// XHCI_Handler_HCD to poll the event ring).
+
+SEC_CODE static void XHCI_Drain_Deferred( struct USB3_HCDNode *hn )
+{
+struct XHCI_Slot *slot;
+struct XHCI_Ring *ring;
+struct _XHCI *xhci;
+U32 slotid;
+U32 stop;
+U32 dci;
+U32 deq;
+
+	struct USBBase *usbbase = hn->hn_USBBase;
+
+	xhci = & hn->hn_HCD.XHCI;
+
+	xhci->DrainBusy = 1;
+
+	for ( slotid = 1 ; slotid <= xhci->MaxSlots ; slotid++ )
+	{
+		slot = xhci->Slots[ slotid ];
+
+		if ( ! slot )
+		{
+			continue;
+		}
+
+		stop = slot->PendingStopDCI;
+
+		if (( stop ) && ( ! slot->PendingDisable ))
+		{
+			// Stop + flush individual endpoints (skipped when the whole
+			// slot is going away below)
+			slot->PendingStopDCI = 0;
+
+			for ( dci = 1 ; dci <= 31 ; dci++ )
+			{
+				if (( ! ( stop & ( 1UL << dci ) )) || ( ! slot->transfer_ring[ dci - 1 ].trbs ))
+				{
+					continue;
+				}
+
+				usbbase->usb_IExec->DebugPrintF(
+					"USB3: Drain: stop+flush slot=%ld dci=%ld\n", slotid, dci );
+
+				ring = & slot->transfer_ring[ dci - 1 ];
+
+				XHCI_Cmd_StopEndpoint( hn, slotid, dci );
+
+				deq = ( ring->phys + ( ring->enqueue * XHCI_TRB_SIZE ) )
+					| ( ring->cycle ? 1 : 0 );
+
+				XHCI_Cmd_SetTRDequeue( hn, slotid, dci, deq );
+
+				PCI_WRITELONG( xhci->DoorbellBase + 4 * slotid, dci );
+			}
+		}
+
+		if ( slot->PendingDisable )
+		{
+			usbbase->usb_IExec->DebugPrintF(
+				"USB3: Drain: disabling slot %ld\n", slotid );
+
+			slot->PendingDisable = 0;
+
+			if ( ! ( PCI_READLONG( xhci->OpBase + XHCI_USBSTS ) & XHCI_STS_HCH ) )
+			{
+				XHCI_Cmd_DisableSlot( hn, slotid );
+			}
+
+			XHCI_Slot_Free( hn, slotid );
+		}
+	}
+
+	xhci->DrainBusy = 0;
+}
+
+// --
+
+// Anything queued, and is this a context that may process it?
+
+SEC_CODE static S32 XHCI_Drain_Wanted( struct USB3_HCDNode *hn, struct USBBase *usbbase )
+{
+struct XHCI_Slot *slot;
+struct _XHCI *xhci;
+U32 slotid;
+
+	xhci = & hn->hn_HCD.XHCI;
+
+	if (( xhci->DrainBusy )
+	||	( ! xhci->Slots )
+	||	( usbbase->usb_IExec->FindTask( NULL ) != xhci->HCDTask ))
+	{
+		return( FALSE );
+	}
+
+	for ( slotid = 1 ; slotid <= xhci->MaxSlots ; slotid++ )
+	{
+		slot = xhci->Slots[ slotid ];
+
+		if (( slot ) && (( slot->PendingDisable ) || ( slot->PendingStopDCI )))
+		{
+			return( TRUE );
+		}
+	}
+
+	return( FALSE );
+}
+
+// --
 
 SEC_CODE void XHCI_Handler_HCD( struct USB3_HCDNode *hn, U32 mask UNUSED )
 {
@@ -155,6 +269,13 @@ U32 ctrl;
 
 		PCI_WRITELONG( xhci->RunBase + XHCI_ERDP_LO(0), erdp | XHCI_ERDP_EHB );
 		PCI_WRITELONG( xhci->RunBase + XHCI_ERDP_HI(0), 0 );
+	}
+
+	// -- Deferred endpoint stops / slot disposal (HCD task only)
+
+	if ( XHCI_Drain_Wanted( hn, usbbase ) )
+	{
+		XHCI_Drain_Deferred( hn );
 	}
 
 	// -- Check active transfers (same pattern as EHCI_Handler_HCD)

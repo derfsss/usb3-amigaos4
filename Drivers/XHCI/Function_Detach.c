@@ -14,21 +14,25 @@
 // --
 // Called by the stack (via __HCD_Addr_Release) when a function's USB
 // address is recycled -- i.e. the device is gone or failed enumeration.
-// Release the xHCI device slot that was bound to that address: Disable
-// Slot halts all endpoint activity for the device per xHCI 4.6.4, then
-// the rings/contexts can be freed and the address mapping cleared.
 //
-// Without this, every unplug leaked a slot (MaxSlots is 32 on the
-// uPD720202) and left a stale SlotID_ByAddress entry that a later
+// This runs in the CALLER's context (typically the hub driver's task,
+// holding the stack's lock semaphore), so it must not block: issuing a
+// Disable Slot command and waiting for its completion here deadlocks
+// against the HCD task (proven on hardware, June 2026). Instead the
+// address mappings are cleared immediately and the slot is queued for
+// disposal; XHCI_Handler_HCD drains the queue in the HCD task context.
+//
+// Without this cleanup, every unplug leaked a slot (MaxSlots is 32 on
+// the uPD720202) and left a stale SlotID_ByAddress entry that a later
 // device on the same address would inherit.
 
 SEC_CODE void XHCI_Function_Detach( struct USB3_HCDNode *hn, struct RealFunctionNode *fn )
 {
 struct _XHCI *xhci;
+struct XHCI_Slot *slot;
 U32 slotid;
 U32 adr;
 U32 port;
-U32 sts;
 
 	struct USBBase *usbbase = hn->hn_USBBase;
 	TASK_NAME_ENTER( "XHCI : XHCI_Function_Detach" );
@@ -47,20 +51,33 @@ U32 sts;
 		"USB3: Function_Detach: addr=%ld slot=%ld port=%ld\n",
 		adr, slotid, (U32) fn->fkt_PortNr );
 
-	if ( slotid )
+	if (( slotid ) && ( slotid <= xhci->MaxSlots ))
 	{
-		// Only talk to the chip if it is actually running -- on a dead
-		// or stopped controller the command would just time out
-		sts = PCI_READLONG( xhci->OpBase + XHCI_USBSTS );
-
-		if ( ! ( sts & XHCI_STS_HCH ) )
-		{
-			XHCI_Cmd_DisableSlot( hn, slotid );
-		}
-
-		XHCI_Slot_Free( hn, slotid );
+		slot = xhci->Slots[ slotid ];
 
 		xhci->SlotID_ByAddress[ adr ] = 0;
+
+		if ( slot )
+		{
+			if ( PCI_READLONG( xhci->OpBase + XHCI_USBSTS ) & XHCI_STS_HCH )
+			{
+				// Controller halted: no commands possible or needed,
+				// the rings can be freed directly
+				XHCI_Slot_Free( hn, slotid );
+			}
+			else
+			{
+				// Queue for the HCD task; the Signal makes the drain
+				// run promptly (the 1 s HCD tick is the fallback)
+				slot->PendingDisable = 1;
+
+				if ( xhci->HCDTask )
+				{
+					usbbase->usb_IExec->Signal( xhci->HCDTask,
+						xhci->Signal_Event.sig_Signal_Mask );
+				}
+			}
+		}
 	}
 
 	// Drop the cached post-reset port speed -- the next device on this

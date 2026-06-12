@@ -40,6 +40,10 @@ S32 retval;
 		goto bailout;
 	}
 
+	// Chip lifecycle runs in the HCD task -- record it; the deferred
+	// slot-disable/endpoint-stop drain only runs in this context
+	xhci->HCDTask = usbbase->usb_IExec->FindTask( NULL );
+
 	// -- Allocate DCBAA (Device Context Base Address Array)
 	// MaxSlots+1 entries of 8 bytes each (slot 0 = scratchpad)
 	// Use 4K-aligned DMA buffer

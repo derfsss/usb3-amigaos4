@@ -358,7 +358,14 @@ struct XHCI_Slot
 	U8					enabled;
 	volatile U8			LastTransfer_Done;	// Set by handler when a TransferEvent arrives for this slot
 	U8					LastTransfer_CC;	// Completion code from last transfer event
-	U8					pad;
+
+	// Deferred work, drained by Handler_HCD in the HCD task context.
+	// Blocking xHCI commands must NOT be issued from arbitrary task
+	// contexts (e.g. Function_Detach runs in the hub driver's task while
+	// it holds the stack's lock semaphore -- waiting for a command
+	// completion there deadlocks against the HCD task).
+	volatile U8			PendingDisable;		// Disable Slot + free when set
+	volatile U32		PendingStopDCI;		// Bitmask of DCIs to Stop + flush
 };
 
 /***************************************************************************/
@@ -415,6 +422,11 @@ struct _XHCI
 	// Signals
 	struct USB3_Signal		Signal_Event;		// Event ring interrupt
 	struct USB3_Signal		Signal_Command;		// Command completion
+
+	// The HCD task (recorded in Chip_Alloc). Blocking commands and the
+	// deferred-work drain are only legal from this task's context.
+	struct Task *			HCDTask;
+	U32						DrainBusy;			// Recursion guard for the drain
 
 	// Command completion result
 	U32						CmdResult_Code;		// Completion code from last command
