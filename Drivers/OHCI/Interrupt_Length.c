@@ -53,7 +53,7 @@
 ** Should set io_Error if there are transfer errors
 */
 
-SEC_CODE U32 OHCI_Interrupt_Length( struct USB2_HCDNode *hn, struct RealRequest *ioreq )
+SEC_CODE U32 OHCI_Interrupt_Length( struct USB3_HCDNode *hn, struct RealRequest *ioreq )
 {
 struct OHCI_ED *ed;
 struct OHCI_TD *td;
@@ -133,7 +133,7 @@ U8 err;
 			{
 				case OHCI_CC_STALL:
 				{
-					err = USB2Err_Host_Stall;
+					err = USB3Err_Host_Stall;
 					break;
 				}
 
@@ -141,39 +141,39 @@ U8 err;
 				case OHCI_CC_BIT_STUFFING:
 				case OHCI_CC_PID_CHECK_FAILURE:
 				{
-					err = USB2Err_Host_CRCError;
+					err = USB3Err_Host_CRCError;
 					break;
 				}
 	
 				case OHCI_CC_DEVICE_NOT_RESPONDING:
 				{
-					err = USB2Err_Host_Timeout;
+					err = USB3Err_Host_Timeout;
 					break;
 				}
 	
 				case OHCI_CC_DATA_OVERRUN:
 				case OHCI_CC_BUFFER_OVERRUN:
 				{
-					err = USB2Err_Host_Overflow;
+					err = USB3Err_Host_Overflow;
 					break;
 				}
 
 				case OHCI_CC_BUFFER_UNDERRUN:
 				{
-					err = USB2Err_Host_RuntPacket;
+					err = USB3Err_Host_RuntPacket;
 					break;
 				}
 	
 				case OHCI_CC_UNEXPECTED_PID:
 				case OHCI_CC_DATA_TOGGLE_MISMATCH:
 				{
-					err = USB2Err_Host_HostError;
+					err = USB3Err_Host_HostError;
 					break;
 				}
 	
 				default:
 				{
-					err = USB2Err_Host_UnknownError;
+					err = USB3Err_Host_UnknownError;
 					break;
 				}
 			}

@@ -49,9 +49,9 @@
 
 // --
 
-SEC_CODE S32 EHCI_Interrupt_Build( struct USB2_HCDNode *hn, struct RealRequest *ioreq )
+SEC_CODE S32 EHCI_Interrupt_Build( struct USB3_HCDNode *hn, struct RealRequest *ioreq )
 {
-struct USB2_EndPointNode *ep;
+struct USB3_EndPointNode *ep;
 //struct RealFunctionNode *fn;
 struct EHCI_TD *last;
 struct EHCI_TD *td;
@@ -132,7 +132,7 @@ U8 *buf;
 	if ( ! EHCI_Enough_Bandwidth( hn, ioreq ))
 	{
 		USBDEBUG( "EHCI_Interrupt_Build : Error there is not Enough band width left for this request" );
-		err = USB2Err_Host_NoBandWidth;
+		err = USB3Err_Host_NoBandWidth;
 		goto bailout;
 	}
 
@@ -143,7 +143,7 @@ U8 *buf;
 	if ( ! qh )
 	{
 		USBDEBUG( "EHCI_Interrupt_Build : Error allocating QH buffer" );
-		err = USB2Err_Stack_NoMemory;
+		err = USB3Err_Stack_NoMemory;
 		goto bailout;
 	}
 
@@ -156,7 +156,7 @@ U8 *buf;
 		if ( ! td )
 		{
 			USBDEBUG( "EHCI_Interrupt_Build : Error Allocating Memory" );
-			err = USB2Err_Stack_NoMemory;
+			err = USB3Err_Stack_NoMemory;
 			goto bailout;
 		}
 
@@ -176,7 +176,7 @@ U8 *buf;
 		if ( ! EHCI_Get_20kBuffer( hn, NULL, td, buf, l ))
 		{
 			USBDEBUG( "EHCI_Interrupt_Build : Error allocating buffer" );
-			err = USB2Err_Stack_NoMemory;
+			err = USB3Err_Stack_NoMemory;
 			goto bailout;
 		}
 
@@ -217,7 +217,7 @@ U8 *buf;
 		if ( ! td )
 		{
 			USBDEBUG( "EHCI_Interrupt_Build : Error allocating Memory" );
-			err = USB2Err_Stack_NoMemory;
+			err = USB3Err_Stack_NoMemory;
 			goto bailout;
 		}
 
@@ -227,7 +227,7 @@ U8 *buf;
 		if ( ! EHCI_Get_20kBuffer( hn, NULL, td, NULL, 0 ))
 		{
 			USBDEBUG( "EHCI_Interrupt_Build : Error allocating buffer" );
-			err = USB2Err_Stack_NoMemory;
+			err = USB3Err_Stack_NoMemory;
 			goto bailout;
 		}
 
@@ -266,7 +266,7 @@ U8 *buf;
 	}
 	#endif
 
-	err = USB2Err_NoError;
+	err = USB3Err_NoError;
 
 	handled	= FALSE;
 
@@ -289,7 +289,7 @@ bailout:
 
 	handled	= TRUE;
 	ep		= ioreq->req_EndPoint;
-	err		= USB2Err_Stack_NoMemory;
+	err		= USB3Err_Stack_NoMemory;
 	len		= ( ioreq->req_Public.io_Length );
 	buf		= ( ioreq->req_Public.io_Command == CMD_READ ) ? NULL : ioreq->req_Public.io_Data ;
 	pid		= ( ioreq->req_Public.io_Command == CMD_READ ) ? EHCI_TD_PID_IN : EHCI_TD_PID_OUT;
@@ -332,7 +332,7 @@ bailout:
 	if ( ! EHCI_Enough_Bandwidth( hn, ioreq ))
 	{
 		USBDEBUG( "EHCI_Interrupt_Build : Error there is not Enough band width left for this request" );
-		err = USB2Err_Host_NoBandWidth;
+		err = USB3Err_Host_NoBandWidth;
 		goto bailout;
 	}
 
@@ -439,7 +439,7 @@ bailout:
 
 	/* -- Done -- */
 
-	err = USB2Err_NoError;
+	err = USB3Err_NoError;
 	handled	= FALSE;
 
 bailout:

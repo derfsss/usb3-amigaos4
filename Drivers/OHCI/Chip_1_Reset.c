@@ -49,7 +49,7 @@
 
 // --
 
-SEC_CODE S32 OHCI_Chip_Reset( struct USB2_HCDNode *hn )
+SEC_CODE S32 OHCI_Chip_Reset( struct USB3_HCDNode *hn )
 {
 //volatile U32 *adr;
 S32 retval;

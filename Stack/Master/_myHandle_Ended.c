@@ -10,7 +10,7 @@
 // This Subtask have been Shutdown, now handle stuff
 
 static void myRemoveNode( 
-	struct USB2_TaskMsg *tm, 
+	struct USB3_TaskMsg *tm, 
 	struct USBBase *usbbase,
 	struct intern *in )
 {
@@ -46,9 +46,9 @@ static void myRemoveNode(
 
 SEC_CODE static void myHandle_Task_Ended( struct USBBase *usbbase, struct intern *in )
 {
-struct USB2_TaskNode *tn;
-struct USB2_TaskMsg *tm;
-struct USB2_TaskMsg *next;
+struct USB3_TaskNode *tn;
+struct USB3_TaskMsg *tm;
+struct USB3_TaskMsg *next;
 //struct ExecIFace *IExec;
 
 //	IExec = usbbase->usb_IExec;

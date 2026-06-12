@@ -15,8 +15,8 @@
 
 SEC_CODE enum PhaseStat MSD_Bulk_Cmd_Status( struct USBBase *usbbase, struct MSDDisk *msddisk )
 {
-struct USB2_EPResource *epr;
-struct USB2_IORequest *ioreq;
+struct USB3_EPResource *epr;
+struct USB3_IORequest *ioreq;
 struct MSDDevice *msddev;
 struct ExecIFace *IExec;
 //struct MSDDisk *msddisk;
@@ -54,7 +54,7 @@ S32 tries;
 
 //		IExec->DebugPrintF( "CSW  : io_Error = %ld : io_Actual %ld\n", ioreq->io_Error, ioreq->io_Actual );
 
-		/**/ if ( ioreq->io_Error == USB2Err_NoError )
+		/**/ if ( ioreq->io_Error == USB3Err_NoError )
 		{
 			// I hard coded the Actual value too validate 'struct MSDCSW' size
 			if ( ioreq->io_Actual == MSDCSW_LEN )
@@ -69,14 +69,14 @@ S32 tries;
 			}
 			break;
 		}
-		else if ( ioreq->io_Error == USB2Err_Device_Detached )
+		else if ( ioreq->io_Error == USB3Err_Device_Detached )
 		{
 			USBERROR( "MSD_Bulk_Cmd_Status : Detached" );
 			MSD_Disk_Detach( usbbase, msddisk );
 			stat = PS_Error;
 			break;
 		}
-		else if ( ioreq->io_Error == USB2Err_Host_Stall )
+		else if ( ioreq->io_Error == USB3Err_Host_Stall )
 		{
 			ENDPOINTRES_DESTALL( epr );
 			stalled = TRUE;

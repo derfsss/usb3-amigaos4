@@ -13,7 +13,7 @@
 
 // --
 
-SEC_CODE void XHCI_Handler_HCD( struct USB2_HCDNode *hn, U32 mask UNUSED )
+SEC_CODE void XHCI_Handler_HCD( struct USB3_HCDNode *hn, U32 mask UNUSED )
 {
 struct _XHCI *xhci;
 struct XHCI_TRB *trb;
@@ -115,16 +115,16 @@ U32 ctrl;
 						switch( evt_cc )
 						{
 							case XHCI_CC_STALL:
-								scan->req_Public.io_Error = USB2Err_Host_Stall;
+								scan->req_Public.io_Error = USB3Err_Host_Stall;
 								break;
 							case XHCI_CC_BABBLE:
-								scan->req_Public.io_Error = USB2Err_Host_Overflow;
+								scan->req_Public.io_Error = USB3Err_Host_Overflow;
 								break;
 							case XHCI_CC_USB_TRANSACTION:
-								scan->req_Public.io_Error = USB2Err_Host_Timeout;
+								scan->req_Public.io_Error = USB3Err_Host_Timeout;
 								break;
 							default:
-								scan->req_Public.io_Error = USB2Err_Host_UnknownError;
+								scan->req_Public.io_Error = USB3Err_Host_UnknownError;
 								break;
 						}
 					}

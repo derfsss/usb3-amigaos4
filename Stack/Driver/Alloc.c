@@ -14,17 +14,17 @@
 
 #if defined( DO_PANIC ) || defined( DO_ERROR ) || defined( DO_DEBUG ) || defined( DO_INFO )
 
-SEC_CODE struct USB2_DriverNode *__Driver_Alloc( struct USBBase *usbbase, struct RealFunctionNode *fn, struct USB2_ASync *as UNUSED, STR file UNUSED )
+SEC_CODE struct USB3_DriverNode *__Driver_Alloc( struct USBBase *usbbase, struct RealFunctionNode *fn, struct USB3_ASync *as UNUSED, STR file UNUSED )
 
 #else
 
-SEC_CODE struct USB2_DriverNode *__Driver_Alloc( struct USBBase *usbbase, struct RealFunctionNode *fn, struct USB2_ASync *as UNUSED )
+SEC_CODE struct USB3_DriverNode *__Driver_Alloc( struct USBBase *usbbase, struct RealFunctionNode *fn, struct USB3_ASync *as UNUSED )
 
 #endif
 
 {
-struct USB2_DriverNode *dn;
-struct USB2_HCDNode *hn;
+struct USB3_DriverNode *dn;
+struct USB3_HCDNode *hn;
 S32 error;
 
 //	USBDEBUG( "__Driver_Alloc           : FN    %p : ", fn );
@@ -41,7 +41,7 @@ S32 error;
 		goto bailout;
 	}
 
-	dn->dn_StructID = ID_USB2_DN;
+	dn->dn_StructID = ID_USB3_DN;
 
 	// --
 

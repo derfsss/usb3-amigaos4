@@ -49,7 +49,7 @@
 
 // --
 
-SEC_CODE struct EHCI_TD *EHCI_Get_TDBuffer( struct USB2_HCDNode *hn )
+SEC_CODE struct EHCI_TD *EHCI_Get_TDBuffer( struct USB3_HCDNode *hn )
 {
 struct EHCI_TD *td;
 U32 phy;

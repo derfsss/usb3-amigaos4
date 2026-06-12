@@ -12,9 +12,9 @@
 
 // --
 
-SEC_CODE struct USB2_Descriptor *__Desc_Next_Desc( struct USBBase *usbbase UNUSED, struct USB2_Descriptor *desc )
+SEC_CODE struct USB3_Descriptor *__Desc_Next_Desc( struct USBBase *usbbase UNUSED, struct USB3_Descriptor *desc )
 {
-struct USB2_Descriptor *dsc;
+struct USB3_Descriptor *dsc;
 U32 pos;
 U8 *data;
 

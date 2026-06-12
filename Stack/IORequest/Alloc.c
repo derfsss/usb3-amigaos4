@@ -24,7 +24,7 @@ SEC_CODE struct RealRequest *__IORequest_AllocList( struct USBBase *usbbase, str
 
 {
 struct RealFunctionNode *fn;
-struct USB2_EndPointNode *ep;
+struct USB3_EndPointNode *ep;
 struct RealRequest *ioreq;
 struct MsgPort *mp;
 U32 shortp;
@@ -38,11 +38,11 @@ int error;
 	ioreq	= NULL;
 	error	= TRUE;
 
-	shortp	= MISC_GETTAGVALUE(	USB2Tag_IOReq_AllowShortPackets, TRUE, taglist );
-	addzp	= MISC_GETTAGVALUE(	USB2Tag_IOReq_AddZeroPacket,	0, taglist );
-	ep		= MISC_GETTAGDATA(	USB2Tag_IOReq_EndPoint,			0, taglist );
-	mp		= MISC_GETTAGDATA(	USB2Tag_IOReq_MsgPort,			0, taglist );
-	to		= MISC_GETTAGVALUE(	USB2Tag_IOReq_TimeOut,			0, taglist );
+	shortp	= MISC_GETTAGVALUE(	USB3Tag_IOReq_AllowShortPackets, TRUE, taglist );
+	addzp	= MISC_GETTAGVALUE(	USB3Tag_IOReq_AddZeroPacket,	0, taglist );
+	ep		= MISC_GETTAGDATA(	USB3Tag_IOReq_EndPoint,			0, taglist );
+	mp		= MISC_GETTAGDATA(	USB3Tag_IOReq_MsgPort,			0, taglist );
+	to		= MISC_GETTAGVALUE(	USB3Tag_IOReq_TimeOut,			0, taglist );
 
 	if ( ! ep )
 	{
@@ -66,7 +66,7 @@ int error;
 		goto bailout;
 	}
 
-	ioreq->req_StructID = ID_USB2_IOR;
+	ioreq->req_StructID = ID_USB3_IOR;
 
 	if ( ! mp )
 	{
@@ -93,7 +93,7 @@ int error;
 //	ioreq->req_Public.io_Message.mn_Node.ln_Pri		= 0;
 //	ioreq->req_Public.io_Message.mn_Node.ln_Name	= NULL;
 	ioreq->req_Public.io_Message.mn_ReplyPort		= mp;
-	ioreq->req_Public.io_Message.mn_Length			= sizeof( struct USB2_IORequest );
+	ioreq->req_Public.io_Message.mn_Length			= sizeof( struct USB3_IORequest );
 	ioreq->req_Public.io_Device			= (PTR) usbbase;
 	ioreq->req_Public.io_Unit			= (PTR) & usbbase->usb_OpenUnit;
 	ioreq->req_Public.io_Command		= ( ep->ep_Direction == EPDIR_Out ) ? CMD_WRITE : CMD_READ;

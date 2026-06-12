@@ -18,10 +18,10 @@
 ** Note: Must be running in the HCD stack context, make sure AbortIO obays this
 */
 
-SEC_CODE void __HCD_Transfer_Remove( struct USBBase *usbbase, struct USB2_HCDNode *hn, struct RealRequest *ioreq )
+SEC_CODE void __HCD_Transfer_Remove( struct USBBase *usbbase, struct USB3_HCDNode *hn, struct RealRequest *ioreq )
 {
-struct USB2_EndPointNode *destall_ep;
-struct USB2_EndPointNode *ep;
+struct USB3_EndPointNode *destall_ep;
+struct USB3_EndPointNode *ep;
 struct RealFunctionNode *fn;
 U32 actual;
 U32 offset;
@@ -70,7 +70,7 @@ U32 index;
 		index = LE_SWAP16( ioreq->req_Public.io_SetupData->Index );
 
 		if (( ioreq->req_PublicStat == IORS_HCD_Active )
-		&&	( ioreq->req_Public.io_Error == USB2Err_NoError ))
+		&&	( ioreq->req_Public.io_Error == USB3Err_NoError ))
 		{
 			offset = ( fn->fkt_Address * 32 ) + ( index & 0x0f );
 
@@ -192,7 +192,7 @@ U32 index;
 
 	actual = 0;
 
-	if ( ioreq->req_Public.io_Error == USB2Err_NoError )
+	if ( ioreq->req_Public.io_Error == USB3Err_NoError )
 	{
 		switch( ep->ep_Type )
 		{
@@ -263,7 +263,7 @@ U32 index;
 	// --
 	// Set stall flags, if needed
 
-	if ( ioreq->req_Public.io_Error == USB2Err_Host_Stall )
+	if ( ioreq->req_Public.io_Error == USB3Err_Host_Stall )
 	{
 		ep->ep_Stalled = TRUE;
 	}

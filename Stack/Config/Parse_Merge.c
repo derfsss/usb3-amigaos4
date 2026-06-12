@@ -14,13 +14,13 @@
 
 SEC_CODE static S32 __Merge( struct USBBase *usbbase, struct RealFunctionNode *fn )
 {
-struct USB2_Association_Desc *adsc;
-struct USB2_InterfaceHeader *ih;
-struct USB2_InterfaceGroup *ig2;
-struct USB2_InterfaceGroup *ig;
-struct USB2_ConfigNode *cfgnode;
-struct USB2_Descriptor *dsc;
-struct USB2_ConfigNode *cn;
+struct USB3_Association_Desc *adsc;
+struct USB3_InterfaceHeader *ih;
+struct USB3_InterfaceGroup *ig2;
+struct USB3_InterfaceGroup *ig;
+struct USB3_ConfigNode *cfgnode;
+struct USB3_Descriptor *dsc;
+struct USB3_ConfigNode *cn;
 S32 retval;
 S32 len;
 S32 cnt;
@@ -47,7 +47,7 @@ S32 cnt;
 
 					while( CONFIG_VALID(cn) == VSTAT_Okay )
 					{
-						if ( cn->cfg_Number == ((struct USB2_Config_Desc *)dsc)->ConfigurationValue )
+						if ( cn->cfg_Number == ((struct USB3_Config_Desc *)dsc)->ConfigurationValue )
 						{
 							break;
 						}

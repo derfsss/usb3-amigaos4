@@ -15,7 +15,7 @@
 
 /***************************************************************************/
 
-struct USB2_Semaphore
+struct USB3_Semaphore
 {
 	U32								us_StructID;
 	struct SignalSemaphore			us_Semaphore;

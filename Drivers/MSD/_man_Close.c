@@ -27,7 +27,7 @@ struct MSDDisk *msddisk;
 
 	SEMAPHORE_OBTAIN( & MSDBase->msdbase_MSDDisk_Semaphore );
 
-	// Adjust usb2disk.device open count
+	// Adjust usb3disk.device open count
 	MSDBase->msdbase_Library.lib_OpenCnt--;
 
 	// Adjust msd/unit open count

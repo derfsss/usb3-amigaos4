@@ -46,8 +46,8 @@
 
 SEC_CODE U32 HUB__Port_Function_SetAddr( struct USBBase *usbbase, struct intern *in, struct RealFunctionNode *fn )
 {
-struct USB2_IORequest *ioreq;
-struct USB2_SetupData *sd;
+struct USB3_IORequest *ioreq;
+struct USB3_SetupData *sd;
 U32 retval;
 U32 adr;
 
@@ -71,7 +71,7 @@ U32 adr;
 //	usbbase->usb_IExec->DebugPrintF( "HUB__Port_Function_SetAddr : New IOReq : Adr %ld\n", adr );
 
 	ioreq = (PTR) IOREQUEST_ALLOCTAGS(
-		USB2Tag_IOReq_EndPoint, fn->fkt_ControlEndPoint,
+		USB3Tag_IOReq_EndPoint, fn->fkt_ControlEndPoint,
 		TAG_END
 	);
 
@@ -91,7 +91,7 @@ U32 adr;
 	sd->Length			= LE_SWAP16( 0 );
 
 	ioreq->io_Command		= CMD_WRITE;
-	ioreq->io_SetupLength	= sizeof( struct USB2_SetupData );
+	ioreq->io_SetupLength	= sizeof( struct USB3_SetupData );
 	ioreq->io_SetupData		= sd;
 	ioreq->io_Data			= NULL;
 	ioreq->io_Length		= 0;
@@ -102,7 +102,7 @@ U32 adr;
 	fn->fkt_Address = adr;
 //	usbbase->usb_IExec->DebugPrintF( "HUB__Port_Function_SetAddr : Adr %ld : Set Address Returned (io_Err: %ld)\n", (S32) adr, (S32) ioreq->io_Error );
 
-	if ( ioreq->io_Error != USB2Err_NoError )
+	if ( ioreq->io_Error != USB3Err_NoError )
 	{
 		USBDEBUG( "SetAddr - io_Error %ld ( FN: %p )", ioreq->io_Error, fn );
 		goto bailout;

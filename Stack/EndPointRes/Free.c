@@ -141,7 +141,7 @@ S32 pos;
 		}
 		else
 		{
-			epr->epr_StructID = ID_USB2_FREED;
+			epr->epr_StructID = ID_USB3_FREED;
 			fstat = FSTAT_Okay;
 		}
 	}

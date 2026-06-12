@@ -49,9 +49,9 @@
 
 // --
 
-SEC_CODE S32 EHCI_Control_Build( struct USB2_HCDNode *hn, struct RealRequest *ioreq )
+SEC_CODE S32 EHCI_Control_Build( struct USB3_HCDNode *hn, struct RealRequest *ioreq )
 {
-//struct USB2_EndPointNode *ep;
+//struct USB3_EndPointNode *ep;
 //struct RealFunctionNode *fn;
 struct EHCI_TD *status;
 struct EHCI_TD *setup;
@@ -110,7 +110,7 @@ PTR buf;
 	if ( ! qh )
 	{
 		USBDEBUG( "EHCI_Control_Build : Error allocating QH buffer" );
-		err = USB2Err_Stack_NoMemory;
+		err = USB3Err_Stack_NoMemory;
 		goto bailout;
 	}
 
@@ -121,7 +121,7 @@ PTR buf;
 	if ( ! setup )
 	{
 		USBDEBUG( "EHCI_Control_Build : 1 : Error allocating TD buffer" );
-		err = USB2Err_Stack_NoMemory;
+		err = USB3Err_Stack_NoMemory;
 		goto bailout;
 	}
 
@@ -147,7 +147,7 @@ PTR buf;
 		if ( ! EHCI_Get_20kBuffer( hn, NULL, setup, buf, len ))
 		{
 			USBDEBUG( "EHCI_Control_Build : 2 : Error allocating 20k buffer" );
-			err = USB2Err_Stack_NoMemory;
+			err = USB3Err_Stack_NoMemory;
 			goto bailout;
 		}
 	}
@@ -161,7 +161,7 @@ PTR buf;
 	if ( ! status )
 	{
 		USBDEBUG( "EHCI_Control_Build : 3 : Error allocating TD buffer" );
-		err = USB2Err_Stack_NoMemory;
+		err = USB3Err_Stack_NoMemory;
 		goto bailout;
 	}
 
@@ -185,7 +185,7 @@ PTR buf;
 			{
 				USBDEBUG( "EHCI_Control_Build : 4 : Error Allocating Memory" );
 				last->ptd_virt_next = status;
-				err = USB2Err_Stack_NoMemory;
+				err = USB3Err_Stack_NoMemory;
 				goto bailout;
 			}
 
@@ -208,7 +208,7 @@ PTR buf;
 			{
 				USBDEBUG( "EHCI_Control_Build : Error allocating buffer" );
 				last->ptd_virt_next = status;
-				err = USB2Err_Stack_NoMemory;
+				err = USB3Err_Stack_NoMemory;
 				goto bailout;
 			}
 
@@ -246,7 +246,7 @@ PTR buf;
 	EHCI_DUMP_QH( hn, qh, TRUE );
 	#endif
 
-	err = USB2Err_NoError;
+	err = USB3Err_NoError;
 
 	handled	= FALSE;
 

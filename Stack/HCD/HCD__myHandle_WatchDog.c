@@ -12,7 +12,7 @@
 
 // --
 
-SEC_CODE static void __myHandle_WatchDog( struct USBBase *usbbase, struct USB2_HCDNode *hn )
+SEC_CODE static void __myHandle_WatchDog( struct USBBase *usbbase, struct USB3_HCDNode *hn )
 {
 struct RealFunctionNode *fn;
 struct RealRequest *ioreq;
@@ -50,7 +50,7 @@ struct Node *n;
 		SEMAPHORE_OBTAIN( & fn->fkt_Semaphore );
 
 		USBERROR( "1345 timeout : timeout val %lu", ioreq->req_Public.io_TimeOut );
-		ioreq->req_Public.io_Error = USB2Err_Host_Timeout;
+		ioreq->req_Public.io_Error = USB3Err_Host_Timeout;
 
 		HCD_TRANSFER_CHECK( hn, ioreq, TRUE );
 

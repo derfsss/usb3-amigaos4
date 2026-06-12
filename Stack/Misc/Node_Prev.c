@@ -28,7 +28,7 @@ PTR prev;
 		USBPANIC( "__Node_Prev : Free'd Pointer : Cur %p : (%s)", cur, (file)?file:"<NULL>" );
 	}
 
-	prev = ((struct USB2_Node *)cur)->un_Prev;
+	prev = ((struct USB3_Node *)cur)->un_Prev;
 
 	if ( prev == (PTR) 0x55555555 )
 	{

@@ -58,7 +58,7 @@ static U8 revbits[OHCI_NO_INTRS] =
 	0x03, 0x13, 0x0b, 0x1b, 0x07, 0x17, 0x0f, 0x1f
 };
 
-static int Init_HCCABuffer( struct USB2_HCDNode *hn )
+static int Init_HCCABuffer( struct USB3_HCDNode *hn )
 {
 struct OHCI_HCCA *hcca;
 struct OHCI_ED *ped;
@@ -154,7 +154,7 @@ bailout:
 
 // --
 
-SEC_CODE S32 OHCI_Chip_Alloc( struct USB2_HCDNode *hn )
+SEC_CODE S32 OHCI_Chip_Alloc( struct USB3_HCDNode *hn )
 {
 struct OHCI_ED *ed;
 S32 retval;

@@ -14,11 +14,11 @@
 
 #if defined( DO_PANIC ) || defined( DO_ERROR ) || defined( DO_DEBUG ) || defined( DO_INFO )
 
-SEC_CODE enum VSTAT __TaskMsg_Valid( struct USBBase *usbbase UNUSED, struct USB2_TaskMsg *tm, STR file UNUSED )
+SEC_CODE enum VSTAT __TaskMsg_Valid( struct USBBase *usbbase UNUSED, struct USB3_TaskMsg *tm, STR file UNUSED )
 
 #else
 
-SEC_CODE enum VSTAT __TaskMsg_Valid( struct USBBase *usbbase UNUSED, struct USB2_TaskMsg *tm )
+SEC_CODE enum VSTAT __TaskMsg_Valid( struct USBBase *usbbase UNUSED, struct USB3_TaskMsg *tm )
 
 #endif
 
@@ -47,12 +47,12 @@ enum VSTAT vstat;
 		USBDEBUG( "__TaskMsg_Valid          : TM %p : Not Initalized : (%s)", tm, (file)?file:"<NULL>" );
 		vstat = VSTAT_Null;
 	}
-	else if ( tm->tm_StructID == ID_USB2_FREED )
+	else if ( tm->tm_StructID == ID_USB3_FREED )
 	{
 		USBDEBUG( "__TaskMsg_Valid          : TM %p : Structure allready freed : (%s)", tm, (file)?file:"<NULL>" );		
 		vstat = VSTAT_Null;
 	}
-	else if ( tm->tm_StructID != ID_USB2_TMSG )
+	else if ( tm->tm_StructID != ID_USB3_TMSG )
 	{
 		USBDEBUG( "__TaskMsg_Valid          : TM %p : Invalid ID $%08lx : (%s)", tm, tm->tm_StructID, (file)?file:"<NULL>" );
 		vstat = VSTAT_Error;

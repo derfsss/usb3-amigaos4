@@ -15,7 +15,7 @@
 
 // Enqueue a TRB onto the command ring and ring the doorbell
 
-static S32 XHCI_Cmd_Enqueue( struct USB2_HCDNode *hn, struct XHCI_TRB *trb )
+static S32 XHCI_Cmd_Enqueue( struct USB3_HCDNode *hn, struct XHCI_TRB *trb )
 {
 struct _XHCI *xhci;
 struct XHCI_TRB *ring_trb;
@@ -85,7 +85,7 @@ U32 idx;
 
 // Wait for command completion event. Returns completion code.
 
-static U32 XHCI_Cmd_Wait( struct USB2_HCDNode *hn )
+static U32 XHCI_Cmd_Wait( struct USB3_HCDNode *hn )
 {
 struct _XHCI *xhci;
 U32 cnt;
@@ -139,7 +139,7 @@ U32 cnt;
 
 // Enable Slot command -- returns slot ID (1-MaxSlots), or 0 on failure
 
-SEC_CODE U32 XHCI_Cmd_EnableSlot( struct USB2_HCDNode *hn )
+SEC_CODE U32 XHCI_Cmd_EnableSlot( struct USB3_HCDNode *hn )
 {
 struct XHCI_TRB trb;
 U32 cc;
@@ -169,7 +169,7 @@ U32 cc;
 
 // Disable Slot command
 
-SEC_CODE S32 XHCI_Cmd_DisableSlot( struct USB2_HCDNode *hn, U32 slotid )
+SEC_CODE S32 XHCI_Cmd_DisableSlot( struct USB3_HCDNode *hn, U32 slotid )
 {
 struct XHCI_TRB trb;
 U32 cc;
@@ -192,7 +192,7 @@ U32 cc;
 // bsr=1: Block Set Address Request (don't assign address yet, just setup)
 // bsr=0: Full address assignment
 
-SEC_CODE S32 XHCI_Cmd_AddressDevice( struct USB2_HCDNode *hn, U32 slotid, U32 bsr )
+SEC_CODE S32 XHCI_Cmd_AddressDevice( struct USB3_HCDNode *hn, U32 slotid, U32 bsr )
 {
 struct _XHCI *xhci;
 struct XHCI_Slot *slot;
@@ -253,7 +253,7 @@ U32 cc;
 
 // Configure Endpoint command
 
-SEC_CODE S32 XHCI_Cmd_ConfigureEndpoint( struct USB2_HCDNode *hn, U32 slotid )
+SEC_CODE S32 XHCI_Cmd_ConfigureEndpoint( struct USB3_HCDNode *hn, U32 slotid )
 {
 struct _XHCI *xhci;
 struct XHCI_Slot *slot;
@@ -297,7 +297,7 @@ U32 cc;
 
 // Evaluate Context command -- used to update max packet size after reading device descriptor
 
-SEC_CODE S32 XHCI_Cmd_EvaluateContext( struct USB2_HCDNode *hn, U32 slotid )
+SEC_CODE S32 XHCI_Cmd_EvaluateContext( struct USB3_HCDNode *hn, U32 slotid )
 {
 struct _XHCI *xhci;
 struct XHCI_Slot *slot;
@@ -332,7 +332,7 @@ U32 cc;
 
 // Reset Endpoint command -- used to clear a stalled endpoint
 
-SEC_CODE S32 XHCI_Cmd_ResetEndpoint( struct USB2_HCDNode *hn, U32 slotid, U32 dci )
+SEC_CODE S32 XHCI_Cmd_ResetEndpoint( struct USB3_HCDNode *hn, U32 slotid, U32 dci )
 {
 struct XHCI_TRB trb;
 U32 cc;
@@ -356,7 +356,7 @@ U32 cc;
 
 // Stop Endpoint command
 
-SEC_CODE S32 XHCI_Cmd_StopEndpoint( struct USB2_HCDNode *hn, U32 slotid, U32 dci )
+SEC_CODE S32 XHCI_Cmd_StopEndpoint( struct USB3_HCDNode *hn, U32 slotid, U32 dci )
 {
 struct XHCI_TRB trb;
 U32 cc;

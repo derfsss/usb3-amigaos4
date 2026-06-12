@@ -14,11 +14,11 @@
 
 #if defined( DO_PANIC ) || defined( DO_ERROR ) || defined( DO_DEBUG ) || defined( DO_INFO )
 
-SEC_CODE void __TaskMsg_Unlock( struct USBBase *usbbase, struct USB2_TaskMsg *tm, STR file UNUSED )
+SEC_CODE void __TaskMsg_Unlock( struct USBBase *usbbase, struct USB3_TaskMsg *tm, STR file UNUSED )
 
 #else
 
-SEC_CODE void __TaskMsg_Unlock( struct USBBase *usbbase, struct USB2_TaskMsg *tm )
+SEC_CODE void __TaskMsg_Unlock( struct USBBase *usbbase, struct USB3_TaskMsg *tm )
 
 #endif
 

@@ -28,7 +28,7 @@ PTR next;
 		USBPANIC( "__Node_Next : Free'd Pointer : Cur %p : (%s)", cur, (file)?file:"<NULL>" );
 	}
 
-	next = ((struct USB2_Node *)cur)->un_Next;
+	next = ((struct USB3_Node *)cur)->un_Next;
 
 	if ( next == (PTR) 0x55555555 )
 	{

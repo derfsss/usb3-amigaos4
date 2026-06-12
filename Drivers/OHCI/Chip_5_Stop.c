@@ -49,7 +49,7 @@
 
 // --
 
-SEC_CODE S32 OHCI_Chip_Stop( struct USB2_HCDNode *hn )
+SEC_CODE S32 OHCI_Chip_Stop( struct USB3_HCDNode *hn )
 {
 U32 timeout;
 S32 retval;

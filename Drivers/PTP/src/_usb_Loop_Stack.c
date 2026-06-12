@@ -14,7 +14,7 @@
 
 void _usb_Loop_Stack( struct USB_Struct *us )
 {
-struct USB2_NotifyMessage *msg;
+struct USB3_NotifyMessage *msg;
 
 	while( TRUE )
 	{

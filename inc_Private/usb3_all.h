@@ -169,9 +169,9 @@ struct CMD_AddFunctionData
 // --
 // Build Protos
 
-#define USB2_CREATEFUNC(ret_type, name, ...)	ret_type __##name(__VA_ARGS__)
+#define USB3_CREATEFUNC(ret_type, name, ...)	ret_type __##name(__VA_ARGS__)
 #include "usb3_Protos.h"
-#undef USB2_CREATEFUNC
+#undef USB3_CREATEFUNC
 
 // --
 

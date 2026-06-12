@@ -14,16 +14,16 @@
 
 #if defined( DO_PANIC ) || defined( DO_ERROR ) || defined( DO_DEBUG ) || defined( DO_INFO )
 
-SEC_CODE struct USB2_HCDNode *__HCD_Alloc( struct USBBase *usbbase, U32 hcdtype, STR file UNUSED )
+SEC_CODE struct USB3_HCDNode *__HCD_Alloc( struct USBBase *usbbase, U32 hcdtype, STR file UNUSED )
 
 #else
 
-SEC_CODE struct USB2_HCDNode *__HCD_Alloc( struct USBBase *usbbase, U32 hcdtype )
+SEC_CODE struct USB3_HCDNode *__HCD_Alloc( struct USBBase *usbbase, U32 hcdtype )
 
 #endif
 
 {
-struct USB2_HCDNode *hn;
+struct USB3_HCDNode *hn;
 S32 error;
 
 	TASK_NAME_ENTER( "HCD : __HCD_Alloc" );
@@ -40,7 +40,7 @@ S32 error;
 		goto bailout;
 	}
 
-	hn->hn_StructID		= ID_USB2_HN;
+	hn->hn_StructID		= ID_USB3_HN;
 	hn->hn_NotifyID		= MISC_NEWNOTIFYID();
 	hn->hn_HCDType		= hcdtype;
 	hn->hn_USBBase		= usbbase;

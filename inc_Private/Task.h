@@ -36,7 +36,7 @@ enum TaskTags
 	TASK_Tag_Name,
 	TASK_Tag_Type,				// enum TaskType
 	TASK_Tag_InternSize,		// size of intern data/struct size
-	USB2_WaitForTermination,	// 
+	USB3_WaitForTermination,	// 
 };
 
 // --
@@ -104,23 +104,23 @@ enum TaskReturn
 
 // --
 
-struct USB2_TaskNode
+struct USB3_TaskNode
 {
-	struct USB2_Node				tn_Node;
+	struct USB3_Node				tn_Node;
 	// -- 
 	U32								tn_StructID;
 	S32								tn_Locks;
 	U16								tn_Detach;
 	U16								tn_FreeMe;
-	//	struct USB2_TaskNode *			tn_TaskAdr; 
-	struct USB2_ASync *				tn_ASync;
+	//	struct USB3_TaskNode *			tn_TaskAdr; 
+	struct USB3_ASync *				tn_ASync;
 	// --
 	struct Task *					tn_TaskAdr;
 	struct Task *					tn_Parent;
 	U32								tn_Mask;
 	enum TaskState					tn_State;
 	enum TaskType					tn_Type;
-	PTR								tn_Owner;			// Points to a struct like 'struct USB2_HCDNode' see Type
+	PTR								tn_Owner;			// Points to a struct like 'struct USB3_HCDNode' see Type
 };
 
 // --
@@ -130,7 +130,7 @@ struct USB2_TaskNode
 struct CmdHeader
 {
 	struct Message		cm_Message;
-	enum USB2_Cmd		cm_Command;
+	enum USB3_Cmd		cm_Command;
 	struct USBBase *	cm_usbbase;
 	U32					cm_Result;
 	struct Task *		cm_Task;
@@ -139,9 +139,9 @@ struct CmdHeader
 
 #endif
 
-struct USB2_DriverNode;
+struct USB3_DriverNode;
 
-struct USB2_TaskMsg
+struct USB3_TaskMsg
 {
 	struct CmdHeader				tm_Cmd;				// 
 	// -- 
@@ -149,23 +149,23 @@ struct USB2_TaskMsg
 	S32								tm_Locks;
 	U16								tm_Detach;
 	U16								tm_FreeMe;
-	struct USB2_TaskNode *			tm_Task; 
-	struct USB2_ASync *				tm_ASync;
+	struct USB3_TaskNode *			tm_Task; 
+	struct USB3_ASync *				tm_ASync;
 	// --
 
 
 	U32								tm_InternSize;
-	S32							( * tm_Func_Init )	( struct USBBase *usbbase, struct USB2_DriverNode *dn, PTR in );
-	void						( * tm_Func_Entry )	( struct USBBase *usbbase, struct USB2_DriverNode *dn, PTR in );
-	void						( * tm_Func_Free )	( struct USBBase *usbbase, struct USB2_DriverNode *dn, PTR in );
+	S32							( * tm_Func_Init )	( struct USBBase *usbbase, struct USB3_DriverNode *dn, PTR in );
+	void						( * tm_Func_Entry )	( struct USBBase *usbbase, struct USB3_DriverNode *dn, PTR in );
+	void						( * tm_Func_Free )	( struct USBBase *usbbase, struct USB3_DriverNode *dn, PTR in );
 	S32								tm_Prioity;				// 
 	S32								tm_StackSize;
 	PTR								tm_UserData;			// 
 	enum TaskType					tm_Type;				// enum TaskType
-	struct USB2_HCDNode *			tm_HCD;					// hn
-	struct USB2_DriverNode *		tm_Driver;				// dn
+	struct USB3_HCDNode *			tm_HCD;					// hn
+	struct USB3_DriverNode *		tm_Driver;				// dn
 	struct RealFunctionNode *		tm_Function;			// fn
-	struct USB2_TaskNode **			tm_Get_TaskNode;		// User ptr where to store TN
+	struct USB3_TaskNode **			tm_Get_TaskNode;		// User ptr where to store TN
 	// --
 
 

@@ -17,7 +17,7 @@
 struct CmdHeader
 {
 	struct Message		cm_Message;
-	enum USB2_Cmd		cm_Command;
+	enum USB3_Cmd		cm_Command;
 	struct USBBase *	cm_usbbase;
 	U32					cm_Result;
 	struct Task *		cm_Task;
@@ -37,7 +37,7 @@ SEC_CODE U32 __Misc_DoCommand( struct USBBase *usbbase, struct CmdHeader *ch )
 #endif
 
 {
-struct USB2_Signal sig;
+struct USB3_Signal sig;
 U32 retval;
 U32 mask;
 

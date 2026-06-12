@@ -362,7 +362,7 @@ struct XHCI_Slot
 };
 
 /***************************************************************************/
-// Main XHCI state -- embedded in USB2_HCDNode.hn_HCD.XHCI
+// Main XHCI state -- embedded in USB3_HCDNode.hn_HCD.XHCI
 
 struct _XHCI
 {
@@ -413,8 +413,8 @@ struct _XHCI
 	U8						SlotID_ByAddress[128];
 
 	// Signals
-	struct USB2_Signal		Signal_Event;		// Event ring interrupt
-	struct USB2_Signal		Signal_Command;		// Command completion
+	struct USB3_Signal		Signal_Event;		// Event ring interrupt
+	struct USB3_Signal		Signal_Command;		// Command completion
 
 	// Command completion result
 	U32						CmdResult_Code;		// Completion code from last command

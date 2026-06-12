@@ -51,7 +51,7 @@
 // This function get called when one of our Signals get triggerd.
 // I merged then old function HCD_CHECK_TRANSFERS()
 
-SEC_CODE void EHCI_Handler_HCD( struct USB2_HCDNode *hn, U32 mask UNUSED )
+SEC_CODE void EHCI_Handler_HCD( struct USB3_HCDNode *hn, U32 mask UNUSED )
 {
 struct RealFunctionNode *fn;
 struct RealRequest *ioreq;

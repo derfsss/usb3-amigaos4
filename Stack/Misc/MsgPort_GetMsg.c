@@ -14,11 +14,11 @@
 
 #if defined( DO_PANIC ) || defined( DO_ERROR ) || defined( DO_DEBUG ) || defined( DO_INFO )
 
-SEC_CODE PTR __MsgPort_GetMsg( struct USBBase *usbbase, struct USB2_MsgPort *mp, STR file UNUSED )
+SEC_CODE PTR __MsgPort_GetMsg( struct USBBase *usbbase, struct USB3_MsgPort *mp, STR file UNUSED )
 
 #else
 
-SEC_CODE PTR __MsgPort_GetMsg( struct USBBase *usbbase, struct USB2_MsgPort *mp )
+SEC_CODE PTR __MsgPort_GetMsg( struct USBBase *usbbase, struct USB3_MsgPort *mp )
 
 #endif
 
@@ -35,7 +35,7 @@ PTR msg;
 		USBPANIC( "MsgPort_GetMsg : 1 : NULL Pointer : (%s)", file );
 	}
 
-	if ( mp->ump_StructID != ID_USB2_MP )
+	if ( mp->ump_StructID != ID_USB3_MP )
 	{
 		USBPANIC( "MsgPort_GetMsg : 2 : Invalid ID : (%s)", file );
 	}

@@ -12,9 +12,9 @@
 
 // --
 
-SEC_CODE static void __myHandle_Abort( struct USBBase *usbbase, struct USB2_HCDNode *hn )
+SEC_CODE static void __myHandle_Abort( struct USBBase *usbbase, struct USB3_HCDNode *hn )
 {
-struct USB2_EndPointNode *ep;
+struct USB3_EndPointNode *ep;
 struct RealFunctionNode *fn;
 struct AbortIOMessage *msg;
 struct RealRequest *ioreq2;

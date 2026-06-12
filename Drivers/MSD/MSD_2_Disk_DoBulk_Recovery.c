@@ -15,8 +15,8 @@
 
 SEC_CODE void MSD_DoBulk_Recovery( struct USBBase *usbbase, struct MSDDisk *msddisk )
 {
-struct USB2_IORequest *ioreq;
-struct USB2_SetupData *sd;
+struct USB3_IORequest *ioreq;
+struct USB3_SetupData *sd;
 //struct DoBulkResult dbr;
 struct MSDDevice *msddev;
 //struct MSDDisk *msddisk;
@@ -59,7 +59,7 @@ struct ExecIFace *IExec;
 	ioreq->io_Data			= NULL;
 	ioreq->io_Length		= 0;
 	ioreq->io_SetupData		= sd;
-	ioreq->io_SetupLength	= sizeof( struct USB2_SetupData );
+	ioreq->io_SetupLength	= sizeof( struct USB3_SetupData );
 
 //	oldtime = ioreq->io_TimeOut;
 //	ioreq->io_TimeOut = 500000;  // 0.5s

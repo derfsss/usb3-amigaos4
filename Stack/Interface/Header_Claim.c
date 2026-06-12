@@ -12,7 +12,7 @@
 
 // --
 
-SEC_CODE S32 __Interface_ClaimHeader( struct USBBase *usbbase, struct RealRegister *reg, struct USB2_InterfaceHeader *ih )
+SEC_CODE S32 __Interface_ClaimHeader( struct USBBase *usbbase, struct RealRegister *reg, struct USB3_InterfaceHeader *ih )
 {
 struct RealFunctionNode *fn;
 S32 retval;

@@ -49,7 +49,7 @@
 
 // --
 
-SEC_CODE void EHCI_Transfer_Free( struct USB2_HCDNode *hn, struct RealRequest *ioreq )
+SEC_CODE void EHCI_Transfer_Free( struct USB3_HCDNode *hn, struct RealRequest *ioreq )
 {
 struct EHCI_TD *next;
 struct EHCI_TD *td;

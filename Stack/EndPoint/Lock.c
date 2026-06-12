@@ -14,11 +14,11 @@
 
 #if defined( DO_PANIC ) || defined( DO_ERROR ) || defined( DO_DEBUG ) || defined( DO_INFO )
 
-SEC_CODE enum LSTAT __EndPoint_Lock( struct USBBase *usbbase, struct USB2_EndPointNode *ep, STR file UNUSED )
+SEC_CODE enum LSTAT __EndPoint_Lock( struct USBBase *usbbase, struct USB3_EndPointNode *ep, STR file UNUSED )
 
 #else
 
-SEC_CODE enum LSTAT __EndPoint_Lock( struct USBBase *usbbase, struct USB2_EndPointNode *ep )
+SEC_CODE enum LSTAT __EndPoint_Lock( struct USBBase *usbbase, struct USB3_EndPointNode *ep )
 
 #endif
 

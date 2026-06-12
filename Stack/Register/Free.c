@@ -18,10 +18,10 @@ SEC_CODE static void __Release( struct USBBase *usbbase, struct RealRegister *re
 //struct RealEndPointResource *real;
 struct RealEndPointResource *next;
 struct RealEndPointResource *epr;
-struct USB2_InterfaceHeader *ih;
-struct USB2_InterfaceGroup *ig;
+struct USB3_InterfaceHeader *ih;
+struct USB3_InterfaceGroup *ig;
 struct RealFunctionNode *fn;
-struct USB2_ConfigNode *cn;
+struct USB3_ConfigNode *cn;
 
 //	SEMAPHORE_OBTAIN( & usbbase->usb_LockSemaphore );
 
@@ -185,7 +185,7 @@ enum FSTAT fstat;
 		}
 		else
 		{
-			reg->reg_StructID = ID_USB2_FREED;
+			reg->reg_StructID = ID_USB3_FREED;
 			fstat = FSTAT_Okay;
 		}
 	}

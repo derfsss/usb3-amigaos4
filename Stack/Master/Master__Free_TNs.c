@@ -15,8 +15,8 @@
 
 SEC_CODE static void myFree_TNs( struct USBBase *usbbase )
 {
-struct USB2_TaskNode *next;
-struct USB2_TaskNode *tn;
+struct USB3_TaskNode *next;
+struct USB3_TaskNode *tn;
 
 //	USBDEBUG( "myFree_TNs :: Enter" );
 

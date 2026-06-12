@@ -12,9 +12,9 @@
 
 // --
 
-SEC_CODE static void _main_Notify_Remove( struct USB2IFace *Self, struct USB2_NotifyNode *node )
+SEC_CODE static void _main_Notify_Remove( struct USB3IFace *Self, struct USB3_NotifyNode *node )
 {
-struct USB2_NotifyNode *n;
+struct USB3_NotifyNode *n;
 struct USBBase *usbbase;
 
 	usbbase = (PTR) Self->Data.LibBase;
@@ -24,7 +24,7 @@ struct USBBase *usbbase;
 		goto bailout;
 	}
 
-	if ( node->nn_StructID != ID_USB2_NN )
+	if ( node->nn_StructID != ID_USB3_NN )
 	{
 		USBERROR( "Error this is not a Notify Node" );
 		goto bailout;

@@ -49,7 +49,7 @@
 
 // --
 
-SEC_CODE void EHCI_Bulk_Add( struct USB2_HCDNode *hn, struct RealRequest *ioreq )
+SEC_CODE void EHCI_Bulk_Add( struct USB3_HCDNode *hn, struct RealRequest *ioreq )
 {
 struct EHCI_QH *start;
 struct EHCI_QH *last;

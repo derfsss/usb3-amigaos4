@@ -15,7 +15,7 @@ OBJDIR		:= obj
 BINDIR		:= bin
 
 # Install Dir (Amiga target path)
-INSTALLDIR	:= Libs:USB2
+INSTALLDIR	:= Libs:USB3
 
 # Compiler Flags
 CFLAGS		:= -O2

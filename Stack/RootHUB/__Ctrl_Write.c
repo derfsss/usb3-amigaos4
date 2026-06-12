@@ -14,9 +14,9 @@
 
 // --
 
-SEC_CODE static void __Control_Write( struct USBBase *usbbase, struct USB2_HCDNode *hn, struct RealRequest *ioreq )
+SEC_CODE static void __Control_Write( struct USBBase *usbbase, struct USB3_HCDNode *hn, struct RealRequest *ioreq )
 {
-struct USB2_SetupData *sd;
+struct USB3_SetupData *sd;
 S32 err;
 
 	sd = ioreq->req_Public.io_SetupData;
@@ -25,7 +25,7 @@ S32 err;
 	{
 		USBDEBUG( "RootHUB : Write : No SetupData buffer given" );
 
-		err = USB2Err_Host_Stall;
+		err = USB3Err_Host_Stall;
 		return;
 	}
 	else
@@ -60,7 +60,7 @@ S32 err;
 			{
 				USBDEBUG( "RootHUB : Write : Unknown Request (%lu)", (U32) sd->RequestCode );
 
-				err = USB2Err_Host_Stall;
+				err = USB3Err_Host_Stall;
 				break;
 			}
 		}

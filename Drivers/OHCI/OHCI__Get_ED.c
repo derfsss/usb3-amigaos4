@@ -49,9 +49,9 @@
 
 // --
 
-SEC_CODE struct OHCI_ED *OHCI_Get_EDBuffer( struct USB2_HCDNode *hn, struct RealRequest *ioreq )
+SEC_CODE struct OHCI_ED *OHCI_Get_EDBuffer( struct USB3_HCDNode *hn, struct RealRequest *ioreq )
 {
-struct USB2_EndPointNode *ep;
+struct USB3_EndPointNode *ep;
 struct RealFunctionNode *fn;
 struct OHCI_ED *ed;
 U32 speed;

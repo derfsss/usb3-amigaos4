@@ -13,8 +13,8 @@
 // --
 
 SEC_CODE static S32 __Get_Interface( 
-		struct USB2_SetupData *sd, 
-UNUSED	struct USB2_HCDNode *hn, 
+		struct USB3_SetupData *sd, 
+UNUSED	struct USB3_HCDNode *hn, 
 UNUSED	struct USBBase *usbbase,
 		PTR buffer, 
 		U32 *max )
@@ -24,7 +24,7 @@ U16 wValue;
 U16 wIndex;
 S32 err;
 
-	err		= USB2Err_Host_Stall;
+	err		= USB3Err_Host_Stall;
 	wValue	= LE_SWAP16( sd->Value );
 	wIndex	= LE_SWAP16( sd->Index );
 	wLength	= LE_SWAP16( sd->Length );
@@ -38,7 +38,7 @@ S32 err;
 			U8 *Altnr = buffer;
 			Altnr[0]	= 0;
 			*max		= 1;
-			err			= USB2Err_NoError;
+			err			= USB3Err_NoError;
 		}
 	}
 

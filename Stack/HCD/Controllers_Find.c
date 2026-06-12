@@ -66,7 +66,7 @@ struct _FindStruct
 	enum _FType1		fs_Type1;		// Onboard / PCI / ??
 	enum _FType2		fs_Type2;
 	enum _FEndian		fs_Endian;
-	enum USB2HCDType	fs_HCDType;
+	enum USB3HCDType	fs_HCDType;
 	U32					fs_Machine;		// 
 	U32					fs_IOBase;		// For Onboard or PCI
 	U32					fs_IntNr;		// For Onboard only
@@ -115,7 +115,7 @@ static struct _FindStruct _FindList[] =
 
 static void _do_Onboard( struct USBBase *usbbase, struct intern *in, struct _FindStruct *fs )
 {
-struct USB2_HCDNode *node;
+struct USB3_HCDNode *node;
 
 	TASK_NAME_ENTER( "Controllers_Find : _do_Onboard" );
 
@@ -238,7 +238,7 @@ bailout:
 static void _do_PCI( struct USBBase *usbbase, struct intern *in, struct _FindStruct *fs )
 {
 struct PCIResourceRange *range;
-struct USB2_HCDNode *node;
+struct USB3_HCDNode *node;
 struct PCIDevice *pcidev;
 struct PCIIFace *IPCI;
 U32 mask;

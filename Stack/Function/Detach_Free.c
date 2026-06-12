@@ -12,7 +12,7 @@
 
 // --
 
-SEC_CODE static S32 __EP( struct USBBase *usbbase, struct USB2_EndPointNode *ep )
+SEC_CODE static S32 __EP( struct USBBase *usbbase, struct USB3_EndPointNode *ep )
 {
 //S32 remval;
 S32 total;
@@ -81,9 +81,9 @@ PTR ioreq;
 
 // --
 
-SEC_CODE static S32 __IN( struct USBBase *usbbase, struct USB2_InterfaceNode *in )
+SEC_CODE static S32 __IN( struct USBBase *usbbase, struct USB3_InterfaceNode *in )
 {
-struct USB2_EndPointNode *ep;
+struct USB3_EndPointNode *ep;
 S32 remval;
 S32 total;
 PTR next;
@@ -139,9 +139,9 @@ S32 max;
 
 // --
 
-SEC_CODE static S32 __IH( struct USBBase *usbbase, struct USB2_InterfaceHeader *ih )
+SEC_CODE static S32 __IH( struct USBBase *usbbase, struct USB3_InterfaceHeader *ih )
 {
-struct USB2_InterfaceNode *in;
+struct USB3_InterfaceNode *in;
 S32 remval;
 S32 total;
 PTR next;
@@ -197,9 +197,9 @@ S32 max;
 
 // --
 
-SEC_CODE static S32 __IG( struct USBBase *usbbase, struct USB2_InterfaceGroup *ig )
+SEC_CODE static S32 __IG( struct USBBase *usbbase, struct USB3_InterfaceGroup *ig )
 {
-struct USB2_InterfaceHeader *ih;
+struct USB3_InterfaceHeader *ih;
 S32 remval;
 S32 total;
 PTR next;
@@ -255,9 +255,9 @@ S32 max;
 
 // --
 
-SEC_CODE static S32 __CN( struct USBBase *usbbase, struct USB2_ConfigNode *cn )
+SEC_CODE static S32 __CN( struct USBBase *usbbase, struct USB3_ConfigNode *cn )
 {
-struct USB2_InterfaceGroup *ig;
+struct USB3_InterfaceGroup *ig;
 S32 remval;
 S32 total;
 PTR next;
@@ -321,7 +321,7 @@ S32 max;
 
 void __Function_FreeDetach( struct USBBase *usbbase, struct RealFunctionNode *fn )
 {
-struct USB2_ConfigNode *cn;
+struct USB3_ConfigNode *cn;
 S32 remval;
 S32 total;
 PTR next;

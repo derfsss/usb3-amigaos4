@@ -13,7 +13,7 @@
 
 // --
 
-SEC_CODE U32 XHCI_Interrupt_Length( struct USB2_HCDNode *hn UNUSED, struct RealRequest *ioreq )
+SEC_CODE U32 XHCI_Interrupt_Length( struct USB3_HCDNode *hn UNUSED, struct RealRequest *ioreq )
 {
 U32 actual;
 

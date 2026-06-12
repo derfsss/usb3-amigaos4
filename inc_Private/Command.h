@@ -15,7 +15,7 @@
 
 /***************************************************************************/
 
-enum USB2_Cmd
+enum USB3_Cmd
 {
 	CMD_Unset = 0,
 
@@ -32,7 +32,7 @@ enum USB2_Cmd
 struct CmdHeader
 {
 	struct Message		cm_Message;
-	enum USB2_Cmd		cm_Command;
+	enum USB3_Cmd		cm_Command;
 	struct USBBase *	cm_usbbase;
 	U32					cm_Result;
 	struct Task *		cm_Task;

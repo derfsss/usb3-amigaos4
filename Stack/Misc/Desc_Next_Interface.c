@@ -12,12 +12,12 @@
 
 // --
 
-SEC_CODE struct USB2_Interface_Desc *__Desc_Next_Interface( struct USBBase *usbbase, struct RealRegister *reg, struct USB2_Interface_Desc *ifcdsc )
+SEC_CODE struct USB3_Interface_Desc *__Desc_Next_Interface( struct USBBase *usbbase, struct RealRegister *reg, struct USB3_Interface_Desc *ifcdsc )
 {
-struct USB2_Interface_Desc *next;
+struct USB3_Interface_Desc *next;
 struct RealFunctionNode *fn;
-struct USB2_Descriptor *dsc;
-struct USB2_ConfigNode *cn;
+struct USB3_Descriptor *dsc;
+struct USB3_ConfigNode *cn;
 
 	next = NULL;
 	dsc = NULL;

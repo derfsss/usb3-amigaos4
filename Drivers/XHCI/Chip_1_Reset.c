@@ -15,7 +15,7 @@
 
 // Wait for HCRST to read back as 0. Returns ms elapsed.
 
-static U32 _hcrst_wait( struct USB2_HCDNode *hn, U32 max_ms )
+static U32 _hcrst_wait( struct USB3_HCDNode *hn, U32 max_ms )
 {
 struct USBBase *usbbase = hn->hn_USBBase;
 struct _XHCI *xhci = & hn->hn_HCD.XHCI;
@@ -40,7 +40,7 @@ U32 cmd;
 // NoSoftReset=1 and ignores the transition -- kept in the ladder anyway
 // since it is cheap and may help other silicon.
 
-static void _pci_power_cycle( struct USB2_HCDNode *hn )
+static void _pci_power_cycle( struct USB3_HCDNode *hn )
 {
 struct PCIDevice *pd = hn->hn_PCIDevice;
 struct USBBase *usbbase = hn->hn_USBBase;
@@ -99,7 +99,7 @@ U32 pmcsr;
 // We also save+restore PCI config space because FLR returns the device
 // to power-on state (BARs cleared, PCI_COMMAND cleared, etc).
 
-static S32 _pci_flr( struct USB2_HCDNode *hn )
+static S32 _pci_flr( struct USB3_HCDNode *hn )
 {
 struct PCIDevice *pd = hn->hn_PCIDevice;
 struct USBBase *usbbase = hn->hn_USBBase;
@@ -187,7 +187,7 @@ U32 cnt;
 // Tested result on the X5000: the P5020 PEX root port accepts the bit
 // (readback shows it set) but silently no-ops the actual reset.
 
-static S32 _pci_sbr( struct USB2_HCDNode *hn )
+static S32 _pci_sbr( struct USB3_HCDNode *hn )
 {
 struct USBBase *usbbase = hn->hn_USBBase;
 struct PCIDevice *pd = hn->hn_PCIDevice;
@@ -347,7 +347,7 @@ U32 idx;
 // the P5020 PEX accepts the bit (readback shows it set) yet the link
 // never actually drops -- the device stays visible throughout.
 
-static S32 _pci_link_disable_enable( struct USB2_HCDNode *hn )
+static S32 _pci_link_disable_enable( struct USB3_HCDNode *hn )
 {
 struct USBBase *usbbase = hn->hn_USBBase;
 struct PCIDevice *pd = hn->hn_PCIDevice;
@@ -495,7 +495,7 @@ U32 idx;
 // the upper 32 bits across reset which can poison subsequent setup if
 // init code only writes the low half.
 
-static void _zero_64b_regs( struct USB2_HCDNode *hn )
+static void _zero_64b_regs( struct USB3_HCDNode *hn )
 {
 struct _XHCI *xhci = & hn->hn_HCD.XHCI;
 struct USBBase *usbbase = hn->hn_USBBase;
@@ -513,7 +513,7 @@ struct USBBase *usbbase = hn->hn_USBBase;
 
 // Tier 2: PCI bus master/memory toggle -- lighter-weight than D3 cycle.
 
-static void _pci_bus_master_toggle( struct USB2_HCDNode *hn )
+static void _pci_bus_master_toggle( struct USB3_HCDNode *hn )
 {
 struct PCIDevice *pd = hn->hn_PCIDevice;
 struct USBBase *usbbase = hn->hn_USBBase;
@@ -541,7 +541,7 @@ U32 cmd;
 
 // --
 
-SEC_CODE S32 XHCI_Chip_Reset( struct USB2_HCDNode *hn )
+SEC_CODE S32 XHCI_Chip_Reset( struct USB3_HCDNode *hn )
 {
 struct _XHCI *xhci;
 U32 cmd;

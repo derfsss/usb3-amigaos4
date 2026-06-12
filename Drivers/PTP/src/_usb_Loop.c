@@ -14,7 +14,7 @@
 
 void _usb_Loop( struct USB_Struct *us )
 {
-struct USB2_IORequest *ioreq;
+struct USB3_IORequest *ioreq;
 struct CommandMessage *cm;
 U32 wait;
 U32 mask;

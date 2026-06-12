@@ -12,7 +12,7 @@
 
 // --
 
-SEC_CODE static void __myHandle_HCD( struct USBBase *usbbase UNUSED, struct USB2_HCDNode *hn, U32 mask )
+SEC_CODE static void __myHandle_HCD( struct USBBase *usbbase UNUSED, struct USB3_HCDNode *hn, U32 mask )
 {
 	if ( hn->HCD_Functions.Handler_HCD )
 	{

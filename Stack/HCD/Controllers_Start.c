@@ -39,8 +39,8 @@ SEC_RWDATA static STR HCDNames[HCDTYPE_Last] =
 SEC_CODE S32 __HCD_Controllers_Start( struct USBBase *usbbase )
 {
 struct RealFunctionNode *fn;
-struct USB2_TaskNode *tn;
-struct USB2_HCDNode *hn;
+struct USB3_TaskNode *tn;
+struct USB3_HCDNode *hn;
 enum TaskReturn stat;
 struct Task *master;
 S32 retval;

@@ -14,11 +14,11 @@
 
 #if defined( DO_PANIC ) || defined( DO_ERROR ) || defined( DO_DEBUG ) || defined( DO_INFO )
 
-SEC_CODE void __MsgPort_PutMsg( struct USBBase *usbbase, struct USB2_MsgPort *mp, PTR msg, STR file UNUSED )
+SEC_CODE void __MsgPort_PutMsg( struct USBBase *usbbase, struct USB3_MsgPort *mp, PTR msg, STR file UNUSED )
 
 #else
 
-SEC_CODE void __MsgPort_PutMsg( struct USBBase *usbbase, struct USB2_MsgPort *mp, PTR msg )
+SEC_CODE void __MsgPort_PutMsg( struct USBBase *usbbase, struct USB3_MsgPort *mp, PTR msg )
 
 #endif
 
@@ -34,7 +34,7 @@ struct ExecIFace *IExec;
 		USBPANIC( "MsgPort_PutMsg : 1 : NULL Pointer : (%s)", file );
 	}
 
-	if ( mp->ump_StructID != ID_USB2_MP )
+	if ( mp->ump_StructID != ID_USB3_MP )
 	{
 		USBPANIC( "MsgPort_PutMsg : 2 : IN    use : (%s)", file );
 	}

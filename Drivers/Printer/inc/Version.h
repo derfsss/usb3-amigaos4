@@ -13,8 +13,8 @@
 
 // --
 
-#if defined(_USB2_)
-#define DEVNAME		"usb2_printer.device"
+#if defined(_USB3_)
+#define DEVNAME		"usb3_printer.device"
 #elif defined(_SIRION_)
 #define DEVNAME		"rUSB_Printer.device"
 #else

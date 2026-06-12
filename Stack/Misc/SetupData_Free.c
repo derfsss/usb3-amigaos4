@@ -22,7 +22,7 @@ struct RealSetupData *sd;
 
 		USBDEBUG( "__SetupData_Free         : SD    %p, Phy $%08lx", sd, sd->rsd_Phy );
 
-		if ( sd->rsd_StructID == ID_USB2_SD )
+		if ( sd->rsd_StructID == ID_USB3_SD )
 		{
 			MEMORY_FREE( MEMID_USBSetupData, sd, sd->rsd_Phy );
 		}

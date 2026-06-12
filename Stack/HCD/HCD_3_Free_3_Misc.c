@@ -12,7 +12,7 @@
 
 // --
 
-SEC_CODE static void __Free_3_Misc( struct USBBase *usbbase, struct USB2_HCDNode *hn, struct intern *in )
+SEC_CODE static void __Free_3_Misc( struct USBBase *usbbase, struct USB3_HCDNode *hn, struct intern *in )
 {
 	// -- Timer Tick
 

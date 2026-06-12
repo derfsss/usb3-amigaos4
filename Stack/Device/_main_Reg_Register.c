@@ -13,7 +13,7 @@
 // --
 /* -- Main Interface -- */
 
-static struct RealRegister *_main_Reg_RegisterList( struct USB2IFace *Self, struct TagItem *taglist )
+static struct RealRegister *_main_Reg_RegisterList( struct USB3IFace *Self, struct TagItem *taglist )
 {
 struct RealRegister *reg;
 struct USBBase *usbbase;
@@ -21,7 +21,7 @@ struct USBBase *usbbase;
 	usbbase = (PTR) Self->Data.LibBase;
 	TASK_NAME_ENTER( "_main_Reg_RegisterList" );
 
-	USBERROR( "USB2 Stack : _main_Reg_RegisterList" );
+	USBERROR( "USB3 Stack : _main_Reg_RegisterList" );
 
 	reg = REGISTER_REGISTERLIST( taglist );
 
@@ -32,7 +32,7 @@ struct USBBase *usbbase;
 
 // --
 
-static struct RealRegister * VARARGS68K _main_Reg_RegisterTags( struct USB2IFace *Self, ... )
+static struct RealRegister * VARARGS68K _main_Reg_RegisterTags( struct USB3IFace *Self, ... )
 {
 struct RealRegister *reg;
 struct USBBase *usbbase;
@@ -41,7 +41,7 @@ va_list ap;
 	usbbase = (PTR) Self->Data.LibBase;
 	TASK_NAME_ENTER( "_main_Reg_RegisterTags" );
 
-	USBERROR( "USB2 Stack : _main_Reg_RegisterTags" );
+	USBERROR( "USB3 Stack : _main_Reg_RegisterTags" );
 
 	va_start( ap, Self );
 

@@ -12,7 +12,7 @@
 
 // --
 
-U32 _usb_Obtain( struct USB2DriverIFace *Self )
+U32 _usb_Obtain( struct USB3DriverIFace *Self )
 {
 	MYINFO( "PTP-USB : _usb_Obtain" );
 

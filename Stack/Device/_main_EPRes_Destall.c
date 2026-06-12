@@ -13,7 +13,7 @@
 // --
 /* -- Main Interface -- */
 
-static U32 _main_EPRes_Destall( struct USB2IFace *Self, struct USB2_EPResource *epr )
+static U32 _main_EPRes_Destall( struct USB3IFace *Self, struct USB3_EPResource *epr )
 {
 struct USBBase *usbbase;
 U32 retval;

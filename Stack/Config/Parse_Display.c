@@ -15,11 +15,11 @@
 
 SEC_CODE static void __Display( struct USBBase *usbbase, struct RealFunctionNode *fn )
 {
-struct USB2_InterfaceHeader *ih;
-struct USB2_InterfaceGroup *ig;
-struct USB2_InterfaceNode *in;
-struct USB2_EndPointNode *ep;
-struct USB2_ConfigNode *cn;
+struct USB3_InterfaceHeader *ih;
+struct USB3_InterfaceGroup *ig;
+struct USB3_InterfaceNode *in;
+struct USB3_EndPointNode *ep;
+struct USB3_ConfigNode *cn;
 struct ExecIFace *IExec;
 
 	// --

@@ -15,7 +15,7 @@
 
 /***************************************************************************/
 
-struct USB2_Signal
+struct USB3_Signal
 {
 	U32								sig_StructID;
 	S32								sig_Signal_Nr;

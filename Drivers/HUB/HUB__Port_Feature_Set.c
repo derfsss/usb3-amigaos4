@@ -47,8 +47,8 @@
 SEC_CODE S32 HUB__Port_Feature_Set( struct USBBase *usbbase, struct intern *in, U32 port, U32 sel )
 {
 //struct RealFunctionNode *fkt;
-struct USB2_IORequest *ioreq;
-struct USB2_SetupData *sd;
+struct USB3_IORequest *ioreq;
+struct USB3_SetupData *sd;
 S32 errcode;
 
 	// --
@@ -88,7 +88,7 @@ S32 errcode;
 	ioreq->io_Data			= NULL;
 	ioreq->io_Length		= 0;
 	ioreq->io_SetupData		= sd;
-	ioreq->io_SetupLength	= sizeof( struct USB2_SetupData );
+	ioreq->io_SetupLength	= sizeof( struct USB3_SetupData );
 
 	#ifdef DO_DEBUG
 	{
@@ -121,7 +121,7 @@ S32 errcode;
 
 	IO_DO( ioreq );
 
-	if (( ioreq->io_Error  == USB2Err_NoError )
+	if (( ioreq->io_Error  == USB3Err_NoError )
 	&&	( ioreq->io_Actual == 0 ))
 	{
 //		  usbbase->usb_IExec->Disable();
@@ -131,7 +131,7 @@ S32 errcode;
 //		  usbbase->usb_IExec->DebugPrintF( "Sel         : %ld\n", sel );
 //		  usbbase->usb_IExec->Enable();
 
-		errcode = USB2Err_NoError;
+		errcode = USB3Err_NoError;
 
 	}
 	else

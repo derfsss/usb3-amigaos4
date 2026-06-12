@@ -15,7 +15,7 @@
 
 SEC_CODE U32 XHCI_Handler_Interrupt( struct ExceptionContext *Context UNUSED, struct ExecBase *SysBase UNUSED, PTR userData )
 {
-struct USB2_HCDNode *hn;
+struct USB3_HCDNode *hn;
 struct USBBase *usbbase;
 struct ExecIFace *IExec;
 struct _XHCI *xhci;
@@ -23,7 +23,7 @@ U32 status;
 U32 iman;
 U32 sigflags;
 
-	hn      = (struct USB2_HCDNode *) userData;
+	hn      = (struct USB3_HCDNode *) userData;
 	xhci    = & hn->hn_HCD.XHCI;
 	usbbase = hn->hn_USBBase;
 	IExec   = usbbase->usb_IExec;

@@ -14,8 +14,8 @@
 
 SEC_CODE struct RealRegister *__Register_RegisterList( struct USBBase *usbbase, struct TagItem *taglist )
 {
-struct USB2_InterfaceHeader *ih;
-struct USB2_DriverMessage *msg;
+struct USB3_InterfaceHeader *ih;
+struct USB3_DriverMessage *msg;
 struct RealFunctionNode *fn;
 struct RealRegister *reg;
 struct TagItem *tag;
@@ -25,11 +25,11 @@ STR title;
 //S32 dev;
 
 	#if 0
-struct USB2_InterfaceGroup *ig;
-struct USB2_ConfigNode *cn;
+struct USB3_InterfaceGroup *ig;
+struct USB3_ConfigNode *cn;
 	#endif
 
-//	USBERROR( "USB2 Stack : __Register_RegisterList" );
+//	USBERROR( "USB3 Stack : __Register_RegisterList" );
 
 //	timeout	= 10 * 1000000;	// 10 sec timeout
 	timeout	= 500000;		// 0.5 sec timeout
@@ -45,9 +45,9 @@ struct USB2_ConfigNode *cn;
 	{
 		switch ( tag->ti_Tag )
 		{
-			case USB2Tag_Reg_DriverMessage:
+			case USB3Tag_Reg_DriverMessage:
 			{
-				USBINFO( "USB2Tag_Reg_DriverMessage : %p", tag->ti_Data );
+				USBINFO( "USB3Tag_Reg_DriverMessage : %p", tag->ti_Data );
 
 				msg = (PTR) tag->ti_Data;
 				fn  = NULL;
@@ -55,61 +55,61 @@ struct USB2_ConfigNode *cn;
 				break;
 			}
 
-			case USB2Tag_Reg_Function:
+			case USB3Tag_Reg_Function:
 			{
 				msg = NULL;
 				ih = NULL;
 				
 				if ( FUNCTION_VALID( (PTR) tag->ti_Data ) == VSTAT_Okay )
 				{
-					USBINFO( "USB2Tag_Reg_Function ... : %p", tag->ti_Data );
+					USBINFO( "USB3Tag_Reg_Function ... : %p", tag->ti_Data );
 					fn = (PTR) tag->ti_Data;
 				}
 				else
 				{
-					USBERROR( "USB2Tag_Reg_Function ... : Invalid %p Fkt Node", tag->ti_Data );
+					USBERROR( "USB3Tag_Reg_Function ... : Invalid %p Fkt Node", tag->ti_Data );
 					fn = NULL;
 				}
 				break;
 			}
 
-			case USB2Tag_Reg_Interface:
+			case USB3Tag_Reg_Interface:
 			{
-				struct USB2_InterfaceHeader *tmp_ih = NULL;
+				struct USB3_InterfaceHeader *tmp_ih = NULL;
 				msg = NULL;
 				fn = NULL;
 
 				if ( tag->ti_Data )
 				{
-					tmp_ih = (PTR) ( (char *) tag->ti_Data - offsetof( struct USB2_InterfaceHeader, ih_Public ));
+					tmp_ih = (PTR) ( (char *) tag->ti_Data - offsetof( struct USB3_InterfaceHeader, ih_Public ));
 				}
 
 				if ( INTERFACE_VALIDHEADER( tmp_ih ) == VSTAT_Okay )
 				{
-					USBINFO( "USB2Tag_Reg_Interface.....: %p", tmp_ih );
+					USBINFO( "USB3Tag_Reg_Interface.....: %p", tmp_ih );
 					ih = (PTR) tmp_ih;
 				}
 				else
 				{
-					USBERROR( "USB2Tag_Reg_Interface ...... : Invalid %p IH Node", tag->ti_Data );
+					USBERROR( "USB3Tag_Reg_Interface ...... : Invalid %p IH Node", tag->ti_Data );
 					ih = NULL;
 				}
 				break;
 			}
 
-			case USB2Tag_Reg_TimeOut:
+			case USB3Tag_Reg_TimeOut:
 			{
-				USBINFO( "USB2Tag_Reg_TimeOut .... : %ld ms", tag->ti_Data );
+				USBINFO( "USB3Tag_Reg_TimeOut .... : %ld ms", tag->ti_Data );
 
 				// Zero is valid
 				timeout = tag->ti_Data;
 				break;
 			}
 
-			case USB2Tag_Reg_Title:
+			case USB3Tag_Reg_Title:
 			{
 				title = (STR) tag->ti_Data;
-				USBINFO( "USB2Tag_Reg_Title ...... : %s", ( title ) ? title : "<NULL>" );
+				USBINFO( "USB3Tag_Reg_Title ...... : %s", ( title ) ? title : "<NULL>" );
 				break;
 			}
 
@@ -151,7 +151,7 @@ struct USB2_ConfigNode *cn;
 		else if ( msg->Interface )
 		{
 //			ih = (PTR) msg->Interface;
-			ih = (PTR) ( (char *) msg->Interface - offsetof( struct USB2_InterfaceHeader, ih_Public ));
+			ih = (PTR) ( (char *) msg->Interface - offsetof( struct USB3_InterfaceHeader, ih_Public ));
 
 			if ( INTERFACE_VALIDHEADER(ih) != VSTAT_Okay )
 			{
@@ -284,7 +284,7 @@ struct USB2_ConfigNode *cn;
 	// --
 
 	reg->reg_Public.Res_Control = (PTR) ENDPOINTRES_OBTAINTAGS( reg,
-		USB2Tag_EPRes_TimeOut, timeout,
+		USB3Tag_EPRes_TimeOut, timeout,
 		TAG_END
 	);
 

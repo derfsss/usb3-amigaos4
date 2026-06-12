@@ -14,8 +14,8 @@
 
 SEC_CODE static void __myIFC_Entry( struct USBBase *usbbase, PTR userdata, PTR in UNUSED )
 {
-struct USB2DriverIFace *ifc;
-struct USB2_DriverNode *dn;
+struct USB3DriverIFace *ifc;
+struct USB3_DriverNode *dn;
 PTR base;
 S32 proc;
 S32 old;
@@ -99,13 +99,13 @@ S32 old;
 SEC_CODE static S32 _Start_Interface( 
 	struct USBBase *usbbase, 
 	struct RealFunctionNode *fn,
-	struct USB2_FktDriverNode *fdn,
-	struct USB2_InterfaceGroup *ig, 
-	struct USB2_ASync *as )
+	struct USB3_FktDriverNode *fdn,
+	struct USB3_InterfaceGroup *ig, 
+	struct USB3_ASync *as )
 {
-struct USB2_InterfaceHeader *ih;
-struct USB2_DriverNode *dn;
-struct USB2_TaskNode *tn;
+struct USB3_InterfaceHeader *ih;
+struct USB3_DriverNode *dn;
+struct USB3_TaskNode *tn;
 enum TaskReturn stat;
 U32 retval;
 
@@ -130,7 +130,7 @@ U32 retval;
 	dn->dn_Entry = fdn->fdn_Entry;
 	dn->dn_Filename = fdn->fdn_Driver_Filename;
 
-	dn->dn_Message.rdm_Public.IUSB2 = usbbase->usb_IUSB2;
+	dn->dn_Message.rdm_Public.IUSB3 = usbbase->usb_IUSB3;
 	dn->dn_Message.rdm_Public.Function = (PTR) fn;
 	dn->dn_Message.rdm_Public.ConfigDescriptors = (PTR) fn->fkt_Config_Desc_Buf;
 
@@ -268,10 +268,10 @@ bailout:
 SEC_CODE static S32 _Check_Interface( 
 	struct USBBase *usbbase, 
 	struct RealFunctionNode *fn, 
-	struct USB2_InterfaceGroup *ig, 
-	struct USB2_ASync *as )
+	struct USB3_InterfaceGroup *ig, 
+	struct USB3_ASync *as )
 {
-struct USB2_FktDriverNode *fdn;
+struct USB3_FktDriverNode *fdn;
 S32 retval;
 S32 stat;
 
@@ -293,7 +293,7 @@ S32 stat;
 			fdn, (U32) fdn->fdn_Type, (U32) fdn->fdn_Class,
 			fdn->fdn_Title ? fdn->fdn_Title : "(null)" );
 
-		while( fdn->fdn_Type == USB2Val_FDriver_Interface )
+		while( fdn->fdn_Type == USB3Val_FDriver_Interface )
 		{
 			usbbase->usb_IExec->DebugPrintF( "USB3: _CheckIfc match: fdn class=%ld sub=%ld proto=%ld vs ig class=%ld sub=%ld proto=%ld\n",
 				(U32) fdn->fdn_Class, (U32) fdn->fdn_SubClass, (U32) fdn->fdn_Protocol,
@@ -360,11 +360,11 @@ S32 stat;
 
 // --
 
-static enum FDSTAT _Check_for_Interfaces( struct USBBase *usbbase, struct RealFunctionNode *fn, struct USB2_ASync *as )
+static enum FDSTAT _Check_for_Interfaces( struct USBBase *usbbase, struct RealFunctionNode *fn, struct USB3_ASync *as )
 {
-//struct USB2_InterfaceHeader *ih;
-struct USB2_InterfaceGroup *ig;
-struct USB2_ConfigNode *cn;
+//struct USB3_InterfaceHeader *ih;
+struct USB3_InterfaceGroup *ig;
+struct USB3_ConfigNode *cn;
 enum FDSTAT stat;
 
 	USBDEBUG( "_Check_for_Interfaces: 1" );

@@ -12,13 +12,13 @@
 
 // --
 
-SEC_CODE static struct USB2_InterfaceHeader *Find_InterfaceHeader(
+SEC_CODE static struct USB3_InterfaceHeader *Find_InterfaceHeader(
 	struct USBBase *usbbase,
-	struct USB2_ConfigNode *cn,
-	struct USB2_Interface_Desc *ifcdsc )
+	struct USB3_ConfigNode *cn,
+	struct USB3_Interface_Desc *ifcdsc )
 {
-struct USB2_InterfaceHeader *ih;
-struct USB2_InterfaceGroup *ig;
+struct USB3_InterfaceHeader *ih;
+struct USB3_InterfaceGroup *ig;
 U32 nr;
 
 	// --
@@ -79,14 +79,14 @@ U32 nr;
 
 SEC_CODE static S32 __Parse( struct USBBase *usbbase, struct RealFunctionNode *fn )
 {
-struct USB2_InterfaceHeader *ih;
-struct USB2_Interface_Desc *ifcdsc;
-struct USB2_EndPoint_Desc *epdsc;
-struct USB2_InterfaceNode *in;
-struct USB2_EndPointNode *ep;
-struct USB2_Config_Desc *cfgdsc;
-struct USB2_Descriptor *dsc;
-struct USB2_ConfigNode *cn;
+struct USB3_InterfaceHeader *ih;
+struct USB3_Interface_Desc *ifcdsc;
+struct USB3_EndPoint_Desc *epdsc;
+struct USB3_InterfaceNode *in;
+struct USB3_EndPointNode *ep;
+struct USB3_Config_Desc *cfgdsc;
+struct USB3_Descriptor *dsc;
+struct USB3_ConfigNode *cn;
 S32 retval;
 S32 len;
 

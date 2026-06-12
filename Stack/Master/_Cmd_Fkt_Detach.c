@@ -15,7 +15,7 @@
 SEC_CODE static S32 __Cmd_Fkt_Detach( struct USBBase *usbbase, struct intern *in UNUSED, struct FktMessage *tm )
 {
 struct RealFunctionNode *fn;
-struct USB2_DriverNode *dn;
+struct USB3_DriverNode *dn;
 S32 reply;
 
 	USBERROR( "__Cmd_Fkt_Detach" );

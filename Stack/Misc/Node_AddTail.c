@@ -12,10 +12,10 @@
 
 // --
 
-SEC_CODE void __Node_AddTail( struct USBBase *usbbase UNUSED, struct USB2_Header *header, PTR n )
+SEC_CODE void __Node_AddTail( struct USBBase *usbbase UNUSED, struct USB3_Header *header, PTR n )
 {
-struct USB2_Node *node = n;
-struct USB2_Node *tail;
+struct USB3_Node *node = n;
+struct USB3_Node *tail;
 
 	tail = header->uh_Tail;
 

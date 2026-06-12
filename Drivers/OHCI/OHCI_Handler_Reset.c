@@ -55,7 +55,7 @@
 
 SEC_CODE U32 OHCI_Handler_Reset( struct ExceptionContext *Context UNUSED, struct ExecBase *SysBase UNUSED, PTR userData )
 {
-struct USB2_HCDNode *hn;
+struct USB3_HCDNode *hn;
 struct USBBase *usbbase;
 
 	TASK_NAME_ENTER( "OHCI : OHCI_Handler_Reset" );

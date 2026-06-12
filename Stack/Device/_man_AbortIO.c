@@ -16,7 +16,7 @@ SEC_CODE static void _manager_AbortIO( struct DeviceManagerInterface *Self, stru
 {
 struct RealFunctionNode *fn;
 struct AbortIOMessage *msg;
-struct USB2_HCDNode *hn;
+struct USB3_HCDNode *hn;
 struct USBBase *usbbase;
 U32 send;
 
@@ -56,7 +56,7 @@ U32 send;
 
 		if ( IOREQUEST_LOCK( ioreq ) != LSTAT_Okay )
 		{
-			USBERROR( "_manager_AbortIO : Ignoreing not a USB2 IORequest" );
+			USBERROR( "_manager_AbortIO : Ignoreing not a USB3 IORequest" );
 			break;
 		}
 
@@ -70,7 +70,7 @@ U32 send;
 
 		if (( ioreq->req_Detach ) || ( ioreq->req_FreeMe ))
 		{
-			ioreq->req_Public.io_Error = USB2Err_Stack_InvalidStructure;
+			ioreq->req_Public.io_Error = USB3Err_Stack_InvalidStructure;
 			USBPANIC( "_manager_AbortIO : IOReq %p : Invalid IOReq : Detached", ioreq );
 			break;
 		}

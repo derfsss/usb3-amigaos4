@@ -49,7 +49,7 @@
 
 // --
 
-SEC_CODE void EHCI_Periodic_Stop( struct USB2_HCDNode *hn )
+SEC_CODE void EHCI_Periodic_Stop( struct USB3_HCDNode *hn )
 {
 U32 timeout;
 U32 val;

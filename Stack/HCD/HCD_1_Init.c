@@ -20,7 +20,7 @@
 
 SEC_CODE static S32 __myInit( struct USBBase *usbbase, PTR userdata, PTR in_ptr )
 {
-struct USB2_HCDNode *hn;
+struct USB3_HCDNode *hn;
 struct intern *in;
 S32 retval;
 S32 undo;

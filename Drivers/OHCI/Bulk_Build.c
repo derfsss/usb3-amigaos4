@@ -49,9 +49,9 @@
 
 // --
 
-SEC_CODE S32 OHCI_Bulk_Build( struct USB2_HCDNode *hn, struct RealRequest *ioreq )
+SEC_CODE S32 OHCI_Bulk_Build( struct USB3_HCDNode *hn, struct RealRequest *ioreq )
 {
-struct USB2_EndPointNode *ep;
+struct USB3_EndPointNode *ep;
 //struct RealFunctionNode *fn;
 struct OHCI_TD *dummy;
 struct OHCI_TD *data;
@@ -107,7 +107,7 @@ U32 l;
 
 	#endif
 
-	err		= USB2Err_Stack_NoMemory;
+	err		= USB3Err_Stack_NoMemory;
 	len		= ( ioreq->req_Public.io_Length );
 	buf		= ( ioreq->req_Public.io_Command == CMD_READ ) ? NULL : ioreq->req_Public.io_Data ;
 	pid		= ( ioreq->req_Public.io_Command == CMD_READ ) ? OHCI_TD_IN : OHCI_TD_OUT;
@@ -126,7 +126,7 @@ U32 l;
 	if ( ! ed )
 	{
 		USBDEBUG( "Error allocating ED buffer" );
-		err = USB2Err_Stack_NoMemory;
+		err = USB3Err_Stack_NoMemory;
 		goto bailout;
 	}
 
@@ -235,7 +235,7 @@ U32 l;
 	OHCI_DUMP_ED( hn, ed, TRUE );
 	#endif
 
-	err = USB2Err_NoError;
+	err = USB3Err_NoError;
 
 	handled	= FALSE;
 

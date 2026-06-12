@@ -12,7 +12,7 @@
 
 // --
 
-SEC_CODE static S32 __Init_1_Misc( struct USBBase *usbbase, struct USB2_HCDNode *hn, struct intern *in )
+SEC_CODE static S32 __Init_1_Misc( struct USBBase *usbbase, struct USB3_HCDNode *hn, struct intern *in )
 {
 struct Task *self;
 	S32 retval;
@@ -37,7 +37,7 @@ struct Task *self;
 
 	// --- Max 32 Endpoint and Max 128 USB Devices
 
-	hn->hn_EndPoint_Array = MEM_ALLOCVEC( 32 * 128 * sizeof( struct USB2_EndPointNode * ), TRUE );
+	hn->hn_EndPoint_Array = MEM_ALLOCVEC( 32 * 128 * sizeof( struct USB3_EndPointNode * ), TRUE );
 
 	if ( ! hn->hn_EndPoint_Array )
 	{
@@ -47,7 +47,7 @@ struct Task *self;
 
 	// --- Alloc HUB Desc Memory
 
-	hn->hn_HUB_Desc = MEM_ALLOCVEC( sizeof( struct USB2_HUB_Desc ), TRUE );
+	hn->hn_HUB_Desc = MEM_ALLOCVEC( sizeof( struct USB3_HUB_Desc ), TRUE );
 
 	if ( ! hn->hn_HUB_Desc )
 	{

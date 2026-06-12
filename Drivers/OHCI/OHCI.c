@@ -111,10 +111,10 @@ SEC_RODATA const struct HCDFunctions OHCIFunctions =
 	.Interrupt_Length			= OHCI_Interrupt_Length,
 	.Interrupt_Remove			= OHCI_Interrupt_Remove,
 
-	// S32		( *Isochronous_Build )				( struct USB2_HCDNode *hn, struct RealRequest *ioreq );
-	// void	( *Isochronous_Add )				( struct USB2_HCDNode *hn, struct RealRequest *ioreq );
-	// void	( *Isochronous_Remove )				( struct USB2_HCDNode *hn, struct RealRequest *ioreq );
-	// U32		( *Isochronous_Length )				( struct USB2_HCDNode *hn, struct RealRequest *ioreq );
+	// S32		( *Isochronous_Build )				( struct USB3_HCDNode *hn, struct RealRequest *ioreq );
+	// void	( *Isochronous_Add )				( struct USB3_HCDNode *hn, struct RealRequest *ioreq );
+	// void	( *Isochronous_Remove )				( struct USB3_HCDNode *hn, struct RealRequest *ioreq );
+	// U32		( *Isochronous_Length )				( struct USB3_HCDNode *hn, struct RealRequest *ioreq );
 
 };
 

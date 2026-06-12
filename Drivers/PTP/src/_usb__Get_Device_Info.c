@@ -70,7 +70,7 @@ bailout:
 
 static void ucmd_Handle_Device_Info( struct USB_Struct *us, struct USB_Command *cmd )
 {
-struct USB2_IORequest *ioreq;
+struct USB3_IORequest *ioreq;
 struct PTP_Container *con;
 
 	MYINFO( "PTP-USB : ucmd_Handle_Device_Info" );
@@ -92,7 +92,7 @@ struct PTP_Container *con;
 
 U32 _usb__Get_Device_Info( struct USB_Struct *us )
 {
-struct USB2_IORequest *ioreq;
+struct USB3_IORequest *ioreq;
 struct PTP_Container *condata;
 U32 retval;
 U8 data[512];

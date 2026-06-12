@@ -14,7 +14,7 @@
 
 SEC_CODE void __Misc_Wait( struct USBBase *usbbase, U32 micro )
 {
-struct USB2_MsgPort mp;
+struct USB3_MsgPort mp;
 struct TimeRequest req;
 
 	USBDEBUG( "Wait( %ld.%02ld secs )", micro / 1000000, ( micro % 1000000 ) / 10000 );

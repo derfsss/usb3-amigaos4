@@ -29,9 +29,9 @@ S32 retval;
 
 // --
 
-SEC_CODE static S32 _Check_for_Device( struct USBBase *usbbase, struct RealFunctionNode *fn, struct USB2_FktDriverNode *fdn )
+SEC_CODE static S32 _Check_for_Device( struct USBBase *usbbase, struct RealFunctionNode *fn, struct USB3_FktDriverNode *fdn )
 {
-struct USB2_DeviceNode *udn;
+struct USB3_DeviceNode *udn;
 struct ExecIFace *IExec;
 S32 retval;
 U16 vid;
@@ -89,9 +89,9 @@ U16 pid;
 
 // --
 
-static enum FDSTAT _Check_for_Devices( struct USBBase *usbbase, struct RealFunctionNode *fn, struct USB2_ASync *as UNUSED )
+static enum FDSTAT _Check_for_Devices( struct USBBase *usbbase, struct RealFunctionNode *fn, struct USB3_ASync *as UNUSED )
 {
-struct USB2_FktDriverNode *fdn;
+struct USB3_FktDriverNode *fdn;
 enum FDSTAT stat;
 
 //	USBERROR( "_Check_for_Devices " );
@@ -102,7 +102,7 @@ enum FDSTAT stat;
 
 	while( fdn )
 	{
-		while( fdn->fdn_Type == USB2Val_FDriver_Device )
+		while( fdn->fdn_Type == USB3Val_FDriver_Device )
 		{
 			if ( fdn->fdn_Detach )
 			{

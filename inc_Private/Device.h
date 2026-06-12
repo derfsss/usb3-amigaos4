@@ -16,7 +16,7 @@
 /***************************************************************************/
 
 // Not really used (I think), only pointed too
-struct USB2_DeviceUnit
+struct USB3_DeviceUnit
 {
 	struct Unit						unit_Unit;
 };
@@ -43,7 +43,7 @@ struct USBBase
 	struct PCIIFace *				usb_IPCI;
 	struct MMUIFace *				usb_IMMU;
 	struct DOSIFace *				usb_IDOS;
-	struct USB2IFace *				usb_IUSB2;
+	struct USB3IFace *				usb_IUSB3;
 	struct UtilityIFace *			usb_IUtility;
 	struct ExpansionIFace *			usb_IExpansion;
 	struct IntuitionIFace *			usb_IIntuition;
@@ -57,23 +57,23 @@ struct USBBase
 	U32								usb_CPU_Type;
 	U32								usb_MachineType;
 
-	struct USB2_DeviceUnit			usb_OpenUnit;
-	struct USB2_Semaphore			usb_OpenCloseSemaphore;
+	struct USB3_DeviceUnit			usb_OpenUnit;
+	struct USB3_Semaphore			usb_OpenCloseSemaphore;
 
-	struct USB2_Semaphore			usb_LockSemaphore;
+	struct USB3_Semaphore			usb_LockSemaphore;
 
-	struct USB2_Header				usb_HCDHeader;				// struct USB2_HCDNode's
-	struct USB2_ASync				usb_HCDASync;
+	struct USB3_Header				usb_HCDHeader;				// struct USB3_HCDNode's
+	struct USB3_ASync				usb_HCDASync;
 
 	struct MSDBase *				usb_MSDDevice;
-//	struct USB2_Header				usb_MSDHeader;
-//	struct USB2_Semaphore			usb_MSDSemaphore;
-//	struct USB2_Header				usb_MSDDiskChangeList;
+//	struct USB3_Header				usb_MSDHeader;
+//	struct USB3_Semaphore			usb_MSDSemaphore;
+//	struct USB3_Header				usb_MSDDiskChangeList;
 
-	USB2_ID							usb_Notify_ID;
-	struct USB2_Header				usb_Notify_Header;
-	struct USB2_Semaphore			usb_Notify_Semaphore;
-	struct USB2_MsgPort * 			usb_Notify_ReplyMsgPort;
+	USB3_ID							usb_Notify_ID;
+	struct USB3_Header				usb_Notify_Header;
+	struct USB3_Semaphore			usb_Notify_Semaphore;
+	struct USB3_MsgPort * 			usb_Notify_ReplyMsgPort;
 
 	struct TimerIFace *				usb_ITimer;
 	struct Library *				usb_TimerBase;
@@ -84,32 +84,32 @@ struct USBBase
 	struct IOStdReq *				usb_InputIORequest;
 
 	// Master
-	struct USB2_TaskNode			usb_Master_Task;
+	struct USB3_TaskNode			usb_Master_Task;
 	PTR								usb_Master_Intern;
-	struct USB2_MsgPort *			usb_Master_MsgPort;
+	struct USB3_MsgPort *			usb_Master_MsgPort;
 	U32								usb_DriverDirLock;
 
 	// Queued Memory -- MEMID_x Headers
 	struct Mem_HeaderNode *			usb_Memory_Headers;
 
 	// Any Task started
-	struct USB2_Semaphore			usb_Task_Semaphore;
-	struct USB2_Header				usb_Task_Header;
+	struct USB3_Semaphore			usb_Task_Semaphore;
+	struct USB3_Header				usb_Task_Header;
 
 	// Any Driver started via Bind
-	struct USB2_Semaphore			usb_Bind_Semaphore;
-	struct USB2_Header				usb_Bind_Header;
+	struct USB3_Semaphore			usb_Bind_Semaphore;
+	struct USB3_Header				usb_Bind_Header;
 
 	// Driver Classes/Types
-	struct USB2_Semaphore			usb_FDriver_Semaphore;
-	struct USB2_Header				usb_FDriver_Header;
+	struct USB3_Semaphore			usb_FDriver_Semaphore;
+	struct USB3_Header				usb_FDriver_Header;
 
 	// Function Address
-	struct USB2_Semaphore			usb_Addr_Semaphore;
+	struct USB3_Semaphore			usb_Addr_Semaphore;
 
 	// Function Devices Connected (From HCD and HUBs)
-	struct USB2_Semaphore			usb_Fkt_Semaphore;
-	struct USB2_Header				usb_Fkt_Header;
+	struct USB3_Semaphore			usb_Fkt_Semaphore;
+	struct USB3_Header				usb_Fkt_Header;
 
 
 	// --
@@ -143,13 +143,13 @@ struct USBBase
 	/*
 	** Define Device Functions
 	**
-	** struct USB2_ConfigNode *		( *_Config_Alloc )		( struct USBBase *usbbase, struct RealFunctionNode *ftk, STR file );
-	** enum FSTAT					( *_Config_Free )		( struct USBBase *usbbase, struct USB2_ConfigNode *cn, STR file );
+	** struct USB3_ConfigNode *		( *_Config_Alloc )		( struct USBBase *usbbase, struct RealFunctionNode *ftk, STR file );
+	** enum FSTAT					( *_Config_Free )		( struct USBBase *usbbase, struct USB3_ConfigNode *cn, STR file );
 	*/
 
-	#define USB2_CREATEFUNC(ret_type, name, ...)	ret_type (*_##name)(__VA_ARGS__)
+	#define USB3_CREATEFUNC(ret_type, name, ...)	ret_type (*_##name)(__VA_ARGS__)
 	#include "usb3_Protos.h"
-	#undef USB2_CREATEFUNC
+	#undef USB3_CREATEFUNC
 };
 
 // --
@@ -535,7 +535,7 @@ struct AbortIOMessage
 {
 	struct Message				msg;
 	struct RealRequest *		ioreq;
-	struct USB2_HCDNode *		HCD;
+	struct USB3_HCDNode *		HCD;
 	struct RealFunctionNode *	Function;
 };
 

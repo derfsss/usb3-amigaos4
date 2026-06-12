@@ -13,7 +13,7 @@
 // --
 // Release all resource we can, for this Struct
 
-SEC_CODE static void __Release( struct USBBase *usbbase UNUSED, struct USB2_EndPointNode *ep UNUSED )
+SEC_CODE static void __Release( struct USBBase *usbbase UNUSED, struct USB3_EndPointNode *ep UNUSED )
 {
 struct RealRequest *ioreq;
 struct RealRequest *next;
@@ -73,11 +73,11 @@ struct RealRequest *next;
 
 #if defined( DO_PANIC ) || defined( DO_ERROR ) || defined( DO_DEBUG ) || defined( DO_INFO )
 
-SEC_CODE enum FSTAT __EndPoint_Free( struct USBBase *usbbase, struct USB2_EndPointNode *ep, STR file UNUSED )
+SEC_CODE enum FSTAT __EndPoint_Free( struct USBBase *usbbase, struct USB3_EndPointNode *ep, STR file UNUSED )
 
 #else
 
-SEC_CODE enum FSTAT __EndPoint_Free( struct USBBase *usbbase, struct USB2_EndPointNode *ep )
+SEC_CODE enum FSTAT __EndPoint_Free( struct USBBase *usbbase, struct USB3_EndPointNode *ep )
 
 #endif
 
@@ -132,7 +132,7 @@ enum FSTAT fstat;
 		}
 		else
 		{
-			ep->ep_StructID = ID_USB2_FREED;
+			ep->ep_StructID = ID_USB3_FREED;
 			fstat = FSTAT_Okay;
 		}
 	}

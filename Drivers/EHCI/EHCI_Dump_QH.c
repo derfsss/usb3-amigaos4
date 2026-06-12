@@ -50,7 +50,7 @@
 // --
 #if defined( DO_ERROR ) || defined( DO_DEBUG ) || defined( DO_INFO )
 
-SEC_CODE void EHCI_Dump_QH( struct USB2_HCDNode *hn, struct EHCI_QH *qh, int DoSetup )
+SEC_CODE void EHCI_Dump_QH( struct USB3_HCDNode *hn, struct EHCI_QH *qh, int DoSetup )
 {
 struct ExecIFace *IExec;
 U32 endp, endphub;

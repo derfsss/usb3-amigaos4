@@ -30,10 +30,10 @@
 
 SEC_CODE static void __myMain( struct USBBase *usbbase, PTR userdata, PTR in UNUSED )
 {
-struct USB2_EPResource *epr;
+struct USB3_EPResource *epr;
 struct RealFunctionNode *fn;
-struct USB2_IORequest *ioreq;
-struct USB2_SetupData *sd;
+struct USB3_IORequest *ioreq;
+struct USB3_SetupData *sd;
 struct RealRegister *reg;
 
 	fn = userdata;
@@ -66,9 +66,9 @@ struct RealRegister *reg;
 	// --
 
 	reg = REGISTER_REGISTERTAGS(
-		USB2Tag_Reg_Function, fn,
-		USB2Tag_Reg_TimeOut, 2 * 1000000,
-		USB2Tag_Reg_Title, "Init",
+		USB3Tag_Reg_Function, fn,
+		USB3Tag_Reg_TimeOut, 2 * 1000000,
+		USB3Tag_Reg_Title, "Init",
 		TAG_END
 	);
 
@@ -174,7 +174,7 @@ struct RealRegister *reg;
 
 	// Get Config Nr from First Config Desc
 	// this looks hacky .. find a better way or atleast check if its a cn-desc
-	U32 cfgval = ((struct USB2_Config_Desc *)fn->fkt_Config_Desc_Buf)->ConfigurationValue;
+	U32 cfgval = ((struct USB3_Config_Desc *)fn->fkt_Config_Desc_Buf)->ConfigurationValue;
 
 	// Set Config
 	if ( ! CONFIG_SET( fn, (PTR) ioreq, cfgval ))

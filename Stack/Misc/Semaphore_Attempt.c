@@ -12,7 +12,7 @@
 
 // --
 
-SEC_CODE S32 __Semaphore_Attempt( struct USBBase *usbbase UNUSED, struct USB2_Semaphore *us )
+SEC_CODE S32 __Semaphore_Attempt( struct USBBase *usbbase UNUSED, struct USB3_Semaphore *us )
 {
 struct ExecIFace *IExec;
 S32 got_lock;
@@ -29,14 +29,14 @@ S32 got_lock;
 	#endif
 
 	if (( us->us_StructID == 0 ) 
-	||	( us->us_StructID == ID_USB2_FREED ))
+	||	( us->us_StructID == ID_USB3_FREED ))
 	{
 		SEMAPHORE_INIT( us );
 	}
 
 	#ifdef DO_PANIC
 
-	if ( us->us_StructID != ID_USB2_SEMA )
+	if ( us->us_StructID != ID_USB3_SEMA )
 	{
 		USBPANIC( "__Semaphore_Attempt : 2 : Invalid ID" );
 	}

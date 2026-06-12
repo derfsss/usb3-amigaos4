@@ -13,7 +13,7 @@
 // --
 /* -- Main Interface -- */
 
-static struct USB2_EPResource *_main_EPRes_ObtainList( struct USB2IFace *Self, struct RealRegister *reg, struct TagItem *taglist )
+static struct USB3_EPResource *_main_EPRes_ObtainList( struct USB3IFace *Self, struct RealRegister *reg, struct TagItem *taglist )
 {
 struct USBBase *usbbase;
 PTR epres;
@@ -21,7 +21,7 @@ PTR epres;
 	usbbase = (PTR) Self->Data.LibBase;
 	TASK_NAME_ENTER( "_main_EPRes_ObtainList" );
 
-	USBERROR( "USB2 Stack : _main_EPRes_ObtainList" );
+	USBERROR( "USB3 Stack : _main_EPRes_ObtainList" );
 
 	epres = ENDPOINTRES_OBTAINLIST( reg, taglist );
 
@@ -32,7 +32,7 @@ PTR epres;
 
 // --
 
-static struct USB2_EPResource * VARARGS68K _main_EPRes_ObtainTags( struct USB2IFace *Self, struct RealRegister *reg, ... )
+static struct USB3_EPResource * VARARGS68K _main_EPRes_ObtainTags( struct USB3IFace *Self, struct RealRegister *reg, ... )
 {
 struct USBBase *usbbase;
 va_list ap;
@@ -41,7 +41,7 @@ PTR epres;
 	usbbase = (PTR) Self->Data.LibBase;
 	TASK_NAME_ENTER( "_main_EPRes_ObtainTags" );
 
-	USBERROR( "USB2 Stack : _main_EPRes_ObtainTags" );
+	USBERROR( "USB3 Stack : _main_EPRes_ObtainTags" );
 
 	va_start( ap, reg );
 

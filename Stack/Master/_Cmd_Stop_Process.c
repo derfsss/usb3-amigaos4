@@ -12,9 +12,9 @@
 
 // --
 
-SEC_CODE static S32 __Cmd_Stop_Process( struct USBBase *usbbase, struct intern *in UNUSED, struct USB2_TaskMsg *tm )
+SEC_CODE static S32 __Cmd_Stop_Process( struct USBBase *usbbase, struct intern *in UNUSED, struct USB3_TaskMsg *tm )
 {
-struct USB2_TaskNode *tn;
+struct USB3_TaskNode *tn;
 S32 reply;
 
 	tn = tm->tm_Task;
@@ -65,7 +65,7 @@ S32 reply;
 
 SEC_CODE static void myHandle_Task_Timeout( struct USBBase *usbbase, struct intern *in )
 {
-struct USB2_TaskMsg *tm;
+struct USB3_TaskMsg *tm;
 struct Message *msg;
 
 	while( TRUE )

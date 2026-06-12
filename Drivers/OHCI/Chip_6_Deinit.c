@@ -49,7 +49,7 @@
 
 // --
 
-SEC_CODE void OHCI_Chip_Deinit( struct USB2_HCDNode *hn )
+SEC_CODE void OHCI_Chip_Deinit( struct USB3_HCDNode *hn )
 {
 struct OHCI_QH *qh;
 U32 cnt;

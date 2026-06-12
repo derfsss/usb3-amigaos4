@@ -14,7 +14,7 @@
 
 void _usb_Loop_Bulk_In( struct USB_Struct *us )
 {
-struct USB2_IORequest *ioreq;
+struct USB3_IORequest *ioreq;
 struct USB_Command *cmd;
 
 	MYINFO( "PTP-USB : _usb_Loop_Bulk_In" );
@@ -30,19 +30,19 @@ struct USB_Command *cmd;
 
 		us->us_Errors_Int++;
 
-		/**/ if ( ioreq->io_Error == USB2Err_Device_Detached )
+		/**/ if ( ioreq->io_Error == USB3Err_Device_Detached )
 		{
-			MYINFO( "PTP-USB : USB2Err_Device_Detached" );
+			MYINFO( "PTP-USB : USB3Err_Device_Detached" );
 			us->us_Detached = TRUE;
 			break;
 		}
-		else if ( ioreq->io_Error == USB2Err_Host_Stall )
+		else if ( ioreq->io_Error == USB3Err_Host_Stall )
 		{
-			MYINFO( "PTP-USB : USB2Err_Host_Stall" );
-			USB2_EPRes_Destall( us->us_Res_BulkIn );
-			USB2_EPRes_Destall( us->us_Res_BulkOut );
+			MYINFO( "PTP-USB : USB3Err_Host_Stall" );
+			USB3_EPRes_Destall( us->us_Res_BulkIn );
+			USB3_EPRes_Destall( us->us_Res_BulkOut );
 		}
-		else if ( ioreq->io_Error == USB2Err_NoError )
+		else if ( ioreq->io_Error == USB3Err_NoError )
 		{
 			us->us_Errors_Bulk = 0;
 

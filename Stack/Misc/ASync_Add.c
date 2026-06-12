@@ -24,7 +24,7 @@
 
 // --
 
-SEC_CODE void __ASync_Add( struct USBBase *usbbase, struct USB2_ASync *as )
+SEC_CODE void __ASync_Add( struct USBBase *usbbase, struct USB3_ASync *as )
 {
 //	USBDEBUG( "__ASync_Add              : AS    %p", as );
 	TASK_NAME_ENTER( "__ASync_Add" );
@@ -37,7 +37,7 @@ SEC_CODE void __ASync_Add( struct USBBase *usbbase, struct USB2_ASync *as )
 	}
 
 	if (( as->ua_StructID == 0 ) 
-	||	( as->ua_StructID == ID_USB2_FREED ))
+	||	( as->ua_StructID == ID_USB3_FREED ))
 	{
 		// And if this fails?? Painc??
 		ASYNC_INIT( as, NULL );
@@ -45,7 +45,7 @@ SEC_CODE void __ASync_Add( struct USBBase *usbbase, struct USB2_ASync *as )
 
 	#ifdef DO_PANIC
 
-	if ( as->ua_StructID != ID_USB2_ASYNC )
+	if ( as->ua_StructID != ID_USB3_ASYNC )
 	{
 		USBPANIC( "__ASync_Add  :  2 : Invalid ID" );
 	}

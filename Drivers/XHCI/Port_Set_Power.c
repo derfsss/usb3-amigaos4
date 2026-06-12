@@ -13,7 +13,7 @@
 
 // --
 
-SEC_CODE S32 XHCI_Port_Set_Power( struct USB2_HCDNode *hn, U32 port )
+SEC_CODE S32 XHCI_Port_Set_Power( struct USB3_HCDNode *hn, U32 port )
 {
 struct _XHCI *xhci;
 U32 val;
@@ -36,7 +36,7 @@ U32 val;
 
 	TASK_NAME_LEAVE();
 
-	return( USB2Err_NoError );
+	return( USB3Err_NoError );
 }
 
 // --

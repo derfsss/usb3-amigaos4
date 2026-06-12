@@ -12,10 +12,10 @@
 
 // --
 
-SEC_CODE static S32 myBegin_CMD_Write( struct USBBase *usbbase, struct USB2_HCDNode *hn, struct RealRequest *ioreq )
+SEC_CODE static S32 myBegin_CMD_Write( struct USBBase *usbbase, struct USB3_HCDNode *hn, struct RealRequest *ioreq )
 {
 struct RealFunctionNode *fn;
-struct USB2_EndPointNode *ep;
+struct USB3_EndPointNode *ep;
 S32 reply;
 
 	TASK_NAME_ENTER( "HCD : myBegin_CMD_Write" );
@@ -30,14 +30,14 @@ S32 reply;
 	if (( fn->fkt_Detach ) || ( fn->fkt_FreeMe ))
 	{
 		USBDEBUG( "myBegin_CMD_Write : Device Detached" );
-		ioreq->req_Public.io_Error = USB2Err_Device_Detached;
+		ioreq->req_Public.io_Error = USB3Err_Device_Detached;
 		goto bailout;
 	}
 
 	if ( ! ep->ep_Active )
 	{
 		USBDEBUG( "myBegin_CMD_Write : EndPoint is not Active %ld", ep->ep_Number );
-		ioreq->req_Public.io_Error = USB2Err_Stack_EndPointNotFound;
+		ioreq->req_Public.io_Error = USB3Err_Stack_EndPointNotFound;
 		goto bailout;
 	}
 
@@ -56,7 +56,7 @@ S32 reply;
 			USBDEBUG( "myBegin_CMD_Write : io_Length ....... : %ld", ioreq->req_Public.io_Length );
 			USBDEBUG( "myBegin_CMD_Write : io_SetupData .... : %p",  ioreq->req_Public.io_SetupData );
 			USBDEBUG( "myBegin_CMD_Write : io_SetupLength .. : %ld", ioreq->req_Public.io_SetupLength );
-			ioreq->req_Public.io_Error = USB2Err_Stack_InvalidStructure;
+			ioreq->req_Public.io_Error = USB3Err_Stack_InvalidStructure;
 			goto bailout;
 		}
 	}
@@ -77,7 +77,7 @@ S32 reply;
 	else
 	{
 		USBDEBUG( "Trying to Read from an outbound EndPoint" );
-		ioreq->req_Public.io_Error = USB2Err_Stack_DirectionError;
+		ioreq->req_Public.io_Error = USB3Err_Stack_DirectionError;
 	}
 
 	// --

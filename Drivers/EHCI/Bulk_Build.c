@@ -49,9 +49,9 @@
 
 // --
 
-SEC_CODE S32 EHCI_Bulk_Build( struct USB2_HCDNode *hn, struct RealRequest *ioreq )
+SEC_CODE S32 EHCI_Bulk_Build( struct USB3_HCDNode *hn, struct RealRequest *ioreq )
 {
-struct USB2_EndPointNode *ep;
+struct USB3_EndPointNode *ep;
 //struct RealFunctionNode *fn;
 struct EHCI_TD *last;
 struct EHCI_TD *td;
@@ -136,7 +136,7 @@ U32 l;
 	if ( ! qh )
 	{
 		USBDEBUG( "EHCI_Bulk_Build : Error allocating QH buffer" );
-		err = USB2Err_Stack_NoMemory;
+		err = USB3Err_Stack_NoMemory;
 		goto bailout;
 	}
 
@@ -149,7 +149,7 @@ U32 l;
 		if ( ! td )
 		{
 			USBDEBUG( "EHCI_Bulk_Build : Error Allocating Memory" );
-			err = USB2Err_Stack_NoMemory;
+			err = USB3Err_Stack_NoMemory;
 			goto bailout;
 		}
 
@@ -169,7 +169,7 @@ U32 l;
 		if ( ! EHCI_Get_20kBuffer( hn, NULL, td, buf, l ))
 		{
 			USBDEBUG( "EHCI_Bulk_Build : Error allocating buffer" );
-			err = USB2Err_Stack_NoMemory;
+			err = USB3Err_Stack_NoMemory;
 			goto bailout;
 		}
 
@@ -210,7 +210,7 @@ U32 l;
 		if ( ! td )
 		{
 			USBDEBUG( "EHCI_Bulk_Build : Error allocating Memory" );
-			err = USB2Err_Stack_NoMemory;
+			err = USB3Err_Stack_NoMemory;
 			goto bailout;
 		}
 
@@ -220,7 +220,7 @@ U32 l;
 		if ( ! EHCI_Get_20kBuffer( hn, NULL, td, NULL, 0 ))
 		{
 			USBDEBUG( "EHCI_Bulk_Build : Error allocating buffer" );
-			err = USB2Err_Stack_NoMemory;
+			err = USB3Err_Stack_NoMemory;
 			goto bailout;
 		}
 
@@ -259,7 +259,7 @@ U32 l;
 	}
 	#endif
 
-	err = USB2Err_NoError;
+	err = USB3Err_NoError;
 
 	handled	= FALSE;
 

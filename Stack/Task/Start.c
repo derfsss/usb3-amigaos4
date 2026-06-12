@@ -14,8 +14,8 @@
 
 SEC_CODE enum TaskReturn __Task_Start( struct USBBase *usbbase, ... )
 {
-struct USB2_TaskMsg *tm;
-struct USB2_HCDNode *hn;
+struct USB3_TaskMsg *tm;
+struct USB3_HCDNode *hn;
 enum TaskReturn retval;
 va_list ap;
 U32 data;
@@ -131,11 +131,11 @@ U32 tag;
 				break;
 			}
 
-			case USB2_WaitForTermination:
+			case USB3_WaitForTermination:
 			{
 				tm->tm_Wait_For_Term = ( data ) ? 1 : 0 ;
 
-				USBDEBUG( "USB2_WaitForTermination  : %ld", (S32) data );
+				USBDEBUG( "USB3_WaitForTermination  : %ld", (S32) data );
 				break;
 			}
 

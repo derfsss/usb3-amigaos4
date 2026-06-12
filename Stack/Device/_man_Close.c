@@ -16,7 +16,7 @@ static PTR _manager_Close(
 	struct DeviceManagerInterface *Self,
 	struct IORequest *ioreq )
 {
-struct USB2_DeviceUnit *unit;
+struct USB3_DeviceUnit *unit;
 struct USBBase *usbbase;
 PTR seglist;
 

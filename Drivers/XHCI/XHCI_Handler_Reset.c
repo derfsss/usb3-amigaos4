@@ -31,7 +31,7 @@
 
 SEC_CODE U32 XHCI_Handler_Reset( struct ExceptionContext *Context UNUSED, struct ExecBase *SysBase UNUSED, PTR userData )
 {
-struct USB2_HCDNode *hn;
+struct USB3_HCDNode *hn;
 struct _XHCI *xhci;
 U32 cnt;
 

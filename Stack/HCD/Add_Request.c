@@ -20,10 +20,10 @@
 \\
 */
 
-SEC_CODE static inline S32 myAdd_Request( struct USBBase *usbbase, struct USB2_HCDNode *hn, struct RealRequest *ioreq )
+SEC_CODE static inline S32 myAdd_Request( struct USBBase *usbbase, struct USB3_HCDNode *hn, struct RealRequest *ioreq )
 {
-void ( *add )( struct USB2_HCDNode *hn, struct RealRequest *ioreq );
-struct USB2_EndPointNode *ep;
+void ( *add )( struct USB3_HCDNode *hn, struct RealRequest *ioreq );
+struct USB3_EndPointNode *ep;
 struct RealFunctionNode *fn;
 S32 handled;
 S32 do_req;
@@ -32,7 +32,7 @@ S32 err;
 	handled = FALSE;
 
 	add = NULL;
-	err	= USB2Err_NoError;
+	err	= USB3Err_NoError;
 	fn	= ioreq->req_Function;
 	ep	= ioreq->req_EndPoint;
 
@@ -54,7 +54,7 @@ S32 err;
 	&&	( ioreq->req_Public.io_SetupData->RequestType	== ( REQTYPE_Write | REQTYPE_Standard | REQTYPE_EndPoint ))
 	&&	( ioreq->req_Public.io_SetupData->RequestCode	== ( REQCODE_Clear_Feature ))
 	&&	( ioreq->req_Public.io_SetupData->Value			== ( LE_SWAP16( USBSTATUS_EndPoint_Halt )))
-	&&	( ioreq->req_Public.io_SetupLength				== ( sizeof( struct USB2_SetupData ))))
+	&&	( ioreq->req_Public.io_SetupLength				== ( sizeof( struct USB3_SetupData ))))
 	{
 		ioreq->req_DoingDestall = TRUE;
 
@@ -92,7 +92,7 @@ S32 err;
 
 			handled	= TRUE;
 			do_req	= FALSE;
-			err		= USB2Err_Host_Stall;
+			err		= USB3Err_Host_Stall;
 		}
 		else
 		{
@@ -119,7 +119,7 @@ S32 err;
 				{
 					USBERROR( "HCD_myRequest_Add : Control_Build : Not Implemented in HCD" );
 					handled = TRUE;
-					err	= USB2Err_Host_IllegalEPType;
+					err	= USB3Err_Host_IllegalEPType;
 				}
 
 				if ( hn->HCD_Functions.Control_Add )
@@ -145,7 +145,7 @@ S32 err;
 				{
 					USBERROR( "HCD_myRequest_Add Bulk_Build : Not Implemented in HCD" );
 					handled = TRUE;
-					err	= USB2Err_Host_IllegalEPType;
+					err	= USB3Err_Host_IllegalEPType;
 				}
 
 				if ( hn->HCD_Functions.Bulk_Add )
@@ -169,7 +169,7 @@ S32 err;
 				{
 					USBERROR( "HCD_myRequest_Add : Interrupt_Build : Not Implemented in HCD" );
 					handled = TRUE;
-					err	= USB2Err_Host_IllegalEPType;
+					err	= USB3Err_Host_IllegalEPType;
 				}
 
 				if ( hn->HCD_Functions.Interrupt_Add )
@@ -187,7 +187,7 @@ S32 err;
 			{
 				USBERROR( "HCD_myRequest_Add : Unsupported transfer type %lu -- Implement me", ep->ep_Type );
 				handled = TRUE;
-				err	= USB2Err_Host_IllegalEPType;
+				err	= USB3Err_Host_IllegalEPType;
 				break;
 			}
 		}
@@ -277,9 +277,9 @@ S32 err;
 \\
 */
 
-SEC_CODE S32 __HCD_Add_Request( struct USBBase *usbbase, struct USB2_HCDNode *hn, struct RealRequest *ioreq )
+SEC_CODE S32 __HCD_Add_Request( struct USBBase *usbbase, struct USB3_HCDNode *hn, struct RealRequest *ioreq )
 {
-struct USB2_EndPointNode *ep;
+struct USB3_EndPointNode *ep;
 S32 handled;
 
 	TASK_NAME_ENTER( "HCD : __HCD_Add_Request" );

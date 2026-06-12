@@ -14,22 +14,22 @@
 
 #if defined( DO_PANIC ) || defined( DO_ERROR ) || defined( DO_DEBUG ) || defined( DO_INFO )
 
-SEC_CODE struct USB2_EPResource *__EndPointRes_ObtainList( struct USBBase *usbbase, STR file UNUSED, struct RealRegister *reg, struct TagItem *taglist )
+SEC_CODE struct USB3_EPResource *__EndPointRes_ObtainList( struct USBBase *usbbase, STR file UNUSED, struct RealRegister *reg, struct TagItem *taglist )
 
 #else
 
-SEC_CODE struct USB2_EPResource *__EndPointRes_ObtainList( struct USBBase *usbbase, struct RealRegister *reg, struct TagItem *taglist )
+SEC_CODE struct USB3_EPResource *__EndPointRes_ObtainList( struct USBBase *usbbase, struct RealRegister *reg, struct TagItem *taglist )
 
 #endif
 
 {
 struct RealEndPointResource *epr;
-struct USB2_InterfaceHeader *ih;
-struct USB2_InterfaceGroup *ig;
-struct USB2_InterfaceNode *in;
-struct USB2_EndPointNode *epn;
+struct USB3_InterfaceHeader *ih;
+struct USB3_InterfaceGroup *ig;
+struct USB3_InterfaceNode *in;
+struct USB3_EndPointNode *epn;
 struct RealFunctionNode *fn;
-struct USB2_ConfigNode *cn;
+struct USB3_ConfigNode *cn;
 struct TagItem *tag;
 struct MsgPort *mp;
 U32 shortp;
@@ -103,52 +103,52 @@ U32 to;
 		{
 			// -- IORequest settings
 
-			case USB2Tag_EPRes_MsgPort:
+			case USB3Tag_EPRes_MsgPort:
 			{
 				mp = (PTR) tag->ti_Data;
 
-//				USBERROR( "USB2Tag_EPRes_MsgPort .. : %p", mp );
+//				USBERROR( "USB3Tag_EPRes_MsgPort .. : %p", mp );
 				break;
 			}
 
-			case USB2Tag_EPRes_BufferSize:
+			case USB3Tag_EPRes_BufferSize:
 			{
 				bs = tag->ti_Data;
 
-//				USBERROR( "USB2Tag_EPRes_BufferSize  : %ld", bs );
+//				USBERROR( "USB3Tag_EPRes_BufferSize  : %ld", bs );
 				break;
 			}
 
-			case USB2Tag_EPRes_TimeOut:
+			case USB3Tag_EPRes_TimeOut:
 			{
 				to = tag->ti_Data;
 
-//				USBERROR( "USB2Tag_EPRes_TimeOut ... : %lu ms", to );
+//				USBERROR( "USB3Tag_EPRes_TimeOut ... : %lu ms", to );
 				break;
 			}
 
-			case USB2Tag_EPRes_NrOfIORequest:
+			case USB3Tag_EPRes_NrOfIORequest:
 			{
 				// Zero is valid
 				noi = tag->ti_Data;
 
-//				USBERROR( "USB2Tag_EPRes_NrOfIOReq . : %lu", noi );
+//				USBERROR( "USB3Tag_EPRes_NrOfIOReq . : %lu", noi );
 				break;
 			}
 
 			// -- Interface Nr is required for anything but Control
 
-			case USB2Tag_EPRes_InterfaceNr :
+			case USB3Tag_EPRes_InterfaceNr :
 			{
 				ifcnr = ( tag->ti_Data & 0xff );
 
-//				USBERROR( "USB2Tag_EPRes_InterfaceNr : %lu", ifcnr );
+//				USBERROR( "USB3Tag_EPRes_InterfaceNr : %lu", ifcnr );
 				break;
 			}
 
 			// -- Use Direct EndPoint Nr
 
-			case USB2Tag_EPRes_EndPointNr:
+			case USB3Tag_EPRes_EndPointNr:
 			{
 				epnr = tag->ti_Data;
 				ep = TRUE;
@@ -157,13 +157,13 @@ U32 to;
 				//  watch out .. ep_Number must be 0x0F
 				//  but this tag also have 0x80 for Direction
 
-//				USBERROR( "USB2Tag_EPRes_EndPointNr : %lu", epnr );
+//				USBERROR( "USB3Tag_EPRes_EndPointNr : %lu", epnr );
 				break;
 			}
 
 			// -- Find EndPoint from Type and Direction
 
-			case USB2Tag_EPRes_EPType:
+			case USB3Tag_EPRes_EPType:
 			{
 				eptype = ( tag->ti_Data & EPATT_Type_Mask );
 				ep = FALSE;
@@ -177,7 +177,7 @@ U32 to;
 				break;
 			}
 
-			case USB2Tag_EPRes_EPDirection:
+			case USB3Tag_EPRes_EPDirection:
 			{
 				ep = FALSE;
 				
@@ -194,21 +194,21 @@ U32 to;
 				break;
 			}
 
-			case USB2Tag_EPRes_AddZeroPacket:
+			case USB3Tag_EPRes_AddZeroPacket:
 			{
 				addzp = ( tag->ti_Data ) ? TRUE : FALSE ;
 
-//				USBERROR( "USB2Tag_EPRes_AddZeroPacket %ld", addzp );
+//				USBERROR( "USB3Tag_EPRes_AddZeroPacket %ld", addzp );
 				break;
 			}
 
 			// --
 
-			case USB2Tag_EPRes_AllowShortPackets:
+			case USB3Tag_EPRes_AllowShortPackets:
 			{
 				shortp = ( tag->ti_Data ) ? TRUE : FALSE ;
 
-//				USBERROR( "USB2Tag_EPRes_ShortPackets %ld", shortp );
+//				USBERROR( "USB3Tag_EPRes_ShortPackets %ld", shortp );
 				break;
 			}
 
@@ -365,15 +365,15 @@ U32 to;
 		{
 			switch( bs )
 			{
-				case USB2Val_BufferSize_MaxPacketSize:		bs = epn->ep_MaxPacketSize * 1;		break;
-				case USB2Val_BufferSize_MaxPacketSize_2:	bs = epn->ep_MaxPacketSize * 2;		break;
-				case USB2Val_BufferSize_MaxPacketSize_4:	bs = epn->ep_MaxPacketSize * 4;		break;
-				case USB2Val_BufferSize_MaxPacketSize_8:	bs = epn->ep_MaxPacketSize * 8;		break;
-				case USB2Val_BufferSize_MaxPacketSize_16:	bs = epn->ep_MaxPacketSize * 16;	break;
-				case USB2Val_BufferSize_MaxPacketSize_32:	bs = epn->ep_MaxPacketSize * 32;	break;
-				case USB2Val_BufferSize_MaxPacketSize_64:	bs = epn->ep_MaxPacketSize * 64;	break;
-				case USB2Val_BufferSize_MaxPacketSize_128:	bs = epn->ep_MaxPacketSize * 128;	break;
-				case USB2Val_BufferSize_MaxPacketSize_256:	bs = epn->ep_MaxPacketSize * 256;	break;
+				case USB3Val_BufferSize_MaxPacketSize:		bs = epn->ep_MaxPacketSize * 1;		break;
+				case USB3Val_BufferSize_MaxPacketSize_2:	bs = epn->ep_MaxPacketSize * 2;		break;
+				case USB3Val_BufferSize_MaxPacketSize_4:	bs = epn->ep_MaxPacketSize * 4;		break;
+				case USB3Val_BufferSize_MaxPacketSize_8:	bs = epn->ep_MaxPacketSize * 8;		break;
+				case USB3Val_BufferSize_MaxPacketSize_16:	bs = epn->ep_MaxPacketSize * 16;	break;
+				case USB3Val_BufferSize_MaxPacketSize_32:	bs = epn->ep_MaxPacketSize * 32;	break;
+				case USB3Val_BufferSize_MaxPacketSize_64:	bs = epn->ep_MaxPacketSize * 64;	break;
+				case USB3Val_BufferSize_MaxPacketSize_128:	bs = epn->ep_MaxPacketSize * 128;	break;
+				case USB3Val_BufferSize_MaxPacketSize_256:	bs = epn->ep_MaxPacketSize * 256;	break;
 				
 				default:
 				{
@@ -389,12 +389,12 @@ U32 to;
 		{
 			// if mp == NULL then alloc ioreq will create the msgport
 			epr->epr_Public.IORequests[cnt] = (PTR) IOREQUEST_ALLOCTAGS(
-//				USB2Tag_ShortPackets, sp,
-				( shortp == -1U ) ? TAG_IGNORE : USB2Tag_IOReq_AllowShortPackets, shortp,
-				( addzp == -1U ) ? TAG_IGNORE : USB2Tag_IOReq_AddZeroPacket, addzp,
-				USB2Tag_IOReq_EndPoint, epn,
-				USB2Tag_IOReq_MsgPort, mp,
-				USB2Tag_IOReq_TimeOut, to,
+//				USB3Tag_ShortPackets, sp,
+				( shortp == -1U ) ? TAG_IGNORE : USB3Tag_IOReq_AllowShortPackets, shortp,
+				( addzp == -1U ) ? TAG_IGNORE : USB3Tag_IOReq_AddZeroPacket, addzp,
+				USB3Tag_IOReq_EndPoint, epn,
+				USB3Tag_IOReq_MsgPort, mp,
+				USB3Tag_IOReq_TimeOut, to,
 				TAG_END
 			);
 
@@ -451,7 +451,7 @@ U32 to;
 
 	if ( epn->ep_Type == EPATT_Type_Control )
 	{
-//		epr->epr_Public.SetupData	= MEM_ALLOCIOBUFFER( sizeof( struct USB2_SetupData ), FALSE );
+//		epr->epr_Public.SetupData	= MEM_ALLOCIOBUFFER( sizeof( struct USB3_SetupData ), FALSE );
 		epr->epr_Public.SetupData = SETUPDATA_ALLOC();
 
 		if ( ! epr->epr_Public.SetupData )
@@ -500,16 +500,16 @@ bailout:
 
 #if defined( DO_PANIC ) || defined( DO_ERROR ) || defined( DO_DEBUG ) || defined( DO_INFO )
 
-SEC_CODE struct USB2_EPResource * VARARGS68K __EndPointRes_ObtainTags( struct USBBase *usbbase, STR file, struct RealRegister *reg, ... )
+SEC_CODE struct USB3_EPResource * VARARGS68K __EndPointRes_ObtainTags( struct USBBase *usbbase, STR file, struct RealRegister *reg, ... )
 
 #else
 
-SEC_CODE struct USB2_EPResource * VARARGS68K __EndPointRes_ObtainTags( struct USBBase *usbbase, struct RealRegister *reg, ... )
+SEC_CODE struct USB3_EPResource * VARARGS68K __EndPointRes_ObtainTags( struct USBBase *usbbase, struct RealRegister *reg, ... )
 
 #endif
 
 {
-struct USB2_EPResource *epr;
+struct USB3_EPResource *epr;
 va_list ap;
 
 	TASK_NAME_ENTER( "__EndPointRes_ObtainTags" );

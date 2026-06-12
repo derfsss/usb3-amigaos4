@@ -11,15 +11,15 @@
 #
 # Options:
 #
-#  USBTYPE = Sirion (AOS4), USB2
-#  USBTYPE - 'SIRION' 'USB2'		-- Target System
+#  USBTYPE = Sirion (AOS4), USB3
+#  USBTYPE - 'SIRION' 'USB3'		-- Target System
 #
 
 VERSION		:= 1
 REVISION	:= 1
 
 # Default
-USBTYPE		?= USB2
+USBTYPE		?= USB3
 
 # Object Dir
 OBJDIR		:= obj
@@ -117,31 +117,31 @@ ifeq ($(USBTYPE),SIRION)
 
 ###########################################################################
 # Set Target USB System
-# -- USB2
+# -- USB3
 
-else ifeq ($(USBTYPE),USB2)
+else ifeq ($(USBTYPE),USB3)
 
-  $(info Compiling for USB2)
+  $(info Compiling for USB3)
 
-  SRCS		+= USB2/Printer.c
-  SRCS		+= USB2/Resources_Init.c
-  SRCS		+= USB2/Resources_Free.c
-  SRCS		+= USB2/Process_Init_2_Find_Device.c
-  SRCS		+= USB2/Process_Init_3_Setup_Device.c
-  SRCS		+= USB2/Process_Main.c
-  SRCS		+= USB2/Buffer_Schedule.c
-  SRCS		+= USB2/Direct_Schedule.c
-  SRCS		+= USB2/Unit_Startup_USB.c
+  SRCS		+= USB3/Printer.c
+  SRCS		+= USB3/Resources_Init.c
+  SRCS		+= USB3/Resources_Free.c
+  SRCS		+= USB3/Process_Init_2_Find_Device.c
+  SRCS		+= USB3/Process_Init_3_Setup_Device.c
+  SRCS		+= USB3/Process_Main.c
+  SRCS		+= USB3/Buffer_Schedule.c
+  SRCS		+= USB3/Direct_Schedule.c
+  SRCS		+= USB3/Unit_Startup_USB.c
 
-  CFLAGS	+= -IUSB2
-  CFLAGS	+= -D_USB2_
+  CFLAGS	+= -IUSB3
+  CFLAGS	+= -D_USB3_
   CFLAGS	+= -D__USE_INLINE__
   
   LDFLAGS	:= -nostartfiles
   LDFLAGS	+= -mcrt=newlib
 
-  OBJDIR	:= $(OBJDIR)/USB2
-  TARGET	:= usb2_printer.device
+  OBJDIR	:= $(OBJDIR)/USB3
+  TARGET	:= usb3_printer.device
 
 ###########################################################################
 # Set Target USB System
@@ -149,7 +149,7 @@ else ifeq ($(USBTYPE),USB2)
 
 else
 
-  $(error Unknown Target USB System: $(USBTYPE). Please set USBTYPE to 'SIRION' or 'USB2')
+  $(error Unknown Target USB System: $(USBTYPE). Please set USBTYPE to 'SIRION' or 'USB3')
 
 endif
 
@@ -209,7 +209,7 @@ all: $(BINDIR)/$(TARGET)
 ###############################################################################
 
 $(BINDIR)/$(TARGET): $(OBJS)
-	$(CC) $(LDFLAGS) -o $(BINDIR)/$(TARGET) $(OBJS) $(LIBS) -Wl,--cref,-M,-Map=usb2.map
+	$(CC) $(LDFLAGS) -o $(BINDIR)/$(TARGET) $(OBJS) $(LIBS) -Wl,--cref,-M,-Map=usb3.map
 
 ###############################################################################
 
@@ -219,7 +219,7 @@ $(BINDIR)/$(TARGET): $(OBJS)
 ###############################################################################
 
 clean:
-	$(RM) $(OBJS) $(DEPS) $(BINDIR)/$(TARGET) usb2.map
+	$(RM) $(OBJS) $(DEPS) $(BINDIR)/$(TARGET) usb3.map
 
 ###############################################################################
 
@@ -246,7 +246,7 @@ install:
 ###############################################################################
 
 #includes:
-#	idltool -i -n -c usb2.xml
+#	idltool -i -n -c usb3.xml
 
 ###############################################################################
 

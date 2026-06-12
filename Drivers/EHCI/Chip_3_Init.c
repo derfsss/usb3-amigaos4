@@ -74,7 +74,7 @@ SEC_CODE U32 EHCI_Reverse_Bits( U32 c, U32 nbits )
 
 // --
 
-SEC_CODE S32 EHCI_Chip_Init( struct USB2_HCDNode *hn )
+SEC_CODE S32 EHCI_Chip_Init( struct USB3_HCDNode *hn )
 {
 //struct USBBase *usbbase;
 struct EHCI_QH *qh;

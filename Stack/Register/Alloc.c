@@ -38,7 +38,7 @@ S32 error;
 		goto bailout;
 	}
 
-	reg->reg_StructID = ID_USB2_REG;
+	reg->reg_StructID = ID_USB3_REG;
 
 	// --
 

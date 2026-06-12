@@ -15,12 +15,12 @@
 
 /***************************************************************************/
 
-struct USB2_ASync
+struct USB3_ASync
 {
 	U32								ua_StructID;
-	struct USB2_Semaphore			ua_Semaphore;
+	struct USB3_Semaphore			ua_Semaphore;
 	struct Task *					ua_Parent;			// used for ASync_Sub .. gets CTRL+D
-	struct USB2_Signal				ua_Signal;			// used for ASync_Wait
+	struct USB3_Signal				ua_Signal;			// used for ASync_Wait
 	struct Task *					ua_Task;			// used for ASync_Wait .. gets ua_Signal
 	S32								ua_Counter;
 };

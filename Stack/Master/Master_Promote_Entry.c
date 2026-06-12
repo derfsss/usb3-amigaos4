@@ -23,7 +23,7 @@ S32 __myProcess_Reinit( struct USBBase *usbbase, struct intern *in );
 SEC_CODE void Master_Promote_Entry( void )
 {
 struct MasterStartMsg *msg;
-struct USB2_TaskNode *tn;
+struct USB3_TaskNode *tn;
 struct ExecIFace *IExec;
 struct USBBase *usbbase;
 struct intern *in;

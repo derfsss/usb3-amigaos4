@@ -12,7 +12,7 @@
 
 // --
 
-SEC_CODE static U32 _main_Attr_Set( struct USB2IFace *Self, USB2_ID id, U32 tag, PTR buffer, U32 buffersize )
+SEC_CODE static U32 _main_Attr_Set( struct USB3IFace *Self, USB3_ID id, U32 tag, PTR buffer, U32 buffersize )
 {
 	return( 0 );
 }

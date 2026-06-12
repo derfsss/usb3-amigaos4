@@ -12,7 +12,7 @@
 static void __myFree( struct USBBase *usbbase UNUSED, PTR userdata UNUSED, PTR in UNUSED )
 {
 //struct RealFunctionNode *fn;
-//struct USB2_HCDNode *hn;
+//struct USB3_HCDNode *hn;
 
 	USBDEBUG( "__myInit (Free) : Enter : DN    %p", dn );
 

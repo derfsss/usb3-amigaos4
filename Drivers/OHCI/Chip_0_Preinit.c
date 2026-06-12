@@ -49,7 +49,7 @@
 
 // --
 
-SEC_CODE S32 OHCI_Chip_Preinit( struct USB2_HCDNode *hn )
+SEC_CODE S32 OHCI_Chip_Preinit( struct USB3_HCDNode *hn )
 {
 S32 retval;
 U32 desca;

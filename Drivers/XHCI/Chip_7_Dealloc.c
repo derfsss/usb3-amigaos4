@@ -13,7 +13,7 @@
 
 // --
 
-SEC_CODE void XHCI_Chip_Dealloc( struct USB2_HCDNode *hn )
+SEC_CODE void XHCI_Chip_Dealloc( struct USB3_HCDNode *hn )
 {
 struct _XHCI *xhci;
 

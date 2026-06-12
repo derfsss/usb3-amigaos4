@@ -50,7 +50,7 @@
 // --
 #if defined( DO_ERROR ) || defined( DO_DEBUG ) || defined( DO_INFO )
 
-SEC_CODE void EHCI_Dump_TD( struct USB2_HCDNode *hn, struct EHCI_TD *td )
+SEC_CODE void EHCI_Dump_TD( struct USB3_HCDNode *hn, struct EHCI_TD *td )
 {
 struct ExecIFace *IExec;
 STR txt;

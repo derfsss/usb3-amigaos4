@@ -57,8 +57,8 @@ SEC_CODE S32 HUB__HUB_Feature_Clr( struct USBBase *usbbase UNUSED, struct intern
 	// --
 
 	#if 0
-struct USB2_IORequest *ioreq;
-struct USB2_SetupData *sd;
+struct USB3_IORequest *ioreq;
+struct USB3_SetupData *sd;
 S32 errcode;
 
 //	  usbbase->usb_IExec->Disable();
@@ -79,11 +79,11 @@ S32 errcode;
 	ioreq->io_Data			= NULL;
 	ioreq->io_Length		= 0;
 	ioreq->io_SetupData		= sd;
-	ioreq->io_SetupLength	= sizeof( struct USB2_SetupData );
+	ioreq->io_SetupLength	= sizeof( struct USB3_SetupData );
 
 	IO_DO( ioreq );
 
-	if (( ioreq->io_Error  == USB2Err_NoError )
+	if (( ioreq->io_Error  == USB3Err_NoError )
 	&&	( ioreq->io_Actual == 0 ))
 	{
 //		  usbbase->usb_IExec->Disable();
@@ -91,7 +91,7 @@ S32 errcode;
 //		  usbbase->usb_IExec->DebugPrintF( "HUB Tier    : %lu\n", in->Function->fkt_Tier );
 //		  usbbase->usb_IExec->Enable();
 
-		errcode = USB2Err_NoError;
+		errcode = USB3Err_NoError;
 	}
 	else
 	{

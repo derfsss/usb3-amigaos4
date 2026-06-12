@@ -13,9 +13,9 @@
 
 // --
 
-SEC_CODE struct MSDDevice *MSD_Device_Alloc( struct USBBase *usbbase, struct USB2_DriverMessage *msg )
+SEC_CODE struct MSDDevice *MSD_Device_Alloc( struct USBBase *usbbase, struct USB3_DriverMessage *msg )
 {
-struct USB2_Interface_Desc *ifcdsc;
+struct USB3_Interface_Desc *ifcdsc;
 struct RealRegister *reg;
 struct MSDDevice *msddev;
 struct MSDDisk *msddisk;
@@ -64,8 +64,8 @@ U32 lun;
 	// ---
 
 	reg = REGISTER_REGISTERTAGS(
-		USB2Tag_Reg_DriverMessage, msg,
-		USB2Tag_Reg_Title, "MSD",
+		USB3Tag_Reg_DriverMessage, msg,
+		USB3Tag_Reg_Title, "MSD",
 		TAG_END
 	);
 
@@ -123,9 +123,9 @@ U32 lun;
 	if ( do_bulk_in )
 	{
 		msddev->msddev_Res_Bulk_In = ENDPOINTRES_OBTAINTAGS( reg,
-			USB2Tag_EPRes_InterfaceNr, ifcnr,
-			USB2Tag_EPRes_EPDirection, EPADR_Dir_In,
-			USB2Tag_EPRes_EPType, EPATT_Type_Bulk,
+			USB3Tag_EPRes_InterfaceNr, ifcnr,
+			USB3Tag_EPRes_EPDirection, EPADR_Dir_In,
+			USB3Tag_EPRes_EPType, EPATT_Type_Bulk,
 			TAG_END
 		);
 
@@ -139,10 +139,10 @@ U32 lun;
 	if ( do_bulk_out )
 	{
 		msddev->msddev_Res_Bulk_Out = ENDPOINTRES_OBTAINTAGS( reg,
-//			USB2Tag_EPRes_AddZeroPacket, TRUE,
-			USB2Tag_EPRes_InterfaceNr, ifcnr,
-			USB2Tag_EPRes_EPDirection, EPADR_Dir_Out,
-			USB2Tag_EPRes_EPType, EPATT_Type_Bulk,
+//			USB3Tag_EPRes_AddZeroPacket, TRUE,
+			USB3Tag_EPRes_InterfaceNr, ifcnr,
+			USB3Tag_EPRes_EPDirection, EPADR_Dir_Out,
+			USB3Tag_EPRes_EPType, EPATT_Type_Bulk,
 			TAG_END
 		);
 

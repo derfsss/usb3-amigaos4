@@ -15,14 +15,14 @@
 SEC_CODE static void _myIFC_GetTail( 
 	struct USBBase *usbbase, 
 	struct RealFunctionNode **ptr_fn, 
-	struct USB2_InterfaceGroup **ptr_ig,
-	struct USB2_InterfaceHeader **ptr_ih )
+	struct USB3_InterfaceGroup **ptr_ig,
+	struct USB3_InterfaceHeader **ptr_ih )
 {
-struct USB2_InterfaceHeader *ih;
-struct USB2_InterfaceGroup *ig;
+struct USB3_InterfaceHeader *ih;
+struct USB3_InterfaceGroup *ig;
 struct RealFunctionNode *fn;
-struct USB2_ConfigNode *cn;
-struct USB2_Node *n;
+struct USB3_ConfigNode *cn;
+struct USB3_Node *n;
 PTR f;
 PTR g;
 PTR h;
@@ -77,14 +77,14 @@ PTR h;
 
 SEC_CODE static void _myIFC_GetPrev( 
 	struct RealFunctionNode **ptr_fn, 
-	struct USB2_InterfaceGroup **ptr_ig,
-	struct USB2_InterfaceHeader **ptr_ih )
+	struct USB3_InterfaceGroup **ptr_ig,
+	struct USB3_InterfaceHeader **ptr_ih )
 {
-struct USB2_InterfaceHeader *ih;
-struct USB2_InterfaceGroup *ig;
+struct USB3_InterfaceHeader *ih;
+struct USB3_InterfaceGroup *ig;
 struct RealFunctionNode *fn;
-struct USB2_ConfigNode *cn;
-struct USB2_Node *n;
+struct USB3_ConfigNode *cn;
+struct USB3_Node *n;
 PTR f;
 PTR g;
 PTR h;
@@ -178,16 +178,16 @@ PTR h;
 
 /* -- Main Interface -- */
 
-static struct USB2_Interface * VARARGS68K _main_Ifc_FindTags( struct USB2IFace *Self, ... )
+static struct USB3_Interface * VARARGS68K _main_Ifc_FindTags( struct USB3IFace *Self, ... )
 {
 va_list ap;
 PTR ifc;
 
-//	USBERROR( "USB2 Stack : _main_FindInterfaceTags" );
+//	USBERROR( "USB3 Stack : _main_FindInterfaceTags" );
 
 	va_start( ap, Self );
 
-	ifc = Self->USB2_Ifc_FindList( va_getlinearva( ap, struct TagItem * ));
+	ifc = Self->USB3_Ifc_FindList( va_getlinearva( ap, struct TagItem * ));
 
 	va_end( ap );
 
@@ -196,10 +196,10 @@ PTR ifc;
 
 // --
 
-static struct USB2_Interface *_main_Ifc_FindList( struct USB2IFace *Self, struct TagItem *taglist )
+static struct USB3_Interface *_main_Ifc_FindList( struct USB3IFace *Self, struct TagItem *taglist )
 {
-struct USB2_InterfaceHeader *ih;
-struct USB2_InterfaceGroup *ig;
+struct USB3_InterfaceHeader *ih;
+struct USB3_InterfaceGroup *ig;
 struct RealFunctionNode *fn;
 struct USBBase *usbbase;
 struct TagItem *tag;
@@ -221,7 +221,7 @@ U32 cnt;
 
 	usbbase = (PTR) Self->Data.LibBase;
 
-	USBERROR( "USB2 Stack : _main_FindInterfaceList" );
+	USBERROR( "USB3 Stack : _main_FindInterfaceList" );
 
 	retval = NULL;
 
@@ -249,7 +249,7 @@ U32 cnt;
 	{
 		switch ( tag->ti_Tag )
 		{
-			case USB2Tag_Find_VendorID:
+			case USB3Tag_Find_VendorID:
 			{
 				USBDEBUG( "Find VendorID  : $%04lx", tag->ti_Data );
 				Vendor = tag->ti_Data;
@@ -257,7 +257,7 @@ U32 cnt;
 				break;
 			}
 
-			case USB2Tag_Find_DeviceID:
+			case USB3Tag_Find_DeviceID:
 			{
 				USBDEBUG( "Find DeviceID : $%04lx", tag->ti_Data );
 				Device = tag->ti_Data;
@@ -265,7 +265,7 @@ U32 cnt;
 				break;
 			}
 
-			case USB2Tag_Find_Class:
+			case USB3Tag_Find_Class:
 			{
 				USBINFO( "Find Class     : %ld", tag->ti_Data );
 				Class = tag->ti_Data;
@@ -273,7 +273,7 @@ U32 cnt;
 				break;
 			}
 
-			case USB2Tag_Find_SubClass:
+			case USB3Tag_Find_SubClass:
 			{
 				USBINFO( "Find SubClass  : %ld", tag->ti_Data );
 				SubClass = tag->ti_Data;
@@ -281,7 +281,7 @@ U32 cnt;
 				break;
 			}
 
-			case USB2Tag_Find_SeeClaimed:
+			case USB3Tag_Find_SeeClaimed:
 			{
 				USBINFO( "Find SeeClaimed: %s", ( tag->ti_Data ) ? "Yes" : "No" );
 				SeeClaimed = ( tag->ti_Data ) ? TRUE : FALSE ;
@@ -289,7 +289,7 @@ U32 cnt;
 				break;
 			}
 
-			case USB2Tag_Find_Index:
+			case USB3Tag_Find_Index:
 			{
 				USBINFO( "Find Index     : %ld", tag->ti_Data );
 				Index = tag->ti_Data;
@@ -317,7 +317,7 @@ U32 cnt;
 
 	while(( fn ) && ( ig ) && ( ih ))
 	{
-		USBERROR( "USB2 Stack : _main_FindInterfaceList : FN    %p : IG    %p : IH    %p : Ifc Class %lu", fn, ig, ih, ig->ig_Class );
+		USBERROR( "USB3 Stack : _main_FindInterfaceList : FN    %p : IG    %p : IH    %p : Ifc Class %lu", fn, ig, ih, ig->ig_Class );
 
 		found = TRUE;
 

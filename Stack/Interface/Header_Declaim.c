@@ -12,7 +12,7 @@
 
 // --
 
-SEC_CODE void __Interface_DeclaimHeader( struct USBBase *usbbase, struct RealRegister *reg, struct USB2_InterfaceHeader *ih )
+SEC_CODE void __Interface_DeclaimHeader( struct USBBase *usbbase, struct RealRegister *reg, struct USB3_InterfaceHeader *ih )
 {
 struct RealFunctionNode *fn;
 

@@ -12,9 +12,9 @@
 
 // --
 
-SEC_CODE static void __myHandle_Reset_Abort( struct USBBase *usbbase, struct USB2_HCDNode *hn )
+SEC_CODE static void __myHandle_Reset_Abort( struct USBBase *usbbase, struct USB3_HCDNode *hn )
 {
-struct USB2_EndPointNode *ep;
+struct USB3_EndPointNode *ep;
 struct RealRequest *ioreq;
 
 	TASK_NAME_ENTER( "HCD : __myHandle_Reset_Abort" );
@@ -62,7 +62,7 @@ struct RealRequest *ioreq;
 
 		// Send back to user
 		ioreq->req_Public.io_Actual = 0;
-		ioreq->req_Public.io_Error = USB2Err_Device_Nak;
+		ioreq->req_Public.io_Error = USB3Err_Device_Nak;
 //		ioreq->req_PublicStat = IORS_User;
 //		MSGPORT_REPLYMSG( ioreq );
 //		IOREQUEST_ACTIVE_SUB( ioreq );
@@ -88,7 +88,7 @@ struct RealRequest *ioreq;
 
 			// Send back to user
 			ioreq->req_Public.io_Actual = 0;
-			ioreq->req_Public.io_Error = USB2Err_Device_Nak;
+			ioreq->req_Public.io_Error = USB3Err_Device_Nak;
 //			ioreq->req_PublicStat = IORS_User;
 //			MSGPORT_REPLYMSG( ioreq );
 //			IOREQUEST_ACTIVE_SUB( ioreq );
@@ -103,7 +103,7 @@ struct RealRequest *ioreq;
 
 // --
 
-SEC_CODE static void __myHandle_Reset( struct USBBase *usbbase, struct USB2_HCDNode *hn )
+SEC_CODE static void __myHandle_Reset( struct USBBase *usbbase, struct USB3_HCDNode *hn )
 {
 //	usbbase->usb_IExec->DebugPrintF( "__myHandle_Reset         : 1 - Reset\n" );
 

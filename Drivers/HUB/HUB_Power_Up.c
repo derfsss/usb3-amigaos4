@@ -51,7 +51,7 @@ U32 delay;
 U32 port;
 
 	#ifdef DO_DEBUG
-	struct USB2_PortStatus stat;
+	struct USB3_PortStatus stat;
 	#endif
 
 	retval = FALSE;

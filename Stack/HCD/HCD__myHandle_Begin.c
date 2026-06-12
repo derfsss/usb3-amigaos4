@@ -17,7 +17,7 @@
 
 // --
 
-SEC_CODE static void __myHandle_Begin( struct USBBase *usbbase, struct USB2_HCDNode *hn )
+SEC_CODE static void __myHandle_Begin( struct USBBase *usbbase, struct USB3_HCDNode *hn )
 {
 struct RealFunctionNode *fn;
 struct RealRequest *ioreq;
@@ -69,11 +69,11 @@ S32 reply;
 					// Hmm okay, I guess RootHub do not need an Address
 					if (( fn->fkt_Address == 0 ) && ( fn->fkt_Tier != 0 ))
 					{
-						struct USB2_EndPointNode *ep = ioreq->req_EndPoint;
-						struct USB2_SetupData *sd = ioreq->req_Public.io_SetupData;
+						struct USB3_EndPointNode *ep = ioreq->req_EndPoint;
+						struct USB3_SetupData *sd = ioreq->req_Public.io_SetupData;
 						if (( ! sd )
 						||	( ! ep )
-						||	( ioreq->req_Public.io_SetupLength != sizeof( struct USB2_SetupData ))
+						||	( ioreq->req_Public.io_SetupLength != sizeof( struct USB3_SetupData ))
 						||	( sd->RequestType != ( REQTYPE_Write | REQTYPE_Standard | REQTYPE_Device ))
 						||	( sd->RequestCode != REQCODE_Set_Address )
 						||	( ep->ep_Type != EPATT_Type_Control ))
@@ -138,7 +138,7 @@ S32 reply;
 				else
 				{
 					USBDEBUG( "__myHandle_Begin : Function Detached : FN    %p", fn );
-					ioreq->req_Public.io_Error = USB2Err_Device_Detached;
+					ioreq->req_Public.io_Error = USB3Err_Device_Detached;
 				}
 
 				SEMAPHORE_RELEASE( & fn->fkt_Semaphore );
@@ -148,7 +148,7 @@ S32 reply;
 			else
 			{
 				USBDEBUG( "__myHandle_Begin : Invalid Function : FN    %p", fn );
-				ioreq->req_Public.io_Error = USB2Err_Stack_InvalidStructure;
+				ioreq->req_Public.io_Error = USB3Err_Stack_InvalidStructure;
 			}
 
 			IOREQUEST_UNLOCK( ioreq );

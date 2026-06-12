@@ -23,7 +23,7 @@ SEC_CODE void __Task_Stop_FN( struct USBBase *usbbase, struct RealFunctionNode *
 #endif
 
 {
-struct USB2_DriverNode *dn;
+struct USB3_DriverNode *dn;
 
 	USBINFO( "__Task_Stop_FN           :  1 : FN %p : (%s)", fn, (file)?file:"<NULL>" );
 

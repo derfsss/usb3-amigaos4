@@ -13,12 +13,12 @@
 // --
 /* -- Main Interface -- */
 
-static void _main_Reg_Unregister( struct USB2IFace *Self, struct RealRegister *reg )
+static void _main_Reg_Unregister( struct USB3IFace *Self, struct RealRegister *reg )
 {
 struct USBBase *usbbase;
 
 	usbbase = (PTR) Self->Data.LibBase;
-	USBERROR( "USB2 Stack : _main_Reg_Unregister" );
+	USBERROR( "USB3 Stack : _main_Reg_Unregister" );
 
 	if ( REGISTER_VALID( reg ) != VSTAT_Okay )
 	{

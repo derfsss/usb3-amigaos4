@@ -16,7 +16,7 @@
 
 // --
 
-SEC_CODE void __RootHUB_Handle_Chg( struct USBBase *usbbase, struct USB2_HCDNode *hn )
+SEC_CODE void __RootHUB_Handle_Chg( struct USBBase *usbbase, struct USB3_HCDNode *hn )
 {
 struct RealRequest *ioreq;
 struct RealRequest *next;
@@ -45,7 +45,7 @@ S32 len;
 			NODE_REMNODE( & hn->hn_HUB_Interrupts, ioreq );
 
 			ioreq->req_Public.io_Actual = len;
-			ioreq->req_Public.io_Error = USB2Err_NoError;
+			ioreq->req_Public.io_Error = USB3Err_NoError;
 
 			HCD_REPLY( ioreq );
 			ioreq = NULL;

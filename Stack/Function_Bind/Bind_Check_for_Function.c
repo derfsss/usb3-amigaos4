@@ -14,7 +14,7 @@
 
 SEC_CODE static void __myFKT_Entry( struct USBBase *usbbase, PTR userdata, PTR in UNUSED )
 {
-struct USB2_DriverNode *dn;
+struct USB3_DriverNode *dn;
 struct Task *parent;
 U32 stat;
 
@@ -74,11 +74,11 @@ U32 stat;
 SEC_CODE static U32 _Start_Function( 
 	struct USBBase *usbbase, 
 	struct RealFunctionNode *fn,
-	struct USB2_FktDriverNode *fdn,
-	struct USB2_ASync *as )
+	struct USB3_FktDriverNode *fdn,
+	struct USB3_ASync *as )
 {
-struct USB2_DriverNode *dn;
-struct USB2_TaskNode *tn;
+struct USB3_DriverNode *dn;
+struct USB3_TaskNode *tn;
 enum TaskReturn stat;
 S32 isRootHUB;
 U32 retval;
@@ -107,7 +107,7 @@ U32 retval;
 //		goto bailout;
 //	}
 
-	dn->dn_Message.rdm_Public.IUSB2 = usbbase->usb_IUSB2;
+	dn->dn_Message.rdm_Public.IUSB3 = usbbase->usb_IUSB3;
 	dn->dn_Message.rdm_Public.Function = (PTR) fn;
 	dn->dn_Message.rdm_Public.ConfigDescriptors = (PTR) fn->fkt_Config_Desc_Buf;
 
@@ -228,9 +228,9 @@ bailout:
 static enum FDSTAT _Check_for_Functions( 
 	struct USBBase *usbbase, 
 	struct RealFunctionNode *fn, 
-	struct USB2_ASync *as )
+	struct USB3_ASync *as )
 {
-struct USB2_FktDriverNode *fdn;
+struct USB3_FktDriverNode *fdn;
 enum FDSTAT stat;
 U32 taskstat;
 
@@ -250,7 +250,7 @@ U32 taskstat;
 
 		while( fdn )
 		{
-			while( fdn->fdn_Type == USB2Val_FDriver_Function )
+			while( fdn->fdn_Type == USB3Val_FDriver_Function )
 			{
 //				usbbase->usb_IExec->DebugPrintF( "FDN Check Function : %p\n", fdn );
 

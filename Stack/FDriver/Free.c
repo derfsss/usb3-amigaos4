@@ -14,7 +14,7 @@
 
 // Release all resource we can, for this Struct
 
-SEC_CODE static void __Release( struct USBBase *usbbase UNUSED, struct USB2_FktDriverNode *fdn UNUSED )
+SEC_CODE static void __Release( struct USBBase *usbbase UNUSED, struct USB3_FktDriverNode *fdn UNUSED )
 {
 //	SEMAPHORE_OBTAIN( & usbbase->usb_LockSemaphore );
 	// --
@@ -32,11 +32,11 @@ SEC_CODE static void __Release( struct USBBase *usbbase UNUSED, struct USB2_FktD
 
 #if defined( DO_PANIC ) || defined( DO_ERROR ) || defined( DO_DEBUG ) || defined( DO_INFO )
 
-SEC_CODE enum FSTAT __FDriver_Free( struct USBBase *usbbase, struct USB2_FktDriverNode *fdn, STR file UNUSED )
+SEC_CODE enum FSTAT __FDriver_Free( struct USBBase *usbbase, struct USB3_FktDriverNode *fdn, STR file UNUSED )
 
 #else
 
-SEC_CODE enum FSTAT __FDriver_Free( struct USBBase *usbbase, struct USB2_FktDriverNode *fdn )
+SEC_CODE enum FSTAT __FDriver_Free( struct USBBase *usbbase, struct USB3_FktDriverNode *fdn )
 
 #endif
 
@@ -82,7 +82,7 @@ enum FSTAT fstat;
 		}
 		else
 		{
-			fdn->fdn_StructID = ID_USB2_FREED;
+			fdn->fdn_StructID = ID_USB3_FREED;
 			fstat = FSTAT_Okay;
 		}
 	}

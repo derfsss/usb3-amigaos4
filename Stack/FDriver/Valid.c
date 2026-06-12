@@ -14,11 +14,11 @@
 
 #if defined( DO_PANIC ) || defined( DO_ERROR ) || defined( DO_DEBUG ) || defined( DO_INFO )
 
-SEC_CODE enum VSTAT __FDriver_Valid( struct USBBase *usbbase UNUSED, struct USB2_FktDriverNode *fdn, STR file UNUSED )
+SEC_CODE enum VSTAT __FDriver_Valid( struct USBBase *usbbase UNUSED, struct USB3_FktDriverNode *fdn, STR file UNUSED )
 
 #else
 
-SEC_CODE enum VSTAT __FDriver_Valid( struct USBBase *usbbase UNUSED, struct USB2_FktDriverNode *fdn )
+SEC_CODE enum VSTAT __FDriver_Valid( struct USBBase *usbbase UNUSED, struct USB3_FktDriverNode *fdn )
 
 #endif
 
@@ -47,12 +47,12 @@ enum VSTAT vstat;
 		USBDEBUG( "__FDriver_Valid          : FDN %p : Not Initalized : (%s)", fdn, (file)?file:"<NULL>" );
 		vstat = VSTAT_Null;
 	} 
-	else if ( fdn->fdn_StructID == ID_USB2_FREED )
+	else if ( fdn->fdn_StructID == ID_USB3_FREED )
 	{
 		USBDEBUG( "__FDriver_Valid          : FDN %p : Structure allready freed : (%s)", fdn, (file)?file:"<NULL>" );
 		vstat = VSTAT_Null;
 	}
-	else if ( fdn->fdn_StructID != ID_USB2_FDN )
+	else if ( fdn->fdn_StructID != ID_USB3_FDN )
 	{
 		USBDEBUG( "__FDriver_Valid          : FDN %p : Invalid ID $%08lx : (%s)", fdn, fdn->fdn_StructID, (file)?file:"<NULL>" );
 		vstat = VSTAT_Error;

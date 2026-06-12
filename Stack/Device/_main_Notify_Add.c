@@ -12,15 +12,15 @@
 
 // --
 
-static void Send_HCDs( struct USBBase *usbbase, struct USB2_NotifyNode *node );
-static void Send_Functions( struct USBBase *usbbase, struct USB2_NotifyNode *node );
-static void Send_Interfaces( struct USBBase *usbbase, struct USB2_NotifyNode *node );
+static void Send_HCDs( struct USBBase *usbbase, struct USB3_NotifyNode *node );
+static void Send_Functions( struct USBBase *usbbase, struct USB3_NotifyNode *node );
+static void Send_Interfaces( struct USBBase *usbbase, struct USB3_NotifyNode *node );
 
 // --
 
-SEC_CODE static PTR _main_Notify_Add( struct USB2IFace *Self, U32 type, struct MsgPort *mp )
+SEC_CODE static PTR _main_Notify_Add( struct USB3IFace *Self, U32 type, struct MsgPort *mp )
 {
-struct USB2_NotifyNode *node;
+struct USB3_NotifyNode *node;
 struct USBBase *usbbase;
 
 	usbbase = (PTR) Self->Data.LibBase;
@@ -47,7 +47,7 @@ struct USBBase *usbbase;
 		goto bailout;
 	}
 
-	node->nn_StructID = ID_USB2_NN;
+	node->nn_StructID = ID_USB3_NN;
 	node->nn_MsgPort = mp;
 	node->nn_Type = type;
 
@@ -72,10 +72,10 @@ bailout:
 
 // --
 
-static void Send_HCDs( struct USBBase *usbbase, struct USB2_NotifyNode *node )
+static void Send_HCDs( struct USBBase *usbbase, struct USB3_NotifyNode *node )
 {
-struct USB2_NotifyMessage *msg;
-struct USB2_HCDNode *hcd;
+struct USB3_NotifyMessage *msg;
+struct USB3_HCDNode *hcd;
 struct ExecIFace *IExec;
 
 	// HCD is a Static list build at Startup
@@ -98,7 +98,7 @@ struct ExecIFace *IExec;
 			// Default Notify Data
 
 			msg->nm_Message.mn_ReplyPort= & usbbase->usb_Notify_ReplyMsgPort->ump_MsgPort;
-			msg->nm_Message.mn_Length	= sizeof( struct USB2_NotifyMessage );
+			msg->nm_Message.mn_Length	= sizeof( struct USB3_NotifyMessage );
 			msg->nm_Type				= USBNT_HCD;
 			msg->nm_Command 			= USBNC_Adding;
 			msg->nm_ID					= hcd->hn_NotifyID;
@@ -119,12 +119,12 @@ struct ExecIFace *IExec;
 
 // --
 
-static void Send_Functions( struct USBBase *usbbase, struct USB2_NotifyNode *node )
+static void Send_Functions( struct USBBase *usbbase, struct USB3_NotifyNode *node )
 {
-struct USB2_NotifyMessage *msg;
+struct USB3_NotifyMessage *msg;
 struct RealFunctionNode *fn;
 struct ExecIFace *IExec;
-struct USB2_Node *n;
+struct USB3_Node *n;
 U32 hcdid;
 
 	SEMAPHORE_OBTAIN( & usbbase->usb_Fkt_Semaphore );
@@ -150,7 +150,7 @@ U32 hcdid;
 			// Default Notify Data
 
 			msg->nm_Message.mn_ReplyPort= & usbbase->usb_Notify_ReplyMsgPort->ump_MsgPort;
-			msg->nm_Message.mn_Length	= sizeof( struct USB2_NotifyMessage );
+			msg->nm_Message.mn_Length	= sizeof( struct USB3_NotifyMessage );
 			msg->nm_Type				= USBNT_Function;
 			msg->nm_Command 			= USBNC_Adding;
 			msg->nm_ID					= fn->fkt_NotifyID;
@@ -176,16 +176,16 @@ U32 hcdid;
 
 // --
 
-static void Send_Interfaces( struct USBBase *usbbase, struct USB2_NotifyNode *node )
+static void Send_Interfaces( struct USBBase *usbbase, struct USB3_NotifyNode *node )
 {
-struct USB2_InterfaceHeader *ih;
-struct USB2_InterfaceGroup *ig;
-struct USB2_InterfaceNode *in;
-struct USB2_NotifyMessage *msg;
+struct USB3_InterfaceHeader *ih;
+struct USB3_InterfaceGroup *ig;
+struct USB3_InterfaceNode *in;
+struct USB3_NotifyMessage *msg;
 struct RealFunctionNode *fn;
-struct USB2_ConfigNode *cn;
+struct USB3_ConfigNode *cn;
 struct ExecIFace *IExec;
-struct USB2_Node *n;
+struct USB3_Node *n;
 
 	SEMAPHORE_OBTAIN( & usbbase->usb_Fkt_Semaphore );
 
@@ -224,7 +224,7 @@ struct USB2_Node *n;
 						// Default Notify Data
 
 						msg->nm_Message.mn_ReplyPort= & usbbase->usb_Notify_ReplyMsgPort->ump_MsgPort;
-						msg->nm_Message.mn_Length	= sizeof( struct USB2_NotifyMessage );
+						msg->nm_Message.mn_Length	= sizeof( struct USB3_NotifyMessage );
 						msg->nm_Type				= USBNT_Interface;
 						msg->nm_Command 			= USBNC_Adding;
 						msg->nm_ID					= ih->ih_NotifyID;

@@ -47,8 +47,8 @@
 SEC_CODE void HUB_Main__Free_FNs( struct USBBase *usbbase, struct intern *in )
 {
 struct RealFunctionNode *fn;
-struct USB2_Node *next;
-struct USB2_Node *n;
+struct USB3_Node *next;
+struct USB3_Node *n;
 
 	n = in->FN_Header.uh_Head;
 

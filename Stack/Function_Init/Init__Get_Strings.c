@@ -14,7 +14,7 @@
 
 SEC_CODE static S32 __myAnyStrings( struct USBBase *usbbase, struct RealFunctionNode *fn )
 {
-struct USB2_Descriptor *dsc;
+struct USB3_Descriptor *dsc;
 S32 retval;
 
 	retval = TRUE;
@@ -42,7 +42,7 @@ S32 retval;
 		{
 			case DSCTYPE_Configuration:
 			{
-				if ( ((struct USB2_Config_Desc *)dsc)->ConfigurationStrNr )
+				if ( ((struct USB3_Config_Desc *)dsc)->ConfigurationStrNr )
 				{
 					goto found;
 				}
@@ -51,7 +51,7 @@ S32 retval;
 
 			case DSCTYPE_Interface:
 			{
-				if ( ((struct USB2_Interface_Desc *)dsc)->InterfaceStrNr )
+				if ( ((struct USB3_Interface_Desc *)dsc)->InterfaceStrNr )
 				{
 					goto found;
 				}
@@ -75,8 +75,8 @@ found:
 static S32 __myGetString(
 	struct USBBase *usbbase,
 	struct RealFunctionNode *fn,
-	struct USB2_IORequest *ioreq,
-	struct USB2_SetupData *sd,
+	struct USB3_IORequest *ioreq,
+	struct USB3_SetupData *sd,
 	U32 id,
 	U16 **StringBuf,
 	S32 *StringLen )
@@ -155,15 +155,15 @@ bailout:
 
 SEC_CODE static S32 __Get_Strings( 
 	struct RealFunctionNode *fn,
-	struct USB2_IORequest *ioreq,
-	struct USB2_SetupData *sd,
+	struct USB3_IORequest *ioreq,
+	struct USB3_SetupData *sd,
 	struct USBBase *usbbase )
 {
-struct USB2_InterfaceHeader *ih;
-struct USB2_InterfaceGroup *ig;
-struct USB2_InterfaceNode *in;
-struct USB2_String_Desc *strdsc;
-struct USB2_ConfigNode *cn;
+struct USB3_InterfaceHeader *ih;
+struct USB3_InterfaceGroup *ig;
+struct USB3_InterfaceNode *in;
+struct USB3_String_Desc *strdsc;
+struct USB3_ConfigNode *cn;
 U16 *LangBuf;
 S32 LangLen;
 S32 retval;
@@ -175,7 +175,7 @@ U32 id;
 
 	ioreq->io_Command		= CMD_READ;
 	ioreq->io_SetupData		= sd;
-	ioreq->io_SetupLength	= sizeof( struct USB2_SetupData );
+	ioreq->io_SetupLength	= sizeof( struct USB3_SetupData );
 
 	USBDEBUG( "Checking for Strings" );
 

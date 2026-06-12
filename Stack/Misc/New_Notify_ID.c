@@ -12,9 +12,9 @@
 
 // --
 
-SEC_CODE USB2_ID __Misc_NewNotifyID( struct USBBase *usbbase )
+SEC_CODE USB3_ID __Misc_NewNotifyID( struct USBBase *usbbase )
 {
-USB2_ID id;
+USB3_ID id;
 
 	SEMAPHORE_OBTAIN( & usbbase->usb_Notify_Semaphore );
 

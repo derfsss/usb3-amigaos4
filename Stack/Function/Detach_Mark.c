@@ -44,7 +44,7 @@
 struct CmdHeader
 {
 	struct Message		cm_Message;
-	enum USB2_Cmd		cm_Command;
+	enum USB3_Cmd		cm_Command;
 	struct USBBase *	cm_usbbase;
 	U32					cm_Result;
 	struct Task *		cm_Task;
@@ -90,11 +90,11 @@ bailout:
 
 SEC_CODE void __Function_MarkDetach( struct USBBase *usbbase, struct RealFunctionNode *fn )
 {
-struct USB2_InterfaceHeader *ih;
-struct USB2_InterfaceGroup *ig;
-struct USB2_InterfaceNode *in;
-struct USB2_EndPointNode *ep;
-struct USB2_ConfigNode *cn;
+struct USB3_InterfaceHeader *ih;
+struct USB3_InterfaceGroup *ig;
+struct USB3_InterfaceNode *in;
+struct USB3_EndPointNode *ep;
+struct USB3_ConfigNode *cn;
 
 	TASK_NAME_ENTER( "__Function_MarkDetach" );
 

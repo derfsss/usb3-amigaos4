@@ -17,24 +17,24 @@
 
 struct RealRegister
 {
-	struct USB2_Register			reg_Public;					// At the moment must be first, todo: do same as EPResource or ?
+	struct USB3_Register			reg_Public;					// At the moment must be first, todo: do same as EPResource or ?
 
 	// -- 
 	U32								reg_StructID;
 	S32								reg_Locks;
 	U16								reg_Detach;
 	U16								reg_FreeMe;
-//	struct USB2_TaskNode *			reg_Task; 
-	struct USB2_ASync *				reg_ASync;
+//	struct USB3_TaskNode *			reg_Task; 
+	struct USB3_ASync *				reg_ASync;
 	// --
 
 	STR								reg_Title;
-//	struct USB2_EPResource *	reg_Control;
-	struct USB2_MsgPort				reg_MsgPort;
-	struct USB2_InterfaceHeader *	reg_Interface;
+//	struct USB3_EPResource *	reg_Control;
+	struct USB3_MsgPort				reg_MsgPort;
+	struct USB3_InterfaceHeader *	reg_Interface;
 	struct RealFunctionNode *		reg_Function;
-	struct USB2_Semaphore			reg_Semaphore;
-	struct USB2_Header				reg_EPRHeader;
+	struct USB3_Semaphore			reg_Semaphore;
+	struct USB3_Header				reg_EPRHeader;
 };
 
 /***************************************************************************/

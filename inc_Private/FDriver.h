@@ -21,17 +21,17 @@
 
 /***************************************************************************/
 
-struct USB2_FktDriverNode
+struct USB3_FktDriverNode
 {
-	struct USB2_Node				fdn_Node;
+	struct USB3_Node				fdn_Node;
 
 	// -- 
 	U32								fdn_StructID;
 	S32								fdn_Locks;
 	U16								fdn_Detach;
 	U16								fdn_FreeMe;
-//	struct USB2_TaskNode *			fdn_Task;
-//	struct USB2_ASync *				fdn_ASync;
+//	struct USB3_TaskNode *			fdn_Task;
+//	struct USB3_ASync *				fdn_ASync;
 	// --
 
 	U32								fdn_Type;
@@ -42,7 +42,7 @@ struct USB2_FktDriverNode
 	U16								fdn_Protocol;
 	// --
 	struct List						fdn_Devices;		// Exec List, don't change
-	U32							( * fdn_Entry )  ( struct USBBase *usbbase, struct USB2_DriverMessage *msg );
+	U32							( * fdn_Entry )  ( struct USBBase *usbbase, struct USB3_DriverMessage *msg );
 
 
 //  STR								fdn_Self;				// own FileName

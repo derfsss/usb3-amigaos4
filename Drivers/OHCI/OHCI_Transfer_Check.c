@@ -49,7 +49,7 @@
 
 // --
 
-static S32 __is_ED_Finished( struct USB2_HCDNode *hn UNUSED, struct OHCI_ED *ed )
+static S32 __is_ED_Finished( struct USB3_HCDNode *hn UNUSED, struct OHCI_ED *ed )
 {
 struct OHCI_TD *td;
 S32 retval;
@@ -207,7 +207,7 @@ U32 len;
 \\
 */
 
-SEC_CODE S32 OHCI_Transfer_Check( struct USB2_HCDNode *hn, struct RealRequest *ioreq )
+SEC_CODE S32 OHCI_Transfer_Check( struct USB3_HCDNode *hn, struct RealRequest *ioreq )
 {
 struct OHCI_ED *ed;
 S32 retval;

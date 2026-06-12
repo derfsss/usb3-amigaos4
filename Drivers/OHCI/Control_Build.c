@@ -49,9 +49,9 @@
 
 // --
 
-SEC_CODE S32 OHCI_Control_Build( struct USB2_HCDNode *hn, struct RealRequest *ioreq )
+SEC_CODE S32 OHCI_Control_Build( struct USB3_HCDNode *hn, struct RealRequest *ioreq )
 {
-struct USB2_EndPointNode *ep;
+struct USB3_EndPointNode *ep;
 struct RealFunctionNode *fn;
 struct OHCI_TD *status;
 struct OHCI_TD *dummy;
@@ -109,7 +109,7 @@ PTR buf;
 	if ( ! ed )
 	{
 		USBDEBUG( "Error allocating ED buffer" );
-		err = USB2Err_Stack_NoMemory;
+		err = USB3Err_Stack_NoMemory;
 		goto bailout;
 	}
 
@@ -120,7 +120,7 @@ PTR buf;
 	if ( ! setup )
 	{
 		USBDEBUG( "Error allocating TD buffer" );
-		err = USB2Err_Stack_NoMemory;
+		err = USB3Err_Stack_NoMemory;
 		goto bailout;
 	}
 
@@ -144,7 +144,7 @@ PTR buf;
 		if ( ! OHCI_Get_8kBuffer( hn, setup, buf, len ))
 		{
 			USBDEBUG( "Error allocating buffer" );
-			err = USB2Err_Stack_NoMemory;
+			err = USB3Err_Stack_NoMemory;
 			goto bailout;
 		}
 	}
@@ -160,7 +160,7 @@ PTR buf;
 		if ( ! data )
 		{
 			USBDEBUG( "Error allocating TD buffer" );
-			err = USB2Err_Stack_NoMemory;
+			err = USB3Err_Stack_NoMemory;
 			goto bailout;
 		}
 
@@ -182,7 +182,7 @@ PTR buf;
 		if ( ! OHCI_Get_8kBuffer( hn, data, buf, len ))
 		{
 			USBDEBUG( "Error allocating buffer" );
-			err = USB2Err_Stack_NoMemory;
+			err = USB3Err_Stack_NoMemory;
 			goto bailout;
 		}
 	}
@@ -194,7 +194,7 @@ PTR buf;
 	if ( ! status )
 	{
 		USBDEBUG( "Error allocating TD buffer" );
-		err = USB2Err_Stack_NoMemory;
+		err = USB3Err_Stack_NoMemory;
 		goto bailout;
 	}
 
@@ -218,7 +218,7 @@ PTR buf;
 	if ( ! dummy )
 	{
 		USBDEBUG( "Error allocating TD buffer" );
-		err = USB2Err_Stack_NoMemory;
+		err = USB3Err_Stack_NoMemory;
 		goto bailout;
 	}
 
@@ -235,7 +235,7 @@ PTR buf;
 	OHCI_DUMP_ED( hn, ed, TRUE );
 	#endif
 
-	err = USB2Err_NoError;
+	err = USB3Err_NoError;
 
 	handled	= FALSE;
 

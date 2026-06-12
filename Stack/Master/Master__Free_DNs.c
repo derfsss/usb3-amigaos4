@@ -15,8 +15,8 @@
 
 SEC_CODE static void myFree_DNs( struct USBBase *usbbase )
 {
-struct USB2_DriverNode *next;
-struct USB2_DriverNode *dn;
+struct USB3_DriverNode *next;
+struct USB3_DriverNode *dn;
 
 //	USBDEBUG( "myFree_DNs :: Enter" );
 

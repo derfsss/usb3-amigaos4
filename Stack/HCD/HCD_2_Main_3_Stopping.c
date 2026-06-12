@@ -12,7 +12,7 @@
 
 // --
 
-SEC_CODE static void __Stopping( struct USBBase *usbbase, struct USB2_HCDNode *hn, struct intern *in )
+SEC_CODE static void __Stopping( struct USBBase *usbbase, struct USB3_HCDNode *hn, struct intern *in )
 {
 U32 mask;
 U32 wait;

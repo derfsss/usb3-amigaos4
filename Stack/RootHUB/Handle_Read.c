@@ -16,7 +16,7 @@
 
 // --
 
-SEC_CODE S32 __RootHUB_Handle_Read( struct USBBase *usbbase, struct USB2_HCDNode *hn, struct RealRequest *ioreq )
+SEC_CODE S32 __RootHUB_Handle_Read( struct USBBase *usbbase, struct USB3_HCDNode *hn, struct RealRequest *ioreq )
 {
 S32 reply;
 
@@ -49,7 +49,7 @@ S32 reply;
 		{
 			USBDEBUG( "Root HUB : Unknown EndPoint Nr %lu", (U32) ioreq->req_EndPoint->ep_Number );
 
-			ioreq->req_Public.io_Error = USB2Err_Host_Stall;
+			ioreq->req_Public.io_Error = USB3Err_Host_Stall;
 			break;
 		}
 	}

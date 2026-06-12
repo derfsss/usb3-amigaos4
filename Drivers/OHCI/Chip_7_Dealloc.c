@@ -49,7 +49,7 @@
 
 // --
 
-SEC_CODE void OHCI_Chip_Dealloc( struct USB2_HCDNode *hn )
+SEC_CODE void OHCI_Chip_Dealloc( struct USB3_HCDNode *hn )
 {
 	struct USBBase *usbbase = hn->hn_USBBase;
 	TASK_NAME_ENTER( "OHCI : OHCI_Chip_Dealloc" );

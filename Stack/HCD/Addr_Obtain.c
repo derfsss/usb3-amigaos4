@@ -12,7 +12,7 @@
 
 // --
 
-SEC_CODE U32 __HCD_Addr_Obtain( struct USBBase *usbbase, struct USB2_HCDNode *hn, struct RealFunctionNode *fn )
+SEC_CODE U32 __HCD_Addr_Obtain( struct USBBase *usbbase, struct USB3_HCDNode *hn, struct RealFunctionNode *fn )
 {
 U32 retval;
 U32 adr;

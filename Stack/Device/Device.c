@@ -133,7 +133,7 @@ SEC_RODATA const PTR devInterfaces[] =
 SEC_RODATA const char verstag[] = VERSTAG;
 
 // --
-// if we set "usb2.device" it can we loaded from AmigaDOS
+// if we set "usb3.device" it can we loaded from AmigaDOS
 // for kickstart module, its just an info string
 
 SEC_RWDATA const struct Resident usb_res =

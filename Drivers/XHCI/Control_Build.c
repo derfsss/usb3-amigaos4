@@ -15,7 +15,7 @@
 
 // XHCI handles SET_ADDRESS internally via the Address Device command.
 
-static S32 XHCI_Handle_SetAddress( struct USB2_HCDNode *hn, struct RealRequest *ioreq )
+static S32 XHCI_Handle_SetAddress( struct USB3_HCDNode *hn, struct RealRequest *ioreq )
 {
 struct _XHCI *xhci;
 struct RealFunctionNode *fn;
@@ -81,7 +81,7 @@ U32 desired_addr;
 			usbbase->usb_IExec->DebugPrintF(
 				"USB3: SET_ADDRESS: EnableSlot FAILED\n" );
 			USBERROR( "XHCI: SET_ADDRESS: Enable Slot failed" );
-			ioreq->req_Public.io_Error = USB2Err_Host_HostError;
+			ioreq->req_Public.io_Error = USB3Err_Host_HostError;
 			return( TRUE );
 		}
 
@@ -93,7 +93,7 @@ U32 desired_addr;
 				"USB3: SET_ADDRESS: Slot_Alloc FAILED, releasing slot %ld\n", slotid );
 			USBERROR( "XHCI: SET_ADDRESS: Slot Alloc failed" );
 			XHCI_Cmd_DisableSlot( hn, slotid );
-			ioreq->req_Public.io_Error = USB2Err_Stack_NoMemory;
+			ioreq->req_Public.io_Error = USB3Err_Stack_NoMemory;
 			return( TRUE );
 		}
 	}
@@ -110,7 +110,7 @@ U32 desired_addr;
 		USBERROR( "XHCI: SET_ADDRESS: Address Device failed" );
 		XHCI_Slot_Free( hn, slotid );
 		XHCI_Cmd_DisableSlot( hn, slotid );
-		ioreq->req_Public.io_Error = USB2Err_Host_HostError;
+		ioreq->req_Public.io_Error = USB3Err_Host_HostError;
 		xhci->SlotID_ByAddress[0] = 0;	// invalidate stale mapping
 		return( TRUE );
 	}
@@ -136,10 +136,10 @@ U32 desired_addr;
 
 // --
 
-SEC_CODE S32 XHCI_Control_Build( struct USB2_HCDNode *hn, struct RealRequest *ioreq )
+SEC_CODE S32 XHCI_Control_Build( struct USB3_HCDNode *hn, struct RealRequest *ioreq )
 {
 struct RealFunctionNode *fn;
-struct USB2_SetupData *setup;
+struct USB3_SetupData *setup;
 struct _XHCI *xhci;
 struct XHCI_Slot *slot;
 struct XHCI_Ring *ring;
@@ -162,7 +162,7 @@ U32 status_dir;
 	if ( ! setup )
 	{
 		USBERROR( "XHCI: Control_Build: no setup data" );
-		ioreq->req_Public.io_Error = USB2Err_Stack_InvalidStructure;
+		ioreq->req_Public.io_Error = USB3Err_Stack_InvalidStructure;
 		goto bailout;
 	}
 
@@ -183,7 +183,7 @@ U32 status_dir;
 		U32 cfg_slotid = xhci->SlotID_ByAddress[ fn->fkt_Address ];
 
 		// Use fkt_Config_Active if set, else use first config in list
-		struct USB2_ConfigNode *cfg_to_use = fn->fkt_Config_Active;
+		struct USB3_ConfigNode *cfg_to_use = fn->fkt_Config_Active;
 
 		if ( ! cfg_to_use )
 		{
@@ -196,7 +196,7 @@ U32 status_dir;
 		if ( cfg_slotid && cfg_to_use )
 		{
 			// Temporarily set active config for ConfigureEndpoints to use
-			struct USB2_ConfigNode *saved = fn->fkt_Config_Active;
+			struct USB3_ConfigNode *saved = fn->fkt_Config_Active;
 			fn->fkt_Config_Active = cfg_to_use;
 
 			XHCI_Slot_ConfigureEndpoints( hn, cfg_slotid, fn );
@@ -213,7 +213,7 @@ U32 status_dir;
 	if ( ! slotid )
 	{
 		USBERROR( "XHCI: Control_Build: no slot for address %ld", (U32) fn->fkt_Address );
-		ioreq->req_Public.io_Error = USB2Err_Stack_FunctionNotFound;
+		ioreq->req_Public.io_Error = USB3Err_Stack_FunctionNotFound;
 		goto bailout;
 	}
 
@@ -222,7 +222,7 @@ U32 status_dir;
 	if ( ! slot )
 	{
 		USBERROR( "XHCI: Control_Build: slot %ld not allocated", slotid );
-		ioreq->req_Public.io_Error = USB2Err_Stack_FunctionNotFound;
+		ioreq->req_Public.io_Error = USB3Err_Stack_FunctionNotFound;
 		goto bailout;
 	}
 
@@ -286,7 +286,7 @@ U32 status_dir;
 		if ( ! bounce )
 		{
 			USBERROR( "XHCI: Control_Build: error allocating DMA buffer" );
-			ioreq->req_Public.io_Error = USB2Err_Stack_NoMemory;
+			ioreq->req_Public.io_Error = USB3Err_Stack_NoMemory;
 			goto bailout;
 		}
 

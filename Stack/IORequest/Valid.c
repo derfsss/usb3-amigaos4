@@ -47,12 +47,12 @@ enum VSTAT vstat;
 		USBDEBUG( "__IORequest_Valid        : IOReq %p : Not Initalized : (%s)", ioreq, (file)?file:"<NULL>" );
 		vstat = VSTAT_Null;
 	} 
-	else if ( ioreq->req_StructID == ID_USB2_FREED )
+	else if ( ioreq->req_StructID == ID_USB3_FREED )
 	{
 		USBDEBUG( "__IORequest_Valid        : IOReq %p : Structure allready freed : (%s)", ioreq, (file)?file:"<NULL>" );
 		vstat = VSTAT_Null;
 	}
-	else if ( ioreq->req_StructID != ID_USB2_IOR )
+	else if ( ioreq->req_StructID != ID_USB3_IOR )
 	{
 		// We also use this for testing on TimeRequest
 		vstat = VSTAT_Error;

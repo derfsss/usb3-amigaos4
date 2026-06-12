@@ -12,7 +12,7 @@
 
 // --
 
-SEC_CODE static U32 __Interrupt_Read( struct USBBase *usbbase, struct USB2_HCDNode *hn, U8 *buffer, U32 buflen )
+SEC_CODE static U32 __Interrupt_Read( struct USBBase *usbbase, struct USB3_HCDNode *hn, U8 *buffer, U32 buflen )
 {
 U32 changed;
 S32 update;

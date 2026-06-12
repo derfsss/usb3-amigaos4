@@ -14,11 +14,11 @@
 
 #if defined( DO_PANIC ) || defined( DO_ERROR ) || defined( DO_DEBUG ) || defined( DO_INFO )
 
-SEC_CODE void __Task_FreeSignal( struct USBBase *usbbase, struct USB2_Signal *sig, STR file UNUSED )
+SEC_CODE void __Task_FreeSignal( struct USBBase *usbbase, struct USB3_Signal *sig, STR file UNUSED )
 
 #else
 
-SEC_CODE void __Task_FreeSignal( struct USBBase *usbbase, struct USB2_Signal *sig )
+SEC_CODE void __Task_FreeSignal( struct USBBase *usbbase, struct USB3_Signal *sig )
 
 #endif
 
@@ -27,14 +27,14 @@ struct ExecIFace *IExec;
 
 	if (( sig == NULL )
 	||	( sig->sig_StructID == 0 ) 
-	||	( sig->sig_StructID == ID_USB2_FREED ))
+	||	( sig->sig_StructID == ID_USB3_FREED ))
 	{
 		return;
 	}
 
 	#ifdef DO_PANIC
 
-	if ( sig->sig_StructID != ID_USB2_SIG )
+	if ( sig->sig_StructID != ID_USB3_SIG )
 	{
 		USBPANIC( "Task_FreeSignal : 1 : Invalid ID" );
 	}
@@ -49,7 +49,7 @@ struct ExecIFace *IExec;
 		IExec->FreeSignal( sig->sig_Signal_Nr );
 	}
 
-	sig->sig_StructID		= ID_USB2_FREED;
+	sig->sig_StructID		= ID_USB3_FREED;
 	sig->sig_Signal_Nr		= -1;
 	sig->sig_Signal_Mask	= 0;
 }

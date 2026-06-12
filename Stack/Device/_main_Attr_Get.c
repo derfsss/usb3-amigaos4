@@ -12,11 +12,11 @@
 
 // --
 
-static struct RealFunctionNode *Find_Function( struct USBBase *usbbase, USB2_ID id );
+static struct RealFunctionNode *Find_Function( struct USBBase *usbbase, USB3_ID id );
 
 // --
 
-SEC_CODE static U32 _main_Attr_Get( struct USB2IFace *Self, USB2_ID id, U32 tag, PTR buffer, U32 buffersize )
+SEC_CODE static U32 _main_Attr_Get( struct USB3IFace *Self, USB3_ID id, U32 tag, PTR buffer, U32 buffersize )
 {
 struct RealFunctionNode *fn;
 struct USBBase *usbbase;
@@ -31,57 +31,57 @@ PTR mem;
 
 	switch( tag )
 	{
-		case USB2Tag_Attr_DeviceSize:
+		case USB3Tag_Attr_DeviceSize:
 		{
 			fn = Find_Function( usbbase, id );
 
 			if ( fn )	// Just Validating ID
 			{
-				value = sizeof( struct USB2_Device_Desc );
+				value = sizeof( struct USB3_Device_Desc );
 				len	= sizeof( U32 );
 				mem = & value ;
 			}
 			break;
 		}
 
-		case USB2Tag_Attr_DeviceDesc:
+		case USB3Tag_Attr_DeviceDesc:
 		{
 			fn = Find_Function( usbbase, id );
 
 			if ( fn )
 			{
-				len	= sizeof( struct USB2_Device_Desc );
+				len	= sizeof( struct USB3_Device_Desc );
 				mem = fn->fkt_DeviceDescriptor;
 			}
 			break;
 		}
 
-		case USB2Tag_Attr_HUBSize:
+		case USB3Tag_Attr_HUBSize:
 		{
 			fn = Find_Function( usbbase, id );
 
 			if ( fn )	// Just Validating ID
 			{
-				value = sizeof( struct USB2_HUB_Desc );
+				value = sizeof( struct USB3_HUB_Desc );
 				len	= sizeof( U32 );
 				mem = & value ;
 			}
 			break;
 		}
 
-		case USB2Tag_Attr_HUBDesc:
+		case USB3Tag_Attr_HUBDesc:
 		{
 			fn = Find_Function( usbbase, id );
 
 			if ( fn )
 			{
-				len	= sizeof( struct USB2_HUB_Desc );
+				len	= sizeof( struct USB3_HUB_Desc );
 				mem = fn->fkt_HUBDescriptor;
 			}
 			break;
 		}
 
-		case USB2Tag_Attr_ConfigSize:
+		case USB3Tag_Attr_ConfigSize:
 		{
 			fn = Find_Function( usbbase, id );
 
@@ -94,7 +94,7 @@ PTR mem;
 			break;
 		}
 
-		case USB2Tag_Attr_ConfigDesc:
+		case USB3Tag_Attr_ConfigDesc:
 		{
 			fn = Find_Function( usbbase, id );
 
@@ -133,10 +133,10 @@ PTR mem;
 
 // --
 
-static struct RealFunctionNode *Find_Function( struct USBBase *usbbase, USB2_ID id )
+static struct RealFunctionNode *Find_Function( struct USBBase *usbbase, USB3_ID id )
 {
 struct RealFunctionNode *fn;
-struct USB2_Node *n;
+struct USB3_Node *n;
 
 	SEMAPHORE_OBTAIN( & usbbase->usb_Fkt_Semaphore );
 
@@ -171,21 +171,21 @@ struct USB2_Node *n;
 #if 0
 
 
-static struct USB2_HCDNode *			Find_HCD(		struct USBBase *usbbase, uint64 id );
-static struct USB2_FunctionNode *	Find_Function(	struct USBBase *usbbase, uint64 id );
-static struct USB2_InterfaceNode *	Find_Interface( struct USBBase *usbbase, uint64 id );
+static struct USB3_HCDNode *			Find_HCD(		struct USBBase *usbbase, uint64 id );
+static struct USB3_FunctionNode *	Find_Function(	struct USBBase *usbbase, uint64 id );
+static struct USB3_InterfaceNode *	Find_Interface( struct USBBase *usbbase, uint64 id );
 
 
 /* -- Stack Attriubute -- */
 
 /// Stack Get Attribute
 
-U32 _main_Stack_GetAttribute( struct USB2IFace *Self, uint64 id, U32 tag, APTR buffer, U32 buffersize )
+U32 _main_Stack_GetAttribute( struct USB3IFace *Self, uint64 id, U32 tag, APTR buffer, U32 buffersize )
 {
-struct USB2_ConfigNode *cfgnode;
-struct USB2_InterfaceNode *ifcnode;
-struct USB2_FunctionNode *fn;
-struct USB2_HCDNode *hn;
+struct USB3_ConfigNode *cfgnode;
+struct USB3_InterfaceNode *ifcnode;
+struct USB3_FunctionNode *fn;
+struct USB3_HCDNode *hn;
 struct USBBase *usbbase;
 U32 retval;
 U32 len;
@@ -214,27 +214,27 @@ APTR data;
 
 	switch( tag )
 	{
-		case USB2Tag_Stack_StartupTime:
+		case USB3Tag_Stack_StartupTime:
 		{
-			SHOWMSG( "USB2Tag_Stack_StartupTime" );
+			SHOWMSG( "USB3Tag_Stack_StartupTime" );
 
 			len		= sizeof( struct TimeVal );
 			data	= &usbbase->usb_StartupTime;
 			break;
 		}
 
-		case USB2Tag_Stack_Status:
+		case USB3Tag_Stack_Status:
 		{
-			SHOWMSG( "USB2Tag_Stack_Status" );
+			SHOWMSG( "USB3Tag_Stack_Status" );
 
 			len		= sizeof( U32 );
 			data	= &usbbase->usb_StackStatus;
 			break;
 		}
 
-		case USB2Tag_HCD_Type:
+		case USB3Tag_HCD_Type:
 		{
-			SHOWMSG( "USB2Tag_HCD_Type" );
+			SHOWMSG( "USB3Tag_HCD_Type" );
 
 			hn = Find_HCD( usbbase, id );
 
@@ -246,9 +246,9 @@ APTR data;
 			break;
 		}
 
-		case USB2Tag_HCD_Index:
+		case USB3Tag_HCD_Index:
 		{
-			SHOWMSG( "USB2Tag_HCD_Index" );
+			SHOWMSG( "USB3Tag_HCD_Index" );
 
 			hn = Find_HCD( usbbase, id );
 
@@ -260,37 +260,37 @@ APTR data;
 			break;
 		}
 
-		case USB2Tag_FKT_DeviceDescriptor:
+		case USB3Tag_FKT_DeviceDescriptor:
 		{
-			SHOWMSG( "USB2Tag_FKT_DeviceDescriptor" );
+			SHOWMSG( "USB3Tag_FKT_DeviceDescriptor" );
 
 			fn = Find_Function( usbbase, id );
 
 			if ( fn )
 			{
-				len		= sizeof( struct USB2_DeviceDescriptor );
+				len		= sizeof( struct USB3_DeviceDescriptor );
 				data	= fn->fkt_DeviceDescriptor;
 			}
 			break;
 		}
 
-		case USB2Tag_FKT_HUBDescriptor:
+		case USB3Tag_FKT_HUBDescriptor:
 		{
-			SHOWMSG( "USB2Tag_FKT_HUBDescriptor" );
+			SHOWMSG( "USB3Tag_FKT_HUBDescriptor" );
 
 			fn = Find_Function( usbbase, id );
 
 			if ( fn )
 			{
-				len		= sizeof( struct USB2_HUBDescriptor );
+				len		= sizeof( struct USB3_HUBDescriptor );
 				data	= fn->fkt_HUBDescriptor;
 			}
 			break;
 		}
 
-		case USB2Tag_FKT_ConfigDescriptor:
+		case USB3Tag_FKT_ConfigDescriptor:
 		{
-			SHOWMSG( "USB2Tag_FKT_ConfigDescriptor" );
+			SHOWMSG( "USB3Tag_FKT_ConfigDescriptor" );
 
 			fn = Find_Function( usbbase, id );
 
@@ -302,9 +302,9 @@ APTR data;
 			break;
 		}
 
-		case USB2Tag_FKT_ConfigDescriptorSize:
+		case USB3Tag_FKT_ConfigDescriptorSize:
 		{
-			SHOWMSG( "USB2Tag_FKT_ConfigDescriptorSize" );
+			SHOWMSG( "USB3Tag_FKT_ConfigDescriptorSize" );
 
 			fn = Find_Function( usbbase, id );
 
@@ -316,9 +316,9 @@ APTR data;
 			break;
 		}
 
-		case USB2Tag_FKT_ManufacturerStr:
+		case USB3Tag_FKT_ManufacturerStr:
 		{
-			SHOWMSG( "USB2Tag_FKT_ManufacturerStr" );
+			SHOWMSG( "USB3Tag_FKT_ManufacturerStr" );
 
 			fn = Find_Function( usbbase, id );
 
@@ -330,9 +330,9 @@ APTR data;
 			break;
 		}
 
-		case USB2Tag_FKT_ProductStr:
+		case USB3Tag_FKT_ProductStr:
 		{
-			SHOWMSG( "USB2Tag_FKT_ProductStr" );
+			SHOWMSG( "USB3Tag_FKT_ProductStr" );
 
 			fn = Find_Function( usbbase, id );
 
@@ -344,9 +344,9 @@ APTR data;
 			break;
 		}
 
-		case USB2Tag_FKT_SerialStr:
+		case USB3Tag_FKT_SerialStr:
 		{
-			SHOWMSG( "USB2Tag_FKT_SerialStr" );
+			SHOWMSG( "USB3Tag_FKT_SerialStr" );
 
 			fn = Find_Function( usbbase, id );
 
@@ -358,9 +358,9 @@ APTR data;
 			break;
 		}
 
-		case USB2Tag_CFG_String:
+		case USB3Tag_CFG_String:
 		{
-			SHOWMSG( "USB2Tag_CFG_String" );
+			SHOWMSG( "USB3Tag_CFG_String" );
 
 			fn = Find_Function( usbbase, id );
 			cfgnode = ( fn ) ? fn->fkt_ConfigActive : NULL;
@@ -373,9 +373,9 @@ APTR data;
 			break;
 		}
 
-		case USB2Tag_IFC_String:
+		case USB3Tag_IFC_String:
 		{
-			SHOWMSG( "USB2Tag_IFC_String" );
+			SHOWMSG( "USB3Tag_IFC_String" );
 
 			ifcnode = Find_Interface( usbbase, id );
 
@@ -387,9 +387,9 @@ APTR data;
 			break;
 		}
 
-//#define USB2Tag_Prefs_HUB_EnableTT	   ( USB2Tag_Dummy + 59 )   // v1.6  - U32
+//#define USB3Tag_Prefs_HUB_EnableTT	   ( USB3Tag_Dummy + 59 )   // v1.6  - U32
 
-//#define USB2Tag_Prefs_HID_Protocol	   ( USB2Tag_Dummy + 60 )   // v1.6  - U32
+//#define USB3Tag_Prefs_HID_Protocol	   ( USB3Tag_Dummy + 60 )   // v1.6  - U32
 
 		default:
 		{
@@ -421,7 +421,7 @@ bailout:
 ///
 /// Stack Set Attribute
 
-U32 _main_Stack_SetAttribute( struct USB2IFace *Self, uint64 id UNUSED, U32 tag, APTR buffer, U32 buffersize )
+U32 _main_Stack_SetAttribute( struct USB3IFace *Self, uint64 id UNUSED, U32 tag, APTR buffer, U32 buffersize )
 {
 //struct ExecIFace *IExec;
 struct USBBase *usbbase;
@@ -475,9 +475,9 @@ bailout:
 
 /// Find HCD
 
-static struct USB2_HCDNode *Find_HCD( struct USBBase *usbbase, uint64 id )
+static struct USB3_HCDNode *Find_HCD( struct USBBase *usbbase, uint64 id )
 {
-struct USB2_HCDNode *hcd;
+struct USB3_HCDNode *hcd;
 //struct ExecIFace *IExec;
 
 //	  IExec = usbbase->usb_IExec;
@@ -500,14 +500,14 @@ struct USB2_HCDNode *hcd;
 }
 
 
-static struct USB2_InterfaceNode *Find_Interface( struct USBBase *usbbase, uint64 id )
+static struct USB3_InterfaceNode *Find_Interface( struct USBBase *usbbase, uint64 id )
 {
-struct USB2_ConfigNode *cfg;
-struct USB2_InterfaceHeader *ih;
-struct USB2_InterfaceGroup *ig;
-struct USB2_InterfaceNode *in;
-struct USB2_InterfaceNode *retval;
-struct USB2_FunctionNode *fkt;
+struct USB3_ConfigNode *cfg;
+struct USB3_InterfaceHeader *ih;
+struct USB3_InterfaceGroup *ig;
+struct USB3_InterfaceNode *in;
+struct USB3_InterfaceNode *retval;
+struct USB3_FunctionNode *fkt;
 
 	retval = NULL;
 

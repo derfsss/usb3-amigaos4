@@ -22,7 +22,7 @@ struct intern
 	#endif
 
 	// -- Timer Tick
-	struct USB2_MsgPort		Tick_MsgPort;
+	struct USB3_MsgPort		Tick_MsgPort;
 	S32						Tick_TimerAdded;
 	struct TimeRequest		Tick_TimeRequest;
 };

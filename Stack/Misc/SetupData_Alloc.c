@@ -21,7 +21,7 @@ struct RealSetupData *sd;
 	if ( sd )
 	{
 		sd->rsd_Phy = ((struct Mem_FreeNode *)sd)->mfn_Addr;
-		sd->rsd_StructID = ID_USB2_SD;
+		sd->rsd_StructID = ID_USB3_SD;
 
 		USBDEBUG( "__SetupData_Alloc        : SD    %p, Phy $%08lx", sd, sd->rsd_Phy );
 	}

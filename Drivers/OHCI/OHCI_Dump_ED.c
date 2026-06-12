@@ -50,7 +50,7 @@
 // --
 #if defined( DO_ERROR ) || defined( DO_DEBUG ) || defined( DO_INFO )
 
-SEC_CODE void OHCI_Dump_ED( struct USB2_HCDNode *hn, struct OHCI_ED *ed, S32 DoSetup UNUSED )
+SEC_CODE void OHCI_Dump_ED( struct USB3_HCDNode *hn, struct OHCI_ED *ed, S32 DoSetup UNUSED )
 {
 struct ExecIFace *IExec;
 U32 nexted;

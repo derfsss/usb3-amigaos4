@@ -14,11 +14,11 @@
 
 #if defined( DO_PANIC ) || defined( DO_ERROR ) || defined( DO_DEBUG ) || defined( DO_INFO )
 
-SEC_CODE enum VSTAT __HCD_Valid( struct USBBase *usbbase UNUSED, struct USB2_HCDNode *hn, STR file UNUSED )
+SEC_CODE enum VSTAT __HCD_Valid( struct USBBase *usbbase UNUSED, struct USB3_HCDNode *hn, STR file UNUSED )
 
 #else
 
-SEC_CODE enum VSTAT __HCD_Valid( struct USBBase *usbbase UNUSED, struct USB2_HCDNode *hn )
+SEC_CODE enum VSTAT __HCD_Valid( struct USBBase *usbbase UNUSED, struct USB3_HCDNode *hn )
 
 #endif
 
@@ -47,12 +47,12 @@ enum VSTAT vstat;
 		USBDEBUG( "__HCD_Valid              : HN    %p : Not Initalized : (%s)", hn, file);
 		vstat = VSTAT_Null;
 	} 
-	else if ( hn->hn_StructID == ID_USB2_FREED )
+	else if ( hn->hn_StructID == ID_USB3_FREED )
 	{
 		USBDEBUG( "__HCD_Valid              : HN    %p : Structure allready freed : (%s)", hn, (file)?file:"<NULL>" );
 		vstat = VSTAT_Null;
 	}
-	else if ( hn->hn_StructID != ID_USB2_HN )
+	else if ( hn->hn_StructID != ID_USB3_HN )
 	{
 		USBDEBUG( "__HCD_Valid              : HN    %p : Invalid ID $%08lx : (%s)", hn, hn->hn_StructID, (file)?file:"<NULL>" );
 		vstat = VSTAT_Error;

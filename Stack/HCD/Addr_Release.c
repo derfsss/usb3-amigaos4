@@ -14,7 +14,7 @@
 
 SEC_CODE void __HCD_Addr_Release( struct USBBase *usbbase, struct RealFunctionNode *fn )
 {
-struct USB2_HCDNode *hn;
+struct USB3_HCDNode *hn;
 U32 adr;
 
 	TASK_NAME_ENTER( "__HCD_Addr_Release" );

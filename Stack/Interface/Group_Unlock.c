@@ -14,11 +14,11 @@
 
 #if defined( DO_PANIC ) || defined( DO_ERROR ) || defined( DO_DEBUG ) || defined( DO_INFO )
 
-SEC_CODE void __Interface_UnlockGroup( struct USBBase *usbbase, struct USB2_InterfaceGroup *ig, STR file UNUSED )
+SEC_CODE void __Interface_UnlockGroup( struct USBBase *usbbase, struct USB3_InterfaceGroup *ig, STR file UNUSED )
 
 #else
 
-SEC_CODE void __Interface_UnlockGroup( struct USBBase *usbbase, struct USB2_InterfaceGroup *ig )
+SEC_CODE void __Interface_UnlockGroup( struct USBBase *usbbase, struct USB3_InterfaceGroup *ig )
 
 #endif
 

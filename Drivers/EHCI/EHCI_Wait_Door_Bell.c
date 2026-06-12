@@ -51,11 +51,11 @@
 
 #if defined( DO_PANIC ) || defined( DO_ERROR ) || defined( DO_DEBUG ) || defined( DO_INFO )
 
-SEC_CODE void EHCI_Door_Bell_Wait( struct USB2_HCDNode *hn, STR file UNUSED )
+SEC_CODE void EHCI_Door_Bell_Wait( struct USB3_HCDNode *hn, STR file UNUSED )
 
 #else
 
-SEC_CODE void EHCI_Door_Bell_Wait( struct USB2_HCDNode *hn )
+SEC_CODE void EHCI_Door_Bell_Wait( struct USB3_HCDNode *hn )
 
 #endif
 
@@ -144,11 +144,11 @@ U32 adr;
 
 #if defined( DO_PANIC ) || defined( DO_ERROR ) || defined( DO_DEBUG ) || defined( DO_INFO )
 
-SEC_CODE void EHCI_Door_Bell_Init( struct USB2_HCDNode *hn, STR file UNUSED )
+SEC_CODE void EHCI_Door_Bell_Init( struct USB3_HCDNode *hn, STR file UNUSED )
 
 #else
 
-SEC_CODE void EHCI_Door_Bell_Init( struct USB2_HCDNode *hn )
+SEC_CODE void EHCI_Door_Bell_Init( struct USB3_HCDNode *hn )
 
 #endif
 

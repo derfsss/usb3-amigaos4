@@ -13,7 +13,7 @@
 
 // --
 
-void Master_Task_Entry( struct USBBase *usbbase, struct USB2_TaskMsg *tm );
+void Master_Task_Entry( struct USBBase *usbbase, struct USB3_TaskMsg *tm );
 
 // --
 

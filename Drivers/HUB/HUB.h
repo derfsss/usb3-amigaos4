@@ -54,19 +54,19 @@ struct intern
 	#endif
 
 	struct TimeRequest				Delay_IOReq;
-	struct USB2_MsgPort				Delay_MsgPort;
+	struct USB3_MsgPort				Delay_MsgPort;
 	struct TimeRequest				Tick_TimeRequest;
-	struct USB2_MsgPort				Tick_MsgPort;
-	struct USB2_EPResource *		Res_Interrupt;
-	struct USB2_EPResource *		Res_Control;
+	struct USB3_MsgPort				Tick_MsgPort;
+	struct USB3_EPResource *		Res_Interrupt;
+	struct USB3_EPResource *		Res_Control;
 	struct RealFunctionNode **		PortFunctions;
-	struct USB2_DriverMessage *		StartMsg;
+	struct USB3_DriverMessage *		StartMsg;
 	struct RealFunctionNode *		Function;
-	struct USB2_HCDNode *			HCDNode;
+	struct USB3_HCDNode *			HCDNode;
 	struct RealRegister *			Register;
-	struct USB2_ASync				ASync_Drivers;
-	struct USB2_ASync				ASync_Functions;
-	struct USB2_Header				FN_Header;
+	struct USB3_ASync				ASync_Drivers;
+	struct USB3_ASync				ASync_Functions;
+	struct USB3_Header				FN_Header;
 	U32		Tick_TimerAdded;
 	U32		ErrorCnt;
 	U32		Running;
@@ -87,16 +87,16 @@ SEC_CODE struct RealFunctionNode *HUB__Port_Function_Add3( struct RealFunctionNo
 
 SEC_CODE void	HUB__HUB_Chg( struct USBBase *usbbase, struct intern *in );
 SEC_CODE S32	HUB__HUB_Feature_Clr( struct USBBase *usbbase, struct intern *in, U32 sel );
-SEC_CODE S32	HUB__HUB_Status_Get( struct USBBase *usbbase, struct intern *in, struct USB2_HUBStatus *stat );
+SEC_CODE S32	HUB__HUB_Status_Get( struct USBBase *usbbase, struct intern *in, struct USB3_HUBStatus *stat );
 
 SEC_CODE void	HUB__Port_Chg( struct USBBase *usbbase, struct intern *in, U32 port );
 SEC_CODE S32	HUB__Port_Feature_Clr( struct USBBase *usbbase, struct intern *in, U32 port, U32 sel );
 SEC_CODE S32	HUB__Port_Feature_Set( struct USBBase *usbbase, struct intern *in, U32 port, U32 sel );
 SEC_CODE S32	HUB__Port_Function_Add( struct USBBase *usbbase, struct intern *in, U32 port );
 SEC_CODE U32	HUB__Port_Function_SetAddr( struct USBBase *usbbase, struct intern *in, struct RealFunctionNode *fn );
-SEC_CODE void	HUB__Port_FAdd_Retry( struct RealFunctionNode *parent, struct USB2_PortStatus *stat, struct USBBase *usbbase,  struct intern *in, U32 retry, U32 port );
+SEC_CODE void	HUB__Port_FAdd_Retry( struct RealFunctionNode *parent, struct USB3_PortStatus *stat, struct USBBase *usbbase,  struct intern *in, U32 retry, U32 port );
 SEC_CODE void	HUB__Port_Function_Rem( struct USBBase *usbbase, struct intern *in, U32 port );
-SEC_CODE S32	HUB__Port_Status_Get( struct USBBase *usbbase, struct intern *in, U32 port, struct USB2_PortStatus *stat );
+SEC_CODE S32	HUB__Port_Status_Get( struct USBBase *usbbase, struct intern *in, U32 port, struct USB3_PortStatus *stat );
 
 SEC_CODE void	HUB_Main__Free_FNs( struct USBBase *usbbase, struct intern *in );
 SEC_CODE void	HUB_Main__Normal( struct USBBase *usbbase, struct intern *in );
@@ -114,7 +114,7 @@ SEC_CODE S32	HUB_Power_Up( struct USBBase *usbbase, struct intern *in );
 SEC_CODE void	HUB_Schedule( struct USBBase *usbbase, struct intern *in );
 SEC_CODE void	HUB_Handle_Stack( struct USBBase *usbbase, struct intern *in );
 SEC_CODE void	HUB_Wait_ms( struct USBBase *usbbase, struct intern *in, U32 ms );
-SEC_CODE U32	HUB_Entry( struct USBBase *usbbase, struct USB2_DriverMessage *msg );
+SEC_CODE U32	HUB_Entry( struct USBBase *usbbase, struct USB3_DriverMessage *msg );
 
 /***************************************************************************/
 

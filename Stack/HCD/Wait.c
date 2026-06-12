@@ -16,7 +16,7 @@
 // Delay/Wait function for HCD tasks only
 // so I can avoid the MicroDelay that is a Busywait function
 
-SEC_CODE void __HCD_Wait_ms( struct USBBase *usbbase, struct USB2_HCDNode *hn, U32 ms )
+SEC_CODE void __HCD_Wait_ms( struct USBBase *usbbase, struct USB3_HCDNode *hn, U32 ms )
 {
 struct TimeRequest *req;
 

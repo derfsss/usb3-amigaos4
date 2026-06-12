@@ -14,11 +14,11 @@
 
 #if defined( DO_PANIC ) || defined( DO_ERROR ) || defined( DO_DEBUG ) || defined( DO_INFO )
 
-SEC_CODE enum LSTAT __HCD_Lock( struct USBBase *usbbase, struct USB2_HCDNode *hn, STR file UNUSED )
+SEC_CODE enum LSTAT __HCD_Lock( struct USBBase *usbbase, struct USB3_HCDNode *hn, STR file UNUSED )
 
 #else
 
-SEC_CODE enum LSTAT __HCD_Lock( struct USBBase *usbbase, struct USB2_HCDNode *hn )
+SEC_CODE enum LSTAT __HCD_Lock( struct USBBase *usbbase, struct USB3_HCDNode *hn )
 
 #endif
 

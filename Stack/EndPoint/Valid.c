@@ -14,11 +14,11 @@
 
 #if defined( DO_PANIC ) || defined( DO_ERROR ) || defined( DO_DEBUG ) || defined( DO_INFO )
 
-SEC_CODE enum VSTAT __EndPoint_Valid( struct USBBase *usbbase UNUSED, struct USB2_EndPointNode *ep, STR file UNUSED )
+SEC_CODE enum VSTAT __EndPoint_Valid( struct USBBase *usbbase UNUSED, struct USB3_EndPointNode *ep, STR file UNUSED )
 
 #else
 
-SEC_CODE enum VSTAT __EndPoint_Valid( struct USBBase *usbbase UNUSED, struct USB2_EndPointNode *ep )
+SEC_CODE enum VSTAT __EndPoint_Valid( struct USBBase *usbbase UNUSED, struct USB3_EndPointNode *ep )
 
 #endif
 
@@ -47,12 +47,12 @@ enum VSTAT vstat;
 		USBDEBUG( "__EndPoint_Valid         : EP    %p : Not Initalized : (%s)", ep, (file)?file:"<NULL>" );
 		vstat = VSTAT_Null;
 	} 
-	else if ( ep->ep_StructID == ID_USB2_FREED )
+	else if ( ep->ep_StructID == ID_USB3_FREED )
 	{
 		USBDEBUG( "__EndPoint_Valid         : EP    %p : Structure allready freed : (%s)", ep, (file)?file:"<NULL>" );
 		vstat = VSTAT_Null;
 	}
-	else if ( ep->ep_StructID != ID_USB2_EP )
+	else if ( ep->ep_StructID != ID_USB3_EP )
 	{
 		USBDEBUG( "__EndPoint_Valid         : EP    %p : Invalid ID $%08lx : (%s)", ep, ep->ep_StructID, (file)?file:"<NULL>" );
 		vstat = VSTAT_Error;

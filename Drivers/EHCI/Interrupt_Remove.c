@@ -49,9 +49,9 @@
 
 // --
 
-SEC_CODE void EHCI_Interrupt_Remove( struct USB2_HCDNode *hn, struct RealRequest *ioreq )
+SEC_CODE void EHCI_Interrupt_Remove( struct USB3_HCDNode *hn, struct RealRequest *ioreq )
 {
-struct USB2_EndPointNode *epn;
+struct USB3_EndPointNode *epn;
 struct EHCI_QH *cur;
 struct EHCI_QH *qh;
 U32 status;

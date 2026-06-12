@@ -13,7 +13,7 @@
 
 // --
 
-SEC_CODE S32 XHCI_Transfer_Check( struct USB2_HCDNode *hn UNUSED, struct RealRequest *ioreq )
+SEC_CODE S32 XHCI_Transfer_Check( struct USB3_HCDNode *hn UNUSED, struct RealRequest *ioreq )
 {
 	return( ioreq->req_HCD.XHCI.Completed != 0 ) ? TRUE : FALSE;
 }

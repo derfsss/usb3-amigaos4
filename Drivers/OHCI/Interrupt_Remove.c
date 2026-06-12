@@ -49,7 +49,7 @@
 
 // --
 
-SEC_CODE void OHCI_Interrupt_Remove( struct USB2_HCDNode *hn, struct RealRequest *ioreq )
+SEC_CODE void OHCI_Interrupt_Remove( struct USB3_HCDNode *hn, struct RealRequest *ioreq )
 {
 struct OHCI_ED *cur;
 struct OHCI_ED *ed;

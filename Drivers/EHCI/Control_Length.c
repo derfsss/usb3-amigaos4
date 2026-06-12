@@ -53,7 +53,7 @@
 ** Should set io_Error if there are transfer errors
 */
 
-SEC_CODE U32 EHCI_Control_Length( struct USB2_HCDNode *hn, struct RealRequest *ioreq )
+SEC_CODE U32 EHCI_Control_Length( struct USB3_HCDNode *hn, struct RealRequest *ioreq )
 {
 struct EHCI_TD *td;
 struct EHCI_QH *qh;
@@ -105,19 +105,19 @@ U8 err;
 	{
 		/**/ if ( status & EHCI_TD_BABBLE ) 
 		{
-			err = USB2Err_Host_Overflow;		// IN: device sent too much (babble)
+			err = USB3Err_Host_Overflow;		// IN: device sent too much (babble)
 		} 
 		else if ( status & EHCI_TD_BUFERR )
 		{
-			err = USB2Err_Host_UnknownError;	// buffer/page problem on host side
+			err = USB3Err_Host_UnknownError;	// buffer/page problem on host side
 		} 
 		else if ( status & EHCI_TD_XACTERR )
 		{
-			err = USB2Err_Host_Timeout;			// CRC/timeout type error bucket
+			err = USB3Err_Host_Timeout;			// CRC/timeout type error bucket
 		} 
 		else 
 		{
-			err = USB2Err_Host_Stall;			// clean HALT => STALL handshake
+			err = USB3Err_Host_Stall;			// clean HALT => STALL handshake
 		}
 
 		ioreq->req_Public.io_Error = err;
@@ -146,19 +146,19 @@ U8 err;
 		{
 			/**/ if ( status & EHCI_TD_BABBLE ) 
 			{
-				err = USB2Err_Host_Overflow;		// IN: device sent too much (babble)
+				err = USB3Err_Host_Overflow;		// IN: device sent too much (babble)
 			} 
 			else if ( status & EHCI_TD_BUFERR )
 			{
-				err = USB2Err_Host_UnknownError;	// buffer/page problem on host side
+				err = USB3Err_Host_UnknownError;	// buffer/page problem on host side
 			} 
 			else if ( status & EHCI_TD_XACTERR )
 			{
-				err = USB2Err_Host_Timeout;			// CRC/timeout type error bucket
+				err = USB3Err_Host_Timeout;			// CRC/timeout type error bucket
 			} 
 			else 
 			{
-				err = USB2Err_Host_Stall;			// clean HALT => STALL handshake
+				err = USB3Err_Host_Stall;			// clean HALT => STALL handshake
 			}
 
 			ioreq->req_Public.io_Error = err;

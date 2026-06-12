@@ -13,7 +13,7 @@
 
 // --
 
-SEC_CODE void XHCI_Control_Add( struct USB2_HCDNode *hn, struct RealRequest *ioreq )
+SEC_CODE void XHCI_Control_Add( struct USB3_HCDNode *hn, struct RealRequest *ioreq )
 {
 struct _XHCI *xhci;
 U32 slotid;

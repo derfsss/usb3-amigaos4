@@ -25,21 +25,21 @@
   #include <inline4/usb3.h>
   #endif
 
-  #ifndef CLIB_USB2_PROTOS_H
-  #define CLIB_USB2_PROTOS_H 1
+  #ifndef CLIB_USB3_PROTOS_H
+  #define CLIB_USB3_PROTOS_H 1
   #endif
 
   #ifndef __NOLIBBASE__
-  extern struct Device *USB2Base;
+  extern struct Device *USB3Base;
   #endif
 
   #ifndef __NOGLOBALIFACE__
-  extern struct USB2IFace *IUSB2;
+  extern struct USB3IFace *IUSB3;
   #endif
 
 #else // Other platforms
 
-  #error USB2 is only supported on AmigaOS4 .. at the moment
+  #error USB3 is only supported on AmigaOS4 .. at the moment
 
 #endif
 

@@ -14,11 +14,11 @@
 
 #if defined( DO_PANIC ) || defined( DO_ERROR ) || defined( DO_DEBUG ) || defined( DO_INFO )
 
-SEC_CODE enum VSTAT __Interface_ValidGroup( struct USBBase *usbbase UNUSED, struct USB2_InterfaceGroup *ig, STR file )
+SEC_CODE enum VSTAT __Interface_ValidGroup( struct USBBase *usbbase UNUSED, struct USB3_InterfaceGroup *ig, STR file )
 
 #else
 
-SEC_CODE enum VSTAT __Interface_ValidGroup( struct USBBase *usbbase UNUSED, struct USB2_InterfaceGroup *ig )
+SEC_CODE enum VSTAT __Interface_ValidGroup( struct USBBase *usbbase UNUSED, struct USB3_InterfaceGroup *ig )
 
 #endif
 
@@ -47,12 +47,12 @@ enum VSTAT vstat;
 		USBDEBUG( "__Interface_ValidGroup   : IG    %p : Not Initalized", ig );
 		vstat = VSTAT_Null;
 	} 
-	else if ( ig->ig_StructID == ID_USB2_FREED )
+	else if ( ig->ig_StructID == ID_USB3_FREED )
 	{
 		USBDEBUG( "__Interface_ValidGroup   : IG    %p : Free Struct", ig );
 		vstat = VSTAT_Null;
 	}
-	else if ( ig->ig_StructID != ID_USB2_IFCG )
+	else if ( ig->ig_StructID != ID_USB3_IFCG )
 	{
 		USBDEBUG( "__Interface_ValidGroup   : IG     %p : Invalid ID ($%08lx)", ig, ig->ig_StructID );
 		vstat = VSTAT_Error;

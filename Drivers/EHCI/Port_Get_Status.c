@@ -53,7 +53,7 @@
 ** Return status to RootHUB
 */
 
-SEC_CODE U32 EHCI_Port_Get_Status( struct USB2_HCDNode *hn, U32 port )
+SEC_CODE U32 EHCI_Port_Get_Status( struct USB3_HCDNode *hn, U32 port )
 {
 U32 status;
 U32 retval;

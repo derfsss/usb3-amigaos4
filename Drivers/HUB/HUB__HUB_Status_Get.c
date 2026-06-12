@@ -44,7 +44,7 @@
 
 // --
 
-SEC_CODE S32 HUB__HUB_Status_Get( struct USBBase *usbbase UNUSED, struct intern *in UNUSED, struct USB2_HUBStatus *stat UNUSED )
+SEC_CODE S32 HUB__HUB_Status_Get( struct USBBase *usbbase UNUSED, struct intern *in UNUSED, struct USB3_HUBStatus *stat UNUSED )
 {
 	// --
 
@@ -56,8 +56,8 @@ SEC_CODE S32 HUB__HUB_Status_Get( struct USBBase *usbbase UNUSED, struct intern 
 	// --
 
 	#if 0
-struct USB2_IORequest *ioreq;
-struct USB2_SetupData *sd;
+struct USB3_IORequest *ioreq;
+struct USB3_SetupData *sd;
 S32 errcode;
 
 //	  usbbase->usb_IExec->Disable();
@@ -72,18 +72,18 @@ S32 errcode;
 	sd->RequestCode	= REQCODE_Get_Status;
 	sd->Value		= LE_SWAP16( 0 );
 	sd->Index		= LE_SWAP16( 0 );
-	sd->Length		= LE_SWAP16( sizeof( struct USB2_HUBStatus ) );
+	sd->Length		= LE_SWAP16( sizeof( struct USB3_HUBStatus ) );
 
 	ioreq->io_Command		= CMD_READ;
 	ioreq->io_Data			= stat;
-	ioreq->io_Length		= sizeof( struct USB2_HUBStatus );
+	ioreq->io_Length		= sizeof( struct USB3_HUBStatus );
 	ioreq->io_SetupData		= sd;
-	ioreq->io_SetupLength	= sizeof( struct USB2_SetupData );
+	ioreq->io_SetupLength	= sizeof( struct USB3_SetupData );
 
 	IO_DO( ioreq );
 
-	if (( ioreq->io_Error  == USB2Err_NoError )
-	&&	( ioreq->io_Actual == sizeof( struct USB2_HUBStatus )))
+	if (( ioreq->io_Error  == USB3Err_NoError )
+	&&	( ioreq->io_Actual == sizeof( struct USB3_HUBStatus )))
 	{
 		stat->wHubStatus = LE_SWAP16( stat->wHubStatus );
 		stat->wHubChange = LE_SWAP16( stat->wHubChange );
@@ -98,7 +98,7 @@ S32 errcode;
 //		  usbbase->usb_IExec->DebugPrintF( "HUB Change : 0x%04lx\n", stat->wHubChange );
 //		  usbbase->usb_IExec->Enable();
 
-		errcode = USB2Err_NoError;
+		errcode = USB3Err_NoError;
 	}
 	else
 	{

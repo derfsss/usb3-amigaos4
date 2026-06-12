@@ -15,9 +15,9 @@
 
 /***************************************************************************/
 
-struct USB2_NotifyNode
+struct USB3_NotifyNode
 {
-	struct USB2_Node				nn_Node;
+	struct USB3_Node				nn_Node;
 
 	// --
 	U32								nn_StructID;

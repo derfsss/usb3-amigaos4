@@ -77,9 +77,9 @@ void	Master_Loop(		struct M_Struct *ms );
 
 // --
 // USB
-U32		_usb_Obtain(		struct USB2DriverIFace *Self );
-U32		_usb_Release(		struct USB2DriverIFace *Self );
-U32		_usb_Entry(			struct USB2DriverIFace *Self, struct USB2_DriverMessage *msg );
+U32		_usb_Obtain(		struct USB3DriverIFace *Self );
+U32		_usb_Release(		struct USB3DriverIFace *Self );
+U32		_usb_Entry(			struct USB3DriverIFace *Self, struct USB3_DriverMessage *msg );
 U32		_usb_Init(			struct USB_Struct *us );
 void	_usb_Free(			struct USB_Struct *us );
 void	_usb_Loop(			struct USB_Struct *us );

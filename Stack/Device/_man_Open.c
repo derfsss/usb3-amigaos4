@@ -18,7 +18,7 @@ SEC_CODE static S32 _manager_Open(
 	U32 unit_number,
 	U32 flags UNUSED )
 {
-struct USB2_DeviceUnit *unit;
+struct USB3_DeviceUnit *unit;
 struct USBBase *usbbase;
 
 	TASK_NAME_ENTER( "USB3: _manager_Open" );

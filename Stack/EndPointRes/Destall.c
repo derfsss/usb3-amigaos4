@@ -14,19 +14,19 @@
 
 #if defined( DO_PANIC ) || defined( DO_ERROR ) || defined( DO_DEBUG ) || defined( DO_INFO )
 
-SEC_CODE U32 __EndPointRes_Destall( struct USBBase *usbbase, struct USB2_EPResource *epr, STR file UNUSED )
+SEC_CODE U32 __EndPointRes_Destall( struct USBBase *usbbase, struct USB3_EPResource *epr, STR file UNUSED )
 
 #else
 
-SEC_CODE U32 __EndPointRes_Destall( struct USBBase *usbbase, struct USB2_EPResource *epr )
+SEC_CODE U32 __EndPointRes_Destall( struct USBBase *usbbase, struct USB3_EPResource *epr )
 
 #endif
 
 {
 struct RealEndPointResource *real;
-struct USB2_EndPointNode *ep;
+struct USB3_EndPointNode *ep;
 struct RealFunctionNode *fn;
-struct USB2_SetupData sd;
+struct USB3_SetupData sd;
 struct RealRequest *ioreq;
 U32 retval;
 U32 locked;
@@ -74,9 +74,9 @@ U32 idx;
 
 	// if mp == NULL then alloc IOReq will create the msgport
 	ioreq = IOREQUEST_ALLOCTAGS(
-		USB2Tag_IOReq_EndPoint, fn->fkt_ControlEndPoint,
-		USB2Tag_IOReq_TimeOut, 500000,	 // 0.5 sec timeout
-		USB2Tag_IOReq_MsgPort, NULL,	 // Create one for me
+		USB3Tag_IOReq_EndPoint, fn->fkt_ControlEndPoint,
+		USB3Tag_IOReq_TimeOut, 500000,	 // 0.5 sec timeout
+		USB3Tag_IOReq_MsgPort, NULL,	 // Create one for me
 		TAG_END
 	);
 
@@ -99,7 +99,7 @@ U32 idx;
 	ioreq->req_Public.io_Data			= NULL;
 	ioreq->req_Public.io_Length			= 0;
 	ioreq->req_Public.io_SetupData		= & sd;
-	ioreq->req_Public.io_SetupLength	= sizeof( struct USB2_SetupData );
+	ioreq->req_Public.io_SetupLength	= sizeof( struct USB3_SetupData );
 
 //	MSGPORT_PUTMSG( & fkt->fkt_HCDNode->hn_Begin_MsgPort, ioreq );
 //	MSGPORT_WAIT(   (APTR) ioreq->rr_IOReq.io_Message.mn_ReplyPort );

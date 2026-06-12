@@ -12,9 +12,9 @@
 
 // --
 
-SEC_CODE struct USB2_FktDriverNode *__FDriver_CreateList( struct USBBase *usbbase, struct TagItem *taglist )
+SEC_CODE struct USB3_FktDriverNode *__FDriver_CreateList( struct USBBase *usbbase, struct TagItem *taglist )
 {
-struct USB2_FktDriverNode *fdn;
+struct USB3_FktDriverNode *fdn;
 struct TagItem *tag;
 int error;
 
@@ -42,7 +42,7 @@ int error;
 	{
 		switch ( tag->ti_Tag )
 		{
-			case USB2Tag_FDriver_Title:
+			case USB3Tag_FDriver_Title:
 			{
 //				USBDEBUG( "FDriver_Title .......... : %s", tag->ti_Data );
 				USBERROR( "FDriver_Title .......... : %s", tag->ti_Data );
@@ -57,7 +57,7 @@ int error;
 				break;
 			}
 
-			case USB2Tag_FDriver_Type:
+			case USB3Tag_FDriver_Type:
 			{
 //				USBDEBUG( "FDriver_Type ........... : %ld", tag->ti_Data );
 				USBERROR( "FDriver_Type ........... : %ld", tag->ti_Data );
@@ -73,7 +73,7 @@ int error;
 				break;
 			}
 
-			case USB2Tag_FDriver_Driver_Filename:
+			case USB3Tag_FDriver_Driver_Filename:
 			{
 //				USBDEBUG( "FDriver_FileName ....... : %s", tag->ti_Data );
 				USBERROR( "FDriver_FileName ....... : %s", tag->ti_Data );
@@ -88,7 +88,7 @@ int error;
 				break;
 			}
 
-			case USB2Tag_FDriver_Class_Filename:
+			case USB3Tag_FDriver_Class_Filename:
 			{
 //				USBDEBUG( "FDriver_ClassName ...... : %s", tag->ti_Data );
 				USBERROR( "FDriver_ClassName ...... : %s", tag->ti_Data );
@@ -104,7 +104,7 @@ int error;
 				break;
 			}
 
-			case USB2Tag_FDriver_Priority:
+			case USB3Tag_FDriver_Priority:
 			{
 //				USBDEBUG( "FDriver_Priority ....... : %ld", tag->ti_Data );
 				USBERROR( "FDriver_Priority ....... : %ld", tag->ti_Data );
@@ -113,7 +113,7 @@ int error;
 				break;
 			}
 
-			case USB2Tag_FDriver_Class:
+			case USB3Tag_FDriver_Class:
 			{
 //				USBDEBUG( "FDriver_Class .......... : %ld", tag->ti_Data );
 				USBERROR( "FDriver_Class .......... : %ld", tag->ti_Data );
@@ -129,7 +129,7 @@ int error;
 				break;
 			}
 
-			case USB2Tag_FDriver_SubClass:
+			case USB3Tag_FDriver_SubClass:
 			{
 //				USBDEBUG( "FDriver_SubClass ....... : %04lx", tag->ti_Data );
 				USBERROR( "FDriver_SubClass ....... : %04lx", tag->ti_Data );
@@ -145,7 +145,7 @@ int error;
 				break;
 			}
 
-			case USB2Tag_FDriver_Protocol:
+			case USB3Tag_FDriver_Protocol:
 			{
 //				USBDEBUG( "FDriver_Protocol ....... : %04lx", tag->ti_Data );
 				USBERROR( "FDriver_Protocol ....... : %04lx", tag->ti_Data );
@@ -161,7 +161,7 @@ int error;
 				break;
 			}
 
-			case USB2Tag_FDriver_Entry:
+			case USB3Tag_FDriver_Entry:
 			{
 //				USBDEBUG( "FDriver_DriverEntry .... : %p", tag->ti_Data );
 				USBERROR( "FDriver_DriverEntry .... : %p", tag->ti_Data );
@@ -206,9 +206,9 @@ bailout:
 
 // --
 
-SEC_CODE struct USB2_FktDriverNode * VARARGS68K __FDriver_CreateTags( struct USBBase *usbbase, ... )
+SEC_CODE struct USB3_FktDriverNode * VARARGS68K __FDriver_CreateTags( struct USBBase *usbbase, ... )
 {
-struct USB2_FktDriverNode *fdn;
+struct USB3_FktDriverNode *fdn;
 va_list ap;
 
 	USBDEBUG( "__FDriver_CreateTags" );

@@ -14,11 +14,11 @@
 
 SEC_CODE static S32 __Get_Config_Size( 
 	struct RealFunctionNode *fn,
-	struct USB2_IORequest *ioreq,
-	struct USB2_SetupData *sd,
+	struct USB3_IORequest *ioreq,
+	struct USB3_SetupData *sd,
 	struct USBBase *usbbase )
 {
-struct USB2_Config_Desc desc;
+struct USB3_Config_Desc desc;
 S32 retval;
 U32 max;
 U32 cnt;
@@ -51,14 +51,14 @@ U32 cnt;
 
 		IO_DO(ioreq);
 
-		if ( ioreq->io_Error == USB2Err_NoError )
+		if ( ioreq->io_Error == USB3Err_NoError )
 		{
 			break;
 		}
 	}
 
 	fn->fkt_Config_Desc_Size	= LE_SWAP16( desc.TotalLength );
-	fn->fkt_Config_Desc_Buf		= MEM_ALLOCIOBUFFER( fn->fkt_Config_Desc_Size + sizeof( struct USB2_Descriptor ), TRUE );
+	fn->fkt_Config_Desc_Buf		= MEM_ALLOCIOBUFFER( fn->fkt_Config_Desc_Size + sizeof( struct USB3_Descriptor ), TRUE );
 
 	if ( ! fn->fkt_Config_Desc_Buf )
 	{

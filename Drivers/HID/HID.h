@@ -46,7 +46,7 @@ enum HID_Driver_Mode
 
 #pragma pack(1)
 
-struct USB2_BootMouse		// 3 bytes
+struct USB3_BootMouse		// 3 bytes
 {
 	U8		Buttons;
 	S8		X;
@@ -61,7 +61,7 @@ struct USB2_BootMouse		// 3 bytes
 #define BOOTMOUSE_BUTTONS_5TH			0x10U
 #define BOOTMOUSE_BUTTONS_MASK			0x1FU
 
-struct USB2_BootKeyboard	// 8 bytes
+struct USB3_BootKeyboard	// 8 bytes
 {
 	U8		Modifier;
 	U8		Reserved;
@@ -74,12 +74,12 @@ struct USB2_BootKeyboard	// 8 bytes
 
 struct _Boot_Keyboard
 {
-	struct USB2_BootKeyboard		KeyboardData;
+	struct USB3_BootKeyboard		KeyboardData;
 	struct Preferences				Prefs_Buffer;
 	struct TimeVal					Time_Thresh;
 	struct TimeVal					Time_Repeat;
 	struct TimeRequest				Timer_IOReq;
-	struct USB2_MsgPort				Timer_MsgPort;
+	struct USB3_MsgPort				Timer_MsgPort;
 	U16		Timer_Added;
 	S16		PrevCode[2];
 	U16		PrevQual[2];
@@ -110,12 +110,12 @@ struct intern
 	enum HID_Driver_Type			Driver_Type;
 	enum HID_Driver_Mode			Driver_Mode;
 
-	struct USB2_EPResource *		Res_Interrupt;
-	struct USB2_EPResource *		Res_Control;
-	struct USB2_DriverMessage *		StartMsg;
+	struct USB3_EPResource *		Res_Interrupt;
+	struct USB3_EPResource *		Res_Control;
+	struct USB3_DriverMessage *		StartMsg;
 	struct RealRegister *			Register;
 
-	struct USB2_MsgPort				Input_MsgPort;
+	struct USB3_MsgPort				Input_MsgPort;
 	struct IOStdReq					Input_IOReq;
 	struct InputEvent				Input_Event;
 
@@ -136,7 +136,7 @@ extern const S16 USBKeyMap1[256];
 extern const S16 USBKeyMap2[256];
 
 SEC_CODE void	HID_SendRawKey( struct USBBase *usbbase, struct intern *in, U16 rawkey );
-SEC_CODE void	HID_Boot_Mouse_Buttons( struct USBBase *usbbase, struct intern *in, struct USB2_BootMouse *report );
+SEC_CODE void	HID_Boot_Mouse_Buttons( struct USBBase *usbbase, struct intern *in, struct USB3_BootMouse *report );
 SEC_CODE void	HID_Boot_Handle_Stack( struct USBBase *usbbase, struct intern *in );
 SEC_CODE void	HID_Boot( struct USBBase *usbbase, struct intern *in );
 SEC_CODE void	HID_Free( struct USBBase *usbbase, struct intern *in );

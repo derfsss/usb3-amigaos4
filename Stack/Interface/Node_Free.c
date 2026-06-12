@@ -13,7 +13,7 @@
 // --
 // Release all resource we can, for this Struct
 
-SEC_CODE static void __Release( struct USBBase *usbbase UNUSED, struct USB2_InterfaceNode *in UNUSED )
+SEC_CODE static void __Release( struct USBBase *usbbase UNUSED, struct USB3_InterfaceNode *in UNUSED )
 {
 //	SEMAPHORE_OBTAIN( & usbbase->usb_LockSemaphore );
 	// --
@@ -31,11 +31,11 @@ SEC_CODE static void __Release( struct USBBase *usbbase UNUSED, struct USB2_Inte
 
 #if defined( DO_PANIC ) || defined( DO_ERROR ) || defined( DO_DEBUG ) || defined( DO_INFO )
 
-SEC_CODE enum FSTAT __Interface_FreeNode( struct USBBase *usbbase, struct USB2_InterfaceNode *in, STR file UNUSED )
+SEC_CODE enum FSTAT __Interface_FreeNode( struct USBBase *usbbase, struct USB3_InterfaceNode *in, STR file UNUSED )
 
 #else
 
-SEC_CODE enum FSTAT __Interface_FreeNode( struct USBBase *usbbase, struct USB2_InterfaceNode *in )
+SEC_CODE enum FSTAT __Interface_FreeNode( struct USBBase *usbbase, struct USB3_InterfaceNode *in )
 
 #endif
 
@@ -81,7 +81,7 @@ enum FSTAT fstat;
 		}
 		else
 		{
-			in->in_StructID = ID_USB2_FREED;
+			in->in_StructID = ID_USB3_FREED;
 			fstat = FSTAT_Okay;
 		}
 	}

@@ -24,7 +24,7 @@
 // if size it bigger than TimeRequest is proberly USB or garbage, so lets Validate it
 
 #define IS_USB_IOREQ(x)		(	(x) \
-	&& ((((struct RealRequest *)(x))->req_StructID==ID_USB2_IOR ) \
+	&& ((((struct RealRequest *)(x))->req_StructID==ID_USB3_IOR ) \
 	||	(((struct RealRequest *)(x))->req_Public.io_Message.mn_Length > sizeof( struct TimeRequest ) )))
 
 #endif

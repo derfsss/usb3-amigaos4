@@ -19,7 +19,7 @@
 
 // --
 
-SEC_CODE S32 __Function_Bind( struct USBBase *usbbase, struct RealFunctionNode *fn, struct USB2_ASync *as )
+SEC_CODE S32 __Function_Bind( struct USBBase *usbbase, struct RealFunctionNode *fn, struct USB3_ASync *as )
 {
 enum FDSTAT stat;
 S32 retval;

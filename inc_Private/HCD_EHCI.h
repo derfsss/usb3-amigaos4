@@ -301,9 +301,9 @@ struct _EHCI
 {
 	U32								CapLength;
 
-	struct USB2_Signal				Signal_EI;
-	struct USB2_Signal				Signal_INT;
-	struct USB2_Signal				Signal_IAA;
+	struct USB3_Signal				Signal_EI;
+	struct USB3_Signal				Signal_INT;
+	struct USB3_Signal				Signal_IAA;
 
 	#if 0
 //	U32								SParams;

@@ -49,7 +49,7 @@
 
 // --
 
-SEC_CODE void EHCI_Control_Remove( struct USB2_HCDNode *hn, struct RealRequest *ioreq )
+SEC_CODE void EHCI_Control_Remove( struct USB3_HCDNode *hn, struct RealRequest *ioreq )
 {
 struct EHCI_QH *last;
 struct EHCI_QH *qh;

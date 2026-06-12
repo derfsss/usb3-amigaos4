@@ -49,7 +49,7 @@
 
 // --
 
-SEC_CODE S32 OHCI_Get_8kBuffer( struct USB2_HCDNode *hn, struct OHCI_TD *td, PTR data, U32 len )
+SEC_CODE S32 OHCI_Get_8kBuffer( struct USB3_HCDNode *hn, struct OHCI_TD *td, PTR data, U32 len )
 {
 S32 retval;
 U32 phy;

@@ -12,7 +12,7 @@
 
 // --
 
-U32 _usb_Entry( struct USB2DriverIFace *Self, struct USB2_DriverMessage *msg )
+U32 _usb_Entry( struct USB3DriverIFace *Self, struct USB3_DriverMessage *msg )
 {
 struct USB_Struct us;
 S32 stat;
@@ -23,7 +23,7 @@ S32 stat;
 
 	us.us_StartMsg = msg;
 
-	IUSB2 = msg->IUSB2;
+	IUSB3 = msg->IUSB3;
 
 	stat = _usb_Init( & us );
 

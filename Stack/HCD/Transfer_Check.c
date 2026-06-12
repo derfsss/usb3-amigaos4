@@ -19,9 +19,9 @@
 ** If the IORequest is done appropiate removale code is called.
 */
 
-SEC_CODE S32 __HCD_Transfer_Check( struct USBBase *usbbase, struct USB2_HCDNode *hn, struct RealRequest *ioreq, U32 Force )
+SEC_CODE S32 __HCD_Transfer_Check( struct USBBase *usbbase, struct USB3_HCDNode *hn, struct RealRequest *ioreq, U32 Force )
 {
-struct USB2_EndPointNode *ep;
+struct USB3_EndPointNode *ep;
 S32 remove;
 
 	TASK_NAME_ENTER( "HCD : __HCD_Transfer_Check : 1 :" );
@@ -95,7 +95,7 @@ S32 remove;
 		// Retry on transient errors (CRC/transaction error) if not forced
 		// and retries remain. Do NOT retry STALL or BABBLE.
 		if (( ! Force )
-		&&	( ioreq->req_Public.io_Error == USB2Err_Host_Timeout )
+		&&	( ioreq->req_Public.io_Error == USB3Err_Host_Timeout )
 		&&	( ioreq->req_RetryCount < ioreq->req_RetryMax ))
 		{
 			ioreq->req_RetryCount++;

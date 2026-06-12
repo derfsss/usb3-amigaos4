@@ -14,7 +14,7 @@
 
 void _usb_Bulk_Stage_Send_Header1( struct USB_Struct *us, struct USB_Command *cmd )
 {
-struct USB2_IORequest *ioreq;
+struct USB3_IORequest *ioreq;
 struct PTP_Container *con;
 
 	MYINFO( "PTP-USB : _usb_Bulk_Stage_Send_Header1 : TransID %ld", us->us_TransactionID );
@@ -35,7 +35,7 @@ struct PTP_Container *con;
 
 void _usb_Bulk_Stage_Send_Header2( struct USB_Struct *us, struct USB_Command *cmd )
 {
-//struct USB2_IORequest *ioreq;
+//struct USB3_IORequest *ioreq;
 //
 //	ioreq = us->us_Res_BulkOut->IORequests[0];
 

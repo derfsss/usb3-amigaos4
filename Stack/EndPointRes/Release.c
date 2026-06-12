@@ -14,11 +14,11 @@
 
 #if defined( DO_PANIC ) || defined( DO_ERROR ) || defined( DO_DEBUG ) || defined( DO_INFO )
 
-SEC_CODE enum FSTAT __EndPointRes_Release( struct USBBase *usbbase, struct USB2_EPResource *epr, STR file UNUSED )
+SEC_CODE enum FSTAT __EndPointRes_Release( struct USBBase *usbbase, struct USB3_EPResource *epr, STR file UNUSED )
 
 #else
 
-SEC_CODE enum FSTAT __EndPointRes_Release( struct USBBase *usbbase, struct USB2_EPResource *epr )
+SEC_CODE enum FSTAT __EndPointRes_Release( struct USBBase *usbbase, struct USB3_EPResource *epr )
 
 #endif
 

@@ -46,7 +46,7 @@
 
 SEC_CODE void HUB_Schedule( struct USBBase *usbbase, struct intern *in )
 {
-struct USB2_IORequest *ioreq;
+struct USB3_IORequest *ioreq;
 
 	ioreq = in->Res_Interrupt->IORequests[0];
 

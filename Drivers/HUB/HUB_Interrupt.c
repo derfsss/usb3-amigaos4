@@ -46,7 +46,7 @@
 
 SEC_CODE void HUB_Handle_Interrupt( struct USBBase *usbbase, struct intern *in )
 {
-struct USB2_IORequest *ioreq;
+struct USB3_IORequest *ioreq;
 struct ExecIFace *IExec;
 U32 port;
 U32 max;
@@ -71,7 +71,7 @@ U8 *data;
 
 		switch( ioreq->io_Error )
 		{
-			case USB2Err_NoError:
+			case USB3Err_NoError:
 			{
 				IExec->DebugPrintF( "USB3: HUB_Interrupt: OK actual=%ld\n", ioreq->io_Actual );
 
@@ -104,7 +104,7 @@ U8 *data;
 				break;
 			}
 
-			case USB2Err_Device_Detached:
+			case USB3Err_Device_Detached:
 			{
 				USBDEBUG( "HUB : Int : Detached" );
 				in->Running = FALSE;

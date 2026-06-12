@@ -13,7 +13,7 @@
 
 // --
 
-SEC_CODE void XHCI_Transfer_Free( struct USB2_HCDNode *hn, struct RealRequest *ioreq )
+SEC_CODE void XHCI_Transfer_Free( struct USB3_HCDNode *hn, struct RealRequest *ioreq )
 {
 	struct USBBase *usbbase = hn->hn_USBBase;
 

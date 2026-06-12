@@ -96,7 +96,7 @@ static U32 XHCI_EP0MaxPacket( U32 usb_speed )
 // Enqueue a TRB onto a transfer ring (does NOT ring doorbell)
 // Returns physical address of the enqueued TRB, or 0 on failure
 
-SEC_CODE U32 XHCI_Ring_Enqueue_TRB( struct USB2_HCDNode *hn UNUSED, struct XHCI_Ring *ring, struct XHCI_TRB *trb )
+SEC_CODE U32 XHCI_Ring_Enqueue_TRB( struct USB3_HCDNode *hn UNUSED, struct XHCI_Ring *ring, struct XHCI_TRB *trb )
 {
 struct XHCI_TRB *ring_trb;
 U32 ctrl;
@@ -160,7 +160,7 @@ U32 phy;
 
 // Allocate and initialize a device slot with EP0
 
-SEC_CODE S32 XHCI_Slot_Alloc( struct USB2_HCDNode *hn, U32 slotid, U32 port, U32 usb_speed )
+SEC_CODE S32 XHCI_Slot_Alloc( struct USB3_HCDNode *hn, U32 slotid, U32 port, U32 usb_speed )
 {
 struct _XHCI *xhci;
 struct XHCI_Slot *slot;
@@ -303,7 +303,7 @@ fail:
 
 // Free a device slot and all its resources
 
-SEC_CODE void XHCI_Slot_Free( struct USB2_HCDNode *hn, U32 slotid )
+SEC_CODE void XHCI_Slot_Free( struct USB3_HCDNode *hn, U32 slotid )
 {
 struct _XHCI *xhci;
 struct XHCI_Slot *slot;
@@ -371,18 +371,18 @@ SEC_CODE U32 XHCI_Endpoint_DCI( U32 ep_number, U32 ep_direction )
 // Called when SET_CONFIGURATION is intercepted.
 // Builds the Input Context with endpoint contexts and issues Configure Endpoint.
 
-SEC_CODE S32 XHCI_Slot_ConfigureEndpoints( struct USB2_HCDNode *hn, U32 slotid, struct RealFunctionNode *fn )
+SEC_CODE S32 XHCI_Slot_ConfigureEndpoints( struct USB3_HCDNode *hn, U32 slotid, struct RealFunctionNode *fn )
 {
 struct _XHCI *xhci;
 struct XHCI_Slot *slot;
 struct XHCI_InputCtrlCtx *icc;
 struct XHCI_SlotCtx *sctx;
 struct XHCI_EPCtx *epctx;
-struct USB2_ConfigNode *cfg;
-struct USB2_InterfaceHeader *ifh;
-struct USB2_InterfaceNode *ifn;
-struct USB2_EndPointNode *ep;
-// Note: USB2_InterfaceGroup declared in scope below
+struct USB3_ConfigNode *cfg;
+struct USB3_InterfaceHeader *ifh;
+struct USB3_InterfaceNode *ifn;
+struct USB3_EndPointNode *ep;
+// Note: USB3_InterfaceGroup declared in scope below
 U32 ctx_size;
 U32 dci;
 U32 max_dci;
@@ -420,7 +420,7 @@ U8 *inp;
 
 	// Walk interface groups -> interface headers -> active interface node -> endpoints
 	{
-	struct USB2_InterfaceGroup *ig;
+	struct USB3_InterfaceGroup *ig;
 
 	ig = cfg->cfg_InterfaceGroups.uh_Head;
 

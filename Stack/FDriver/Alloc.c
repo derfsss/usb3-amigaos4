@@ -14,16 +14,16 @@
 
 #if defined( DO_PANIC ) || defined( DO_ERROR ) || defined( DO_DEBUG ) || defined( DO_INFO )
 
-SEC_CODE struct USB2_FktDriverNode *__FDriver_Alloc( struct USBBase *usbbase, STR file UNUSED )
+SEC_CODE struct USB3_FktDriverNode *__FDriver_Alloc( struct USBBase *usbbase, STR file UNUSED )
 
 #else
 
-SEC_CODE struct USB2_FktDriverNode *__FDriver_Alloc( struct USBBase *usbbase )
+SEC_CODE struct USB3_FktDriverNode *__FDriver_Alloc( struct USBBase *usbbase )
 
 #endif
 
 {
-struct USB2_FktDriverNode *fdn;
+struct USB3_FktDriverNode *fdn;
 S32 error;
 
 	error = TRUE;
@@ -41,8 +41,8 @@ S32 error;
 	}
 
 	// Set Default
-	fdn->fdn_StructID	= ID_USB2_FDN;
-	fdn->fdn_Type		= USB2Val_FDriver_Interface;
+	fdn->fdn_StructID	= ID_USB3_FDN;
+	fdn->fdn_Type		= USB3Val_FDriver_Interface;
 	fdn->fdn_Class		= FDCLASS_Any;
 	fdn->fdn_SubClass	= FDSUBCLASS_Any;
 	fdn->fdn_Protocol	= FDPROTOCOL_Any;

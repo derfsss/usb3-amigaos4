@@ -14,25 +14,25 @@
 
 #if defined( DO_PANIC ) || defined( DO_ERROR ) || defined( DO_DEBUG ) || defined( DO_INFO )
 
-SEC_CODE struct USB2_EndPointNode *__EndPoint_Alloc(
+SEC_CODE struct USB3_EndPointNode *__EndPoint_Alloc(
 	struct USBBase *usbbase,
 	struct RealFunctionNode *fn,
-	struct USB2_InterfaceNode *in,
-	struct USB2_EndPoint_Desc *epdsc,
+	struct USB3_InterfaceNode *in,
+	struct USB3_EndPoint_Desc *epdsc,
 	STR file UNUSED )
 
 #else
 
-SEC_CODE struct USB2_EndPointNode *__EndPoint_Alloc(
+SEC_CODE struct USB3_EndPointNode *__EndPoint_Alloc(
 	struct USBBase *usbbase,
 	struct RealFunctionNode *fn,
-	struct USB2_InterfaceNode *in,
-	struct USB2_EndPoint_Desc *epdsc )
+	struct USB3_InterfaceNode *in,
+	struct USB3_EndPoint_Desc *epdsc )
 
 #endif
 
 {
-struct USB2_EndPointNode *ep;
+struct USB3_EndPointNode *ep;
 U32 error;
 U32 dir;
 
@@ -48,7 +48,7 @@ U32 dir;
 		goto bailout;
 	}
 
-	ep->ep_StructID			= ID_USB2_EP;
+	ep->ep_StructID			= ID_USB3_EP;
 	ep->ep_Number			= EPADR_Dir_Number( epdsc->EndPointAddress );
 	ep->ep_Type				= epdsc->Attributes & EPATT_Type_Mask;
 	ep->ep_Descriptor		= epdsc;

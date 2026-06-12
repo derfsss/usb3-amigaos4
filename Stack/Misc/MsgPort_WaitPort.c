@@ -13,7 +13,7 @@
 // --
 
 #if 0
-void MsgPort_WaitPort( struct USB2_MsgPort *mp )
+void MsgPort_WaitPort( struct USB3_MsgPort *mp )
 {
 	if ( ! mp )
 	{

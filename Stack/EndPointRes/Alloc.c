@@ -38,7 +38,7 @@ S32 error;
 		goto bailout;
 	}
 
-	epr->epr_StructID = ID_USB2_EPR;
+	epr->epr_StructID = ID_USB3_EPR;
 
 	// --
 

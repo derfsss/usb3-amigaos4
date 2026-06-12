@@ -14,21 +14,21 @@
 
 #if defined( DO_PANIC ) || defined( DO_ERROR ) || defined( DO_DEBUG ) || defined( DO_INFO )
 
-SEC_CODE struct USB2_InterfaceNode *__Interface_AllocNode(
+SEC_CODE struct USB3_InterfaceNode *__Interface_AllocNode(
 	struct USBBase *usbbase,
-	struct USB2_InterfaceHeader *ih,
+	struct USB3_InterfaceHeader *ih,
 	STR file UNUSED )
 
 #else
 
-SEC_CODE struct USB2_InterfaceNode *__Interface_AllocNode(
+SEC_CODE struct USB3_InterfaceNode *__Interface_AllocNode(
 	struct USBBase *usbbase,
-	struct USB2_InterfaceHeader *ih )
+	struct USB3_InterfaceHeader *ih )
 
 #endif
 
 {
-struct USB2_InterfaceNode *in;
+struct USB3_InterfaceNode *in;
 struct RealFunctionNode *fn;
 S32 error;
 
@@ -46,7 +46,7 @@ S32 error;
 		goto bailout;
 	}
 
-	in->in_StructID = ID_USB2_IFCN;
+	in->in_StructID = ID_USB3_IFCN;
 
 	// --
 

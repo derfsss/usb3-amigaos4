@@ -13,10 +13,10 @@
 
 // --
 
-SEC_CODE S32 XHCI_Interrupt_Build( struct USB2_HCDNode *hn, struct RealRequest *ioreq )
+SEC_CODE S32 XHCI_Interrupt_Build( struct USB3_HCDNode *hn, struct RealRequest *ioreq )
 {
 struct RealFunctionNode *fn;
-struct USB2_EndPointNode *ep;
+struct USB3_EndPointNode *ep;
 struct _XHCI *xhci;
 struct XHCI_Slot *slot;
 struct XHCI_Ring *ring;
@@ -44,7 +44,7 @@ U32 bounce_phy;
 	if ( ! slotid )
 	{
 		USBERROR( "XHCI: Interrupt_Build: no slot for address %ld", (U32) fn->fkt_Address );
-		ioreq->req_Public.io_Error = USB2Err_Stack_FunctionNotFound;
+		ioreq->req_Public.io_Error = USB3Err_Stack_FunctionNotFound;
 		goto bailout;
 	}
 
@@ -53,7 +53,7 @@ U32 bounce_phy;
 	if ( ! slot )
 	{
 		USBERROR( "XHCI: Interrupt_Build: slot %ld not allocated", slotid );
-		ioreq->req_Public.io_Error = USB2Err_Stack_FunctionNotFound;
+		ioreq->req_Public.io_Error = USB3Err_Stack_FunctionNotFound;
 		goto bailout;
 	}
 
@@ -65,7 +65,7 @@ U32 bounce_phy;
 	{
 		USBERROR( "XHCI: Interrupt_Build: no ring for DCI %ld (ep %ld dir %ld)",
 			dci, ep->ep_Number, ep->ep_Direction );
-		ioreq->req_Public.io_Error = USB2Err_Stack_EndPointNotFound;
+		ioreq->req_Public.io_Error = USB3Err_Stack_EndPointNotFound;
 		goto bailout;
 	}
 
@@ -84,7 +84,7 @@ U32 bounce_phy;
 	if ( ! bounce )
 	{
 		USBERROR( "XHCI: Interrupt_Build: error allocating DMA buffer" );
-		ioreq->req_Public.io_Error = USB2Err_Stack_NoMemory;
+		ioreq->req_Public.io_Error = USB3Err_Stack_NoMemory;
 		goto bailout;
 	}
 

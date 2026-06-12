@@ -12,7 +12,7 @@
 
 // --
 
-SEC_CODE static S32 __Init_1_Add_Int( struct USBBase *usbbase, struct USB2_HCDNode *hn )
+SEC_CODE static S32 __Init_1_Add_Int( struct USBBase *usbbase, struct USB3_HCDNode *hn )
 {
 S32 retval;
 

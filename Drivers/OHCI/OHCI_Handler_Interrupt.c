@@ -55,7 +55,7 @@
 
 SEC_CODE U32 OHCI_Handler_Interrupt( struct ExceptionContext *Context UNUSED, struct ExecBase *SysBase UNUSED, PTR userData )
 {
-struct USB2_HCDNode *hn;
+struct USB3_HCDNode *hn;
 //struct ExecIFace *IExec;
 struct USBBase *usbbase;
 U32 intflags;

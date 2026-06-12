@@ -49,9 +49,9 @@
 
 // --
 
-SEC_CODE void EHCI_Interrupt_Add( struct USB2_HCDNode *hn, struct RealRequest *ioreq )
+SEC_CODE void EHCI_Interrupt_Add( struct USB3_HCDNode *hn, struct RealRequest *ioreq )
 {
-struct USB2_EndPointNode *epn;
+struct USB3_EndPointNode *epn;
 struct EHCI_QH *sqh;
 struct EHCI_QH *new;
 U32 slot;

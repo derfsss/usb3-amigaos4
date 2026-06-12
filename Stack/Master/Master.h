@@ -24,17 +24,17 @@ struct intern
 	S32						Stopping;
 
 	// -- Command MsgPort for Extern Commands
-	struct USB2_MsgPort		Cmd_MsgPort;
+	struct USB3_MsgPort		Cmd_MsgPort;
 	// -- Notify Replys
-	struct USB2_MsgPort		Notify_ReplyMsgPort;
+	struct USB3_MsgPort		Notify_ReplyMsgPort;
 
 	// -- (Sub) Tasks Shutdown -- TaskMsg's
-	struct USB2_Header		Shutdown_TM_List;
-	struct USB2_Signal		Task_Shutdown_Signal;
-	struct USB2_MsgPort		Task_Shutdown_MsgPort;
+	struct USB3_Header		Shutdown_TM_List;
+	struct USB3_Signal		Task_Shutdown_Signal;
+	struct USB3_MsgPort		Task_Shutdown_MsgPort;
 
 	// -- Timer Tick
-	struct USB2_MsgPort		Tick_MsgPort;
+	struct USB3_MsgPort		Tick_MsgPort;
 	S32						Tick_TimerAdded;
 	struct TimeRequest		Tick_TimeRequest;
 };

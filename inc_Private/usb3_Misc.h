@@ -17,7 +17,7 @@
 
 struct RealSetupData
 {
-	struct USB2_SetupData			rsd_Public;					// At the moment must be first, todo: do same as EPResource or ?
+	struct USB3_SetupData			rsd_Public;					// At the moment must be first, todo: do same as EPResource or ?
 	U32								rsd_StructID;
 	U32								rsd_Phy;
 };

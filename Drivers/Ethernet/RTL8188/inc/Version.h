@@ -13,8 +13,8 @@
 
 // --
 
-#if defined(_USB2_)
-#define DEVNAME		"usb2_rtl8188.device"
+#if defined(_USB3_)
+#define DEVNAME		"usb3_rtl8188.device"
 #elif defined(_SIRION_)
 #define DEVNAME		"rusb_rtl8188.device"
 #else

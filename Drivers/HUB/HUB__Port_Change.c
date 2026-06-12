@@ -46,7 +46,7 @@
 
 SEC_CODE void HUB__Port_Chg( struct USBBase *usbbase, struct intern *in, U32 port )
 {
-struct USB2_PortStatus stat;
+struct USB3_PortStatus stat;
 S32 err;
 
 	// --
@@ -69,7 +69,7 @@ S32 err;
 
 	err = HUB__Port_Status_Get( usbbase, in, port, & stat );
 
-	if ( err != USB2Err_NoError )
+	if ( err != USB3Err_NoError )
 	{
 		USBERROR( "HUB__Port_Chg : Error reading Port Status (%ld)", err );
 		goto bailout;
@@ -92,7 +92,7 @@ S32 err;
 
 		err = HUB__Port_Feature_Clr( usbbase, in, port, PORT_CLR_CONNECTION );
 
-		if ( err != USB2Err_NoError )
+		if ( err != USB3Err_NoError )
 		{
 			USBERROR( "HUB__Port_Chg : Error clearing Port Connect (%ld)", err );
 			goto bailout;
@@ -150,7 +150,7 @@ S32 err;
 
 //		err = HUB__Port_Feature_Clr( usbbase, in, port, PORT_CLR_ENABLE );
 //
-//		if ( err != USB2Err_NoError )
+//		if ( err != USB3Err_NoError )
 //		{
 //			USBDEBUG( "Error clearing Port Enable (%ld)", err );
 //			goto bailout;
@@ -171,7 +171,7 @@ S32 err;
 
 //		err = HUB__Port_Feature_Clr( usbbase, in, port, PORT_CLR_SUSPEND );
 //
-//		if ( err != USB2Err_NoError )
+//		if ( err != USB3Err_NoError )
 //		{
 //			USBDEBUG( "Error clearing Port Suspend (%ld)", err );
 //			goto bailout;
@@ -192,7 +192,7 @@ S32 err;
 
 //		err = HUB__Port_Feature_Clr( usbbase, in, port, PORT_CLR_OVER_CURRENT );
 //
-//		if ( err != USB2Err_NoError )
+//		if ( err != USB3Err_NoError )
 //		{
 //			USBDEBUG( "Error clearing Port OverCurrent (%ld)", err );
 //			goto bailout;
@@ -213,7 +213,7 @@ S32 err;
 
 //		err = HUB__Port_Feature_Clr( usbbase, in, port, PORT_CLR_RESET );
 //
-//		if ( err != USB2Err_NoError )
+//		if ( err != USB3Err_NoError )
 //		{
 //			USBDEBUG( "Error clearing Port Reset (%ld)", err );
 //			goto bailout;

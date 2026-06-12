@@ -12,7 +12,7 @@
 
 // --
 
-SEC_CODE static void __Free_3_Rem_Int( struct USBBase *usbbase, struct USB2_HCDNode *hn, struct intern *in UNUSED )
+SEC_CODE static void __Free_3_Rem_Int( struct USBBase *usbbase, struct USB3_HCDNode *hn, struct intern *in UNUSED )
 {
 	if ( hn->hn_Reset_Interrupt_Added )
 	{

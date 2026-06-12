@@ -47,8 +47,8 @@
 SEC_CODE S32 HUB_Init( struct USBBase *usbbase, struct intern *in )
 {
 struct RealFunctionNode *fn;
-//struct USB2_IORequest *ioreq;
-//struct USB2_SetupData *sd;
+//struct USB3_IORequest *ioreq;
+//struct USB3_SetupData *sd;
 struct Task *self;
 S32 retval;
 
@@ -65,9 +65,9 @@ S32 retval;
 	// --
 
 	in->Register = REGISTER_REGISTERTAGS(
-		USB2Tag_Reg_DriverMessage, in->StartMsg,
-		USB2Tag_Reg_TimeOut, 1000000*1,		// 1 sec
-		USB2Tag_Reg_Title, "HUB",
+		USB3Tag_Reg_DriverMessage, in->StartMsg,
+		USB3Tag_Reg_TimeOut, 1000000*1,		// 1 sec
+		USB3Tag_Reg_Title, "HUB",
 		TAG_END
 	);
 
@@ -141,9 +141,9 @@ S32 retval;
 	// ---
 
 	in->Res_Interrupt = ENDPOINTRES_OBTAINTAGS( in->Register,
-		USB2Tag_EPRes_EPDirection, EPADR_Dir_In,
-		USB2Tag_EPRes_EPType, EPATT_Type_Interrupt,
-		USB2Tag_EPRes_BufferSize, ( in->Ports + 7 ) / 8,
+		USB3Tag_EPRes_EPDirection, EPADR_Dir_In,
+		USB3Tag_EPRes_EPType, EPATT_Type_Interrupt,
+		USB3Tag_EPRes_BufferSize, ( in->Ports + 7 ) / 8,
 		TAG_END
 	);
 

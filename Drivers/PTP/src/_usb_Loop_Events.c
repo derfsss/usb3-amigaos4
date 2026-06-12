@@ -14,7 +14,7 @@
 
 void _usb_Loop_Event( struct USB_Struct *us )
 {
-struct USB2_IORequest *ioreq;
+struct USB3_IORequest *ioreq;
 struct PTP_Container *condata;
 
 	while( TRUE )
@@ -28,16 +28,16 @@ struct PTP_Container *condata;
 
 		us->us_Errors_Int++;
 
-		/**/ if ( ioreq->io_Error == USB2Err_Device_Detached )
+		/**/ if ( ioreq->io_Error == USB3Err_Device_Detached )
 		{
 			us->us_Detached = TRUE;
 			break;
 		}
-		else if ( ioreq->io_Error == USB2Err_Host_Stall )
+		else if ( ioreq->io_Error == USB3Err_Host_Stall )
 		{
-			USB2_EPRes_Destall( us->us_Res_Interrupt );
+			USB3_EPRes_Destall( us->us_Res_Interrupt );
 		}
-		else if ( ioreq->io_Error == USB2Err_NoError )
+		else if ( ioreq->io_Error == USB3Err_NoError )
 		{
 			condata = ioreq->io_Data;
 

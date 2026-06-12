@@ -15,7 +15,7 @@
 
 SEC_CODE static S32 __myTask_Def_Init( struct USBBase *usbbase, struct intern *in, S32 Promote )
 {
-struct USB2_TaskNode *tn;
+struct USB3_TaskNode *tn;
 struct ExecIFace *IExec;
 S32 retval;
 

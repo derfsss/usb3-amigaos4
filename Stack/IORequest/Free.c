@@ -87,7 +87,7 @@ enum FSTAT fstat;
 		}
 		else
 		{
-			ioreq->req_StructID = ID_USB2_FREED;
+			ioreq->req_StructID = ID_USB3_FREED;
 			fstat = FSTAT_Okay;
 		}
 	}

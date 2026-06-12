@@ -14,8 +14,8 @@
 
 SEC_CODE static S32 __Get_Device_Desc( 
 	struct RealFunctionNode *fn,
-	struct USB2_IORequest *ioreq,
-	struct USB2_SetupData *sd,
+	struct USB3_IORequest *ioreq,
+	struct USB3_SetupData *sd,
 	struct USBBase *usbbase )
 {
 S32 retval;
@@ -46,14 +46,14 @@ U32 cnt;
 		sd->RequestCode	= REQCODE_Get_Descriptor;
 		sd->Value		= LE_SWAP16( DSCTYPE_Device << 8 );
 		sd->Index		= LE_SWAP16( 0 );
-		sd->Length		= LE_SWAP16( sizeof( struct USB2_Device_Desc ));
+		sd->Length		= LE_SWAP16( sizeof( struct USB3_Device_Desc ));
 
 		ioreq->io_Data	= fn->fkt_DeviceDescriptor;
-		ioreq->io_Length= sizeof( struct USB2_Device_Desc );
+		ioreq->io_Length= sizeof( struct USB3_Device_Desc );
 
 		IO_DO(ioreq);
 
-		if ( ioreq->io_Error == USB2Err_NoError )
+		if ( ioreq->io_Error == USB3Err_NoError )
 		{
 			break;
 		}

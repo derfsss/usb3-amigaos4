@@ -36,8 +36,8 @@ U32 retval;
 
 	// --
 
-	us->us_Register = USB2_Reg_RegisterTags(
-		USB2Tag_Reg_DriverMessage, us->us_StartMsg,
+	us->us_Register = USB3_Reg_RegisterTags(
+		USB3Tag_Reg_DriverMessage, us->us_StartMsg,
 		TAG_END
 	);
 
@@ -51,10 +51,10 @@ U32 retval;
 
 	// --
 
-	us->us_Res_Interrupt = USB2_EPRes_ObtainTags( us->us_Register,
-		USB2Tag_EPRes_EPDirection, EPADR_Dir_In,
-		USB2Tag_EPRes_EPType, EPATT_Type_Interrupt,
-		USB2Tag_EPRes_BufferSize, USB2Val_BufferSize_MaxPacketSize,
+	us->us_Res_Interrupt = USB3_EPRes_ObtainTags( us->us_Register,
+		USB3Tag_EPRes_EPDirection, EPADR_Dir_In,
+		USB3Tag_EPRes_EPType, EPATT_Type_Interrupt,
+		USB3Tag_EPRes_BufferSize, USB3Val_BufferSize_MaxPacketSize,
 		TAG_END
 	);
 
@@ -66,10 +66,10 @@ U32 retval;
 
 	// --
 
-	us->us_Res_BulkIn = USB2_EPRes_ObtainTags( us->us_Register,
-		USB2Tag_EPRes_BufferSize, USB2Val_BufferSize_MaxPacketSize,
-		USB2Tag_EPRes_EPDirection, EPADR_Dir_In,
-		USB2Tag_EPRes_EPType, EPATT_Type_Bulk,
+	us->us_Res_BulkIn = USB3_EPRes_ObtainTags( us->us_Register,
+		USB3Tag_EPRes_BufferSize, USB3Val_BufferSize_MaxPacketSize,
+		USB3Tag_EPRes_EPDirection, EPADR_Dir_In,
+		USB3Tag_EPRes_EPType, EPATT_Type_Bulk,
 		TAG_END
 	);
 
@@ -81,11 +81,11 @@ U32 retval;
 
 	// --
 
-	us->us_Res_BulkOut = USB2_EPRes_ObtainTags( us->us_Register,
-		USB2Tag_EPRes_BufferSize, USB2Val_BufferSize_MaxPacketSize,
-		USB2Tag_EPRes_EPDirection, EPADR_Dir_Out,
-		USB2Tag_EPRes_EPType, EPATT_Type_Bulk,
-		USB2Tag_EPRes_AddZeroPacket, TRUE,
+	us->us_Res_BulkOut = USB3_EPRes_ObtainTags( us->us_Register,
+		USB3Tag_EPRes_BufferSize, USB3Val_BufferSize_MaxPacketSize,
+		USB3Tag_EPRes_EPDirection, EPADR_Dir_Out,
+		USB3Tag_EPRes_EPType, EPATT_Type_Bulk,
+		USB3Tag_EPRes_AddZeroPacket, TRUE,
 		TAG_END
 	);
 

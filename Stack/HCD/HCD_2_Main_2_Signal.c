@@ -12,7 +12,7 @@
 
 // --
 
-SEC_CODE static void __Signal( struct USBBase *usbbase, struct USB2_HCDNode *hn, struct intern *in UNUSED )
+SEC_CODE static void __Signal( struct USBBase *usbbase, struct USB3_HCDNode *hn, struct intern *in UNUSED )
 {
 struct RealFunctionNode *fn;
 

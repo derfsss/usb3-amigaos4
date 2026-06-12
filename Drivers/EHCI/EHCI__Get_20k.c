@@ -50,7 +50,7 @@
 // --
 
 SEC_CODE S32 EHCI_Get_20kBuffer( 
-	struct USB2_HCDNode *hn, 
+	struct USB3_HCDNode *hn, 
 	struct EHCI_ITD *itd UNUSED, 
 	struct EHCI_TD *td, 
 	PTR data, 

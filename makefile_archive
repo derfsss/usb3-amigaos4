@@ -20,9 +20,9 @@ build_all: \
 
 build_dir_tree:
 	rm -rf $(BINDIR)
-	mkdir -p $(BINDIR)/usb2/Devs
-	mkdir -p $(BINDIR)/usb2/Libs/USB2
-	mkdir -p $(BINDIR)/usb2/Kickstart
+	mkdir -p $(BINDIR)/usb3/Devs
+	mkdir -p $(BINDIR)/usb3/Libs/USB3
+	mkdir -p $(BINDIR)/usb3/Kickstart
 
 ###########################################################################
 
@@ -32,7 +32,7 @@ build_stack:
 	make -f makefile clean && \
 	make -f makefile && \
 	make -f makefile strip && \
-	cp bin/usb2.device $(BINDIR)/usb2/Kickstart
+	cp bin/usb3.device $(BINDIR)/usb3/Kickstart
 	@echo "Stack done"
 
 ###########################################################################
@@ -40,18 +40,18 @@ build_stack:
 build_printer:
 	@echo "Building Printer Driver"
 	cd $(ROOTDIR)/Drivers/Printer && \
-	make -f makefile USBTYPE=USB2 clean && \
-	make -f makefile USBTYPE=USB2 && \
-	make -f makefile USBTYPE=USB2 strip && \
-	cp bin/usb2_printer.device $(BINDIR)/usb2/Devs
+	make -f makefile USBTYPE=USB3 clean && \
+	make -f makefile USBTYPE=USB3 && \
+	make -f makefile USBTYPE=USB3 strip && \
+	cp bin/usb3_printer.device $(BINDIR)/usb3/Devs
 	@echo "Printer done"
 
 ###########################################################################
 
 build_archive:
 	@echo "Building Archive"
-	@rm usb2.lha
-	lha a usb2.lha $(BINDIR)/usb2
+	@rm usb3.lha
+	lha a usb3.lha $(BINDIR)/usb3
 	@echo "Building done"
 
 ###########################################################################

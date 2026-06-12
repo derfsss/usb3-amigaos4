@@ -12,14 +12,14 @@
 
 // --
 
-SEC_CODE static void CmdStart_Entry( struct USB2_TaskMsg *tm )
+SEC_CODE static void CmdStart_Entry( struct USB3_TaskMsg *tm )
 {
-S32		( * init )	( struct USBBase *usbbase, struct USB2_DriverNode *dn, PTR in );
-void	( * main )	( struct USBBase *usbbase, struct USB2_DriverNode *dn, PTR in );
-void	( * free )	( struct USBBase *usbbase, struct USB2_DriverNode *dn, PTR in );
-struct USB2_TaskNode *tn;
-struct USB2_HCDNode *user_hn;
-struct USB2_ASync *as;
+S32		( * init )	( struct USBBase *usbbase, struct USB3_DriverNode *dn, PTR in );
+void	( * main )	( struct USBBase *usbbase, struct USB3_DriverNode *dn, PTR in );
+void	( * free )	( struct USBBase *usbbase, struct USB3_DriverNode *dn, PTR in );
+struct USB3_TaskNode *tn;
+struct USB3_HCDNode *user_hn;
+struct USB3_ASync *as;
 struct ExecIFace *IExec;
 struct USBBase *usbbase;
 struct Task *self;
@@ -87,7 +87,7 @@ PTR in;
 
 		#endif
 
-		struct USB2_HCDNode *hn = user_data;
+		struct USB3_HCDNode *hn = user_data;
 
 		#ifdef DO_DEBUG
 
@@ -266,7 +266,7 @@ bailout:
 
 SEC_CODE static void CmdStart_Process( void )
 {
-struct USB2_TaskMsg *tm;
+struct USB3_TaskMsg *tm;
 struct ExecIFace *IExec;
 
 	IExec	= (PTR)(*(struct ExecBase **)4)->MainInterface;
@@ -277,9 +277,9 @@ struct ExecIFace *IExec;
 
 // --
 
-SEC_CODE static S32 __Cmd_Start_Process( struct USBBase *usbbase, struct intern *in UNUSED, struct USB2_TaskMsg *tm )
+SEC_CODE static S32 __Cmd_Start_Process( struct USBBase *usbbase, struct intern *in UNUSED, struct USB3_TaskMsg *tm )
 {
-struct USB2_TaskNode *tn;
+struct USB3_TaskNode *tn;
 struct ExecIFace *IExec;
 struct DOSIFace *IDOS;
 struct Task *task;
@@ -322,7 +322,7 @@ S32 reply;
 		USBDEBUG( "__Cmd_Start_Process : 12 : Process" );
 
 		task = (PTR) IDOS->CreateNewProcTags( 
-			NP_Name,		"USB2 - Process Initialing",
+			NP_Name,		"USB3 - Process Initialing",
 			NP_Child,		TRUE,
 			NP_Priority,	tm->tm_Prioity,
 			NP_StackSize,	tm->tm_StackSize,
@@ -336,7 +336,7 @@ S32 reply;
 		USBDEBUG( "__Cmd_Start_Process : 13 : Task" );
 
 		task = IExec->CreateTaskTags(
-			"USB2 - Task Initialing",
+			"USB3 - Task Initialing",
 			tm->tm_Prioity,
 			CmdStart_Entry,
 			tm->tm_StackSize,

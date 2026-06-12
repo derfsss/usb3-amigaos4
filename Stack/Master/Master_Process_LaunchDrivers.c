@@ -13,10 +13,10 @@
 
 // --
 
-SEC_CODE static void myGetHead( struct USBBase *usbbase, struct RealFunctionNode **ptr_fn, struct USB2_Node **ptr_n )
+SEC_CODE static void myGetHead( struct USBBase *usbbase, struct RealFunctionNode **ptr_fn, struct USB3_Node **ptr_n )
 {
 struct RealFunctionNode *fn;
-struct USB2_Node *n;
+struct USB3_Node *n;
 
 	SEMAPHORE_OBTAIN( & usbbase->usb_Fkt_Semaphore );
 
@@ -46,10 +46,10 @@ struct USB2_Node *n;
 
 // --
 
-SEC_CODE static void myGetNext( struct USBBase *usbbase, struct RealFunctionNode **ptr_fn, struct USB2_Node **ptr_n )
+SEC_CODE static void myGetNext( struct USBBase *usbbase, struct RealFunctionNode **ptr_fn, struct USB3_Node **ptr_n )
 {
 struct RealFunctionNode *fn;
-struct USB2_Node *n;
+struct USB3_Node *n;
 
 	n  = *ptr_n;
 	fn = *ptr_fn;
@@ -93,7 +93,7 @@ static void __myProcess_Entry( void )
 struct RealFunctionNode *fn;
 struct MasterStartMsg *tm;
 struct ExecIFace *IExec;
-struct USB2_Node *n;
+struct USB3_Node *n;
 struct USBBase *usbbase;
 
 	// --
@@ -127,7 +127,7 @@ struct USBBase *usbbase;
 SEC_CODE static void __myProcess_LaunchDrivers( struct USBBase *usbbase, struct intern *in UNUSED )
 {
 struct MasterStartMsg msg;
-struct USB2_Signal sig;
+struct USB3_Signal sig;
 struct DOSIFace *IDOS;
 U32 mask;
 

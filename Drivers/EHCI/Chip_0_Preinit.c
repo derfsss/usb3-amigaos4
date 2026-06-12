@@ -49,7 +49,7 @@
 
 // --
 
-SEC_CODE S32 EHCI_Chip_Preinit( struct USB2_HCDNode *hn )
+SEC_CODE S32 EHCI_Chip_Preinit( struct USB3_HCDNode *hn )
 {
 //struct USBBase *usbbase;
 S32 retval;

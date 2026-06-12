@@ -47,9 +47,9 @@
 SEC_CODE U32 HUB_GetDesc( struct USBBase *usbbase, struct intern *in )
 {
 struct RealFunctionNode *fn;
-struct USB2_IORequest *ioreq;
-struct USB2_SetupData *sd;
-struct USB2_HUB_Desc *desc;
+struct USB3_IORequest *ioreq;
+struct USB3_SetupData *sd;
+struct USB3_HUB_Desc *desc;
 U32 dsctype;
 U32 retval;
 U32 max;
@@ -83,7 +83,7 @@ U32 cnt;
 //		ioreq->io_Data			= 0;
 //		ioreq->io_Length		= 0;
 //		ioreq->io_SetupData		= sd;
-//		ioreq->io_SetupLength	= sizeof( struct USB2_SetupData );
+//		ioreq->io_SetupLength	= sizeof( struct USB3_SetupData );
 //
 //		IO_DO( ioreq );
 //
@@ -135,7 +135,7 @@ U32 cnt;
 		ioreq->io_Data			= fn->fkt_HUBDescriptor;
 		ioreq->io_Length		= 255;
 		ioreq->io_SetupData		= sd;
-		ioreq->io_SetupLength	= sizeof( struct USB2_SetupData );
+		ioreq->io_SetupLength	= sizeof( struct USB3_SetupData );
 
 		IO_DO(ioreq);
 
@@ -156,7 +156,7 @@ U32 cnt;
 		ioreq->io_Data			= desc;
 		ioreq->io_Length		= 2;
 		ioreq->io_SetupData		= sd;
-		ioreq->io_SetupLength	= sizeof( struct USB2_SetupData );
+		ioreq->io_SetupLength	= sizeof( struct USB3_SetupData );
 
 		IO_DO(ioreq);
 
@@ -177,7 +177,7 @@ U32 cnt;
 		ioreq->io_Data			= desc;
 		ioreq->io_Length		= desc->Length;
 		ioreq->io_SetupData		= sd;
-		ioreq->io_SetupLength	= sizeof( struct USB2_SetupData );
+		ioreq->io_SetupLength	= sizeof( struct USB3_SetupData );
 
 		IO_DO(ioreq);
 

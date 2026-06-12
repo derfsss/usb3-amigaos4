@@ -81,12 +81,12 @@ struct USB_Struct
 	S32								us_Running;
 	U32								us_TransactionID;
 	U32								us_SessionID;
-	struct USB2_Register *			us_Register;
-	struct USB2_DriverMessage *		us_StartMsg;
-	struct USB2_EPResource *		us_Res_BulkIn;
-	struct USB2_EPResource *		us_Res_BulkOut;
-	struct USB2_EPResource *		us_Res_Control;
-	struct USB2_EPResource *		us_Res_Interrupt;
+	struct USB3_Register *			us_Register;
+	struct USB3_DriverMessage *		us_StartMsg;
+	struct USB3_EPResource *		us_Res_BulkIn;
+	struct USB3_EPResource *		us_Res_BulkOut;
+	struct USB3_EPResource *		us_Res_Control;
+	struct USB3_EPResource *		us_Res_Interrupt;
 	struct List						us_CmdList;
 	S32								us_CmdListCnt;
 	struct MsgPort *				us_CmdMsgPort;

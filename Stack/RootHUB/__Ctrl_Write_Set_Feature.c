@@ -13,8 +13,8 @@
 // --
 
 SEC_CODE static S32 __Set_Feature( 
-		struct USB2_SetupData *sd, 
-UNUSED	struct USB2_HCDNode *hn,
+		struct USB3_SetupData *sd, 
+UNUSED	struct USB3_HCDNode *hn,
 UNUSED	struct USBBase *usbbase )
 {
 //U16 wLength;
@@ -23,7 +23,7 @@ U16 wIndex;
 U16 port;
 S32 err;
 
-	err		= USB2Err_Host_Stall;
+	err		= USB3Err_Host_Stall;
 //	wValue	= LE_SWAP16( sd->Value );
 	wIndex	= LE_SWAP16( sd->Index );
 //	wLength	= LE_SWAP16( sd->Length );

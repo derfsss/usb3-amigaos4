@@ -14,9 +14,9 @@
 
 /* -- Main Interface -- */
 
-static S32 _main_Ifc_Declaim( struct USB2IFace *Self, struct RealRegister *reg, struct USB2_Interface *ifc )
+static S32 _main_Ifc_Declaim( struct USB3IFace *Self, struct RealRegister *reg, struct USB3_Interface *ifc )
 {
-struct USB2_InterfaceHeader *ih;
+struct USB3_InterfaceHeader *ih;
 struct USBBase *usbbase;
 S32 retval;
 
@@ -30,7 +30,7 @@ S32 retval;
 		goto bailout;
 	}
 
-	ih = (PTR) ( (char *) ifc - offsetof( struct USB2_InterfaceHeader, ih_Public ));
+	ih = (PTR) ( (char *) ifc - offsetof( struct USB3_InterfaceHeader, ih_Public ));
 
 	#ifdef DO_DEBUG
 

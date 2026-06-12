@@ -12,9 +12,9 @@
 
 // --
 
-SEC_CODE static void __Normal( struct USBBase *usbbase, struct USB2_HCDNode *hn, struct intern *in )
+SEC_CODE static void __Normal( struct USBBase *usbbase, struct USB3_HCDNode *hn, struct intern *in )
 {
-struct USB2_TaskNode *tn;
+struct USB3_TaskNode *tn;
 U32 mask;
 U32 wait;
 

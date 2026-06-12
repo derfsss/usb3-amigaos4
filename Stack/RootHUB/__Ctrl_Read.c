@@ -12,9 +12,9 @@
 
 // --
 
-static const struct USB2_Device_Desc HUB11_DeviceDsc =
+static const struct USB3_Device_Desc HUB11_DeviceDsc =
 {
-/* Length			*/ sizeof( struct USB2_Device_Desc ),
+/* Length			*/ sizeof( struct USB3_Device_Desc ),
 /* DescriptorType	*/ DSCTYPE_Device,
 /* USB				*/ LE_SWAP16( 0x0110 ),
 /* DeviceClass		*/ USBCLASS_HUB,
@@ -30,9 +30,9 @@ static const struct USB2_Device_Desc HUB11_DeviceDsc =
 /* NumConfigurations*/ 1,
 };
 
-static const struct USB2_Device_Desc HUB20_DeviceDsc =
+static const struct USB3_Device_Desc HUB20_DeviceDsc =
 {
-/* Length			*/ sizeof( struct USB2_Device_Desc ),
+/* Length			*/ sizeof( struct USB3_Device_Desc ),
 /* DescriptorType	*/ DSCTYPE_Device,
 /* USB				*/ LE_SWAP16( 0x0200 ),
 /* DeviceClass		*/ USBCLASS_HUB,
@@ -50,8 +50,8 @@ static const struct USB2_Device_Desc HUB20_DeviceDsc =
 
 static const struct myHUB_Cfg HUBConfigDsc =
 {
-{ // struct USB2_Config_Desc
-/* Length			*/ sizeof( struct USB2_Config_Desc ),
+{ // struct USB3_Config_Desc
+/* Length			*/ sizeof( struct USB3_Config_Desc ),
 /* DescriptorType	*/ DSCTYPE_Configuration,
 /* TotalLength		*/ LE_SWAP16( sizeof( struct myHUB_Cfg ) ),
 /* NumInterfaces	*/ 0x00,
@@ -60,8 +60,8 @@ static const struct myHUB_Cfg HUBConfigDsc =
 /* Attributes		*/ 0x00,
 /* MaxPower			*/ 0x00,
 },
-{ // struct USB2_Interface_Desc
-/* Length			*/ sizeof( struct USB2_Interface_Desc ),
+{ // struct USB3_Interface_Desc
+/* Length			*/ sizeof( struct USB3_Interface_Desc ),
 /* DescriptorType	*/ DSCTYPE_Interface,
 /* InterfaceNumber	*/ HUB_Ifc_Nr,
 /* AlternateSetting	*/ 0x00,
@@ -71,8 +71,8 @@ static const struct myHUB_Cfg HUBConfigDsc =
 /* InterfaceProtocol*/ 0x00,
 /* InterfaceStrNr	*/ 0x00,
 },
-{ // struct USB2_EndPoint_Desc
-/* Length			*/ sizeof( struct USB2_EndPoint_Desc ),
+{ // struct USB3_EndPoint_Desc
+/* Length			*/ sizeof( struct USB3_EndPoint_Desc ),
 /* DescriptorType	*/ DSCTYPE_EndPoint,
 /* EndPointAddress	*/ EPADR_Dir_Number( HUB_IntEp_Nr ) | EPADR_Dir_In,
 /* Attributes		*/ EPATT_Type_Interrupt,
@@ -81,7 +81,7 @@ static const struct myHUB_Cfg HUBConfigDsc =
 }
 };
 
-static const struct USB2_String_Desc LangIDs =
+static const struct USB3_String_Desc LangIDs =
 {
 /* Length			*/ 4,
 /* DescType			*/ DSCTYPE_String,
@@ -101,9 +101,9 @@ static const struct USB2_String_Desc LangIDs =
 
 #define MAX_BUFFER	512
 
-SEC_CODE static void __Control_Read( struct USBBase *usbbase, struct USB2_HCDNode *hn, struct RealRequest *ioreq )
+SEC_CODE static void __Control_Read( struct USBBase *usbbase, struct USB3_HCDNode *hn, struct RealRequest *ioreq )
 {
-struct USB2_SetupData *sd;
+struct USB3_SetupData *sd;
 U32 max;
 U32 len;
 S32 err;
@@ -119,7 +119,7 @@ U8 buf[MAX_BUFFER];
 	{
 		USBDEBUG( "RootHUB : Read : No SetupData buffer given" );
 
-		err = USB2Err_Host_Stall;
+		err = USB3Err_Host_Stall;
 	}
 	else
 	{
@@ -163,7 +163,7 @@ U8 buf[MAX_BUFFER];
 			{
 				USBDEBUG( "RootHUB : Read : Unknown Request (%lu)", (U32) sd->RequestCode );
 
-				err = USB2Err_Host_Stall;
+				err = USB3Err_Host_Stall;
 				break;
 			}
 		}
@@ -177,7 +177,7 @@ U8 buf[MAX_BUFFER];
 
 		#endif
 
-		if ( err == USB2Err_NoError )
+		if ( err == USB3Err_NoError )
 		{
 			len = MIN( max, ioreq->req_Public.io_Length );
 

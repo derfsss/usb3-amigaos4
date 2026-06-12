@@ -12,11 +12,11 @@
 
 // --
 
-SEC_CODE void __Node_AddInfrontOf( struct USBBase *usbbase UNUSED, struct USB2_Header *header, PTR cur, PTR new )
+SEC_CODE void __Node_AddInfrontOf( struct USBBase *usbbase UNUSED, struct USB3_Header *header, PTR cur, PTR new )
 {
-struct USB2_Node *n = new;
-struct USB2_Node *c = cur;
-struct USB2_Node *t;
+struct USB3_Node *n = new;
+struct USB3_Node *c = cur;
+struct USB3_Node *t;
 
 	#ifdef DO_DEBUG
 

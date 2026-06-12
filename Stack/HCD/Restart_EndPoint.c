@@ -12,7 +12,7 @@
 
 // --
 
-SEC_CODE void __HCD_Restart_EndPoint( struct USBBase *usbbase, struct USB2_HCDNode *hn, struct USB2_EndPointNode *ep )
+SEC_CODE void __HCD_Restart_EndPoint( struct USBBase *usbbase, struct USB3_HCDNode *hn, struct USB3_EndPointNode *ep )
 {
 struct RealFunctionNode *fn;
 struct RealRequest *ioreq;

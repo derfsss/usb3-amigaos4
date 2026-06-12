@@ -14,11 +14,11 @@
 
 #if defined( DO_PANIC ) || defined( DO_ERROR ) || defined( DO_DEBUG ) || defined( DO_INFO )
 
-SEC_CODE S32 __MsgPort_Init( struct USBBase *usbbase, struct USB2_MsgPort *mp, STR file UNUSED )
+SEC_CODE S32 __MsgPort_Init( struct USBBase *usbbase, struct USB3_MsgPort *mp, STR file UNUSED )
 
 #else
 
-SEC_CODE S32 __MsgPort_Init( struct USBBase *usbbase, struct USB2_MsgPort *mp )
+SEC_CODE S32 __MsgPort_Init( struct USBBase *usbbase, struct USB3_MsgPort *mp )
 
 #endif
 
@@ -36,7 +36,7 @@ S32 retval;
 		USBPANIC( "MsgPort_Init : 1 : NULL Pointer : (%s)", file );
 	}
 
-	if ( mp->ump_StructID == ID_USB2_MP )
+	if ( mp->ump_StructID == ID_USB3_MP )
 	{
 		USBPANIC( "MsgPort_Init : 2 : IN    use : (%s)", file );
 	}
@@ -49,7 +49,7 @@ S32 retval;
 		goto bailout;
 	}
 
-	mp->ump_StructID						= ID_USB2_MP;
+	mp->ump_StructID						= ID_USB3_MP;
 	mp->ump_MsgPort.mp_Node.ln_Type			= NT_MSGPORT;
 	mp->ump_MsgPort.mp_MsgList.lh_Head		= (PTR) & mp->ump_MsgPort.mp_MsgList.lh_Tail;
 	mp->ump_MsgPort.mp_MsgList.lh_Tail		= (PTR) NULL;

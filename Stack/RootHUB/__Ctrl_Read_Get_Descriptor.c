@@ -13,8 +13,8 @@
 // --
 
 SEC_CODE static S32 __Get_Descriptor( 
-	struct USB2_SetupData *sd, 
-	struct USB2_HCDNode *hn, 
+	struct USB3_SetupData *sd, 
+	struct USB3_HCDNode *hn, 
 	struct USBBase *usbbase,
 	PTR buffer,
 	U32 *max )
@@ -27,7 +27,7 @@ S32 err;
 	wValue	= LE_SWAP16( sd->Value );
 	dsctype = ( wValue & 0xff00 ) >> 8;
 	dscnr	= ( wValue & 0x00ff ) >> 0;
-	err		= USB2Err_Host_Stall;
+	err		= USB3Err_Host_Stall;
 
 	switch( dsctype )
 	{
@@ -37,16 +37,16 @@ S32 err;
 
 			if ( hn->hn_HCDType == HCDTYPE_EHCI )
 			{
-				MEM_COPY( (PTR) & HUB20_DeviceDsc, buffer, sizeof( struct USB2_Device_Desc ));
+				MEM_COPY( (PTR) & HUB20_DeviceDsc, buffer, sizeof( struct USB3_Device_Desc ));
 			}
 			else
 			{
-				MEM_COPY( (PTR) & HUB11_DeviceDsc, buffer, sizeof( struct USB2_Device_Desc ));
+				MEM_COPY( (PTR) & HUB11_DeviceDsc, buffer, sizeof( struct USB3_Device_Desc ));
 			}
 
-			*max = sizeof( struct USB2_Device_Desc );
+			*max = sizeof( struct USB3_Device_Desc );
 
-			err = USB2Err_NoError;
+			err = USB3Err_NoError;
 			break;
 		}
 
@@ -58,7 +58,7 @@ S32 err;
 
 			*max = sizeof( struct myHUB_Cfg );
 
-			err = USB2Err_NoError;
+			err = USB3Err_NoError;
 			break;
 		}
 
@@ -74,7 +74,7 @@ S32 err;
 
 					*max = sizeof( LangIDs );
 
-					err = USB2Err_NoError;
+					err = USB3Err_NoError;
 					break;
 				}
 
@@ -118,7 +118,7 @@ S32 err;
 
 		case 0x29: // HUB Desc
 		{
-			struct USB2_HUB_Desc *HUBDesc;
+			struct USB3_HUB_Desc *HUBDesc;
 			U32 len;
 
 			USBDEBUG( "Get HUB Descriptor" );
@@ -141,7 +141,7 @@ S32 err;
 
 			*max = len;
 
-			err = USB2Err_NoError;
+			err = USB3Err_NoError;
 			break;
 		}
 

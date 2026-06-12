@@ -14,16 +14,16 @@
 
 #if defined( DO_PANIC ) || defined( DO_ERROR ) || defined( DO_DEBUG ) || defined( DO_INFO )
 
-SEC_CODE void __Task_Stop_DN( struct USBBase *usbbase, struct USB2_DriverNode *dn, STR file UNUSED )
+SEC_CODE void __Task_Stop_DN( struct USBBase *usbbase, struct USB3_DriverNode *dn, STR file UNUSED )
 
 #else
 
-SEC_CODE void __Task_Stop_DN( struct USBBase *usbbase, struct USB2_DriverNode *dn )
+SEC_CODE void __Task_Stop_DN( struct USBBase *usbbase, struct USB3_DriverNode *dn )
 
 #endif
 
 {
-struct USB2_TaskNode *tn;
+struct USB3_TaskNode *tn;
 
 	USBDEBUG( "__Task_Stop_DN           :  1 : DN %p : (%s)", dn, (file)?file:"<NULL>" );
 

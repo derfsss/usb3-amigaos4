@@ -49,7 +49,7 @@
 
 // --
 
-SEC_CODE S32 EHCI_Port_Clr_Reset_Chg( struct USB2_HCDNode *hn, U32 port )
+SEC_CODE S32 EHCI_Port_Clr_Reset_Chg( struct USB3_HCDNode *hn, U32 port )
 {
 S32 err;
 
@@ -63,7 +63,7 @@ S32 err;
 	{
 		USBDEBUG( "Invalid Port Number #%lu", port );
 
-		err = USB2Err_Host_HostError;
+		err = USB3Err_Host_HostError;
 	}
 	else
 	{
@@ -71,13 +71,13 @@ S32 err;
 		{
 			USBDEBUG( "Port Number #%lu not in reset stat", port );
 
-			err = USB2Err_Host_Stall;
+			err = USB3Err_Host_Stall;
 		}
 		else
 		{
 			hn->hn_HCD.EHCI.PortResetChange[port] = 0;
 
-			err = USB2Err_NoError;
+			err = USB3Err_NoError;
 		}
 	}
 

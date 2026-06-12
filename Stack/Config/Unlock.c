@@ -14,11 +14,11 @@
 
 #if defined( DO_PANIC ) || defined( DO_ERROR ) || defined( DO_DEBUG ) || defined( DO_INFO )
 
-SEC_CODE void __Config_Unlock( struct USBBase *usbbase, struct USB2_ConfigNode *cn, STR file UNUSED )
+SEC_CODE void __Config_Unlock( struct USBBase *usbbase, struct USB3_ConfigNode *cn, STR file UNUSED )
 
 #else
 
-SEC_CODE void __Config_Unlock( struct USBBase *usbbase, struct USB2_ConfigNode *cn )
+SEC_CODE void __Config_Unlock( struct USBBase *usbbase, struct USB3_ConfigNode *cn )
 
 #endif
 

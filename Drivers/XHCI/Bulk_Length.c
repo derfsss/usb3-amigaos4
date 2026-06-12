@@ -13,7 +13,7 @@
 
 // --
 
-SEC_CODE U32 XHCI_Bulk_Length( struct USB2_HCDNode *hn, struct RealRequest *ioreq )
+SEC_CODE U32 XHCI_Bulk_Length( struct USB3_HCDNode *hn, struct RealRequest *ioreq )
 {
 struct XHCI_BounceChunk *chunks;
 U32 actual;

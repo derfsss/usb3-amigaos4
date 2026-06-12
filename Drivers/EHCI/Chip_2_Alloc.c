@@ -49,7 +49,7 @@
 
 // --
 
-SEC_CODE S32 EHCI_Chip_Alloc( struct USB2_HCDNode *hn )
+SEC_CODE S32 EHCI_Chip_Alloc( struct USB3_HCDNode *hn )
 {
 S32 retval;
 

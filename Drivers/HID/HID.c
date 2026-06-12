@@ -91,7 +91,7 @@ SEC_RODATA const S16 USBNumPadMap[256] =
 
 // --
 
-SEC_CODE U32 HID_Entry( struct USBBase *usbbase, struct USB2_DriverMessage *msg )
+SEC_CODE U32 HID_Entry( struct USBBase *usbbase, struct USB3_DriverMessage *msg )
 {
 struct intern *in;
 U32 retval;
@@ -108,8 +108,8 @@ U32 retval;
 		return( TASK_Return_Error );
 	}
 
-	usbbase->usb_IExec->DebugPrintF( "USB3: HID_Entry: msg->Function=%p msg->Interface=%p msg->IUSB2=%p\n",
-		msg->Function, msg->Interface, msg->IUSB2 );
+	usbbase->usb_IExec->DebugPrintF( "USB3: HID_Entry: msg->Function=%p msg->Interface=%p msg->IUSB3=%p\n",
+		msg->Function, msg->Interface, msg->IUSB3 );
 
 	if ( ! msg->Function )
 	{

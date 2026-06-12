@@ -14,16 +14,16 @@
 
 #if defined( DO_PANIC ) || defined( DO_ERROR ) || defined( DO_DEBUG ) || defined( DO_INFO )
 
-SEC_CODE struct USB2_TaskMsg *__TaskMsg_Alloc( struct USBBase *usbbase, STR file UNUSED )
+SEC_CODE struct USB3_TaskMsg *__TaskMsg_Alloc( struct USBBase *usbbase, STR file UNUSED )
 
 #else
 
-SEC_CODE struct USB2_TaskMsg *__TaskMsg_Alloc( struct USBBase *usbbase )
+SEC_CODE struct USB3_TaskMsg *__TaskMsg_Alloc( struct USBBase *usbbase )
 
 #endif
 
 {
-struct USB2_TaskMsg *tm;
+struct USB3_TaskMsg *tm;
 S32 error;
 
 	tm = NULL;
@@ -40,7 +40,7 @@ S32 error;
 		goto bailout;
 	}
 
-	tm->tm_StructID = ID_USB2_TMSG;
+	tm->tm_StructID = ID_USB3_TMSG;
 
 	// --
 

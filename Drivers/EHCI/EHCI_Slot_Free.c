@@ -49,7 +49,7 @@
 
 // --
 
-SEC_CODE void EHCI_Slot_Free( struct USB2_HCDNode *hn, U32 slot )
+SEC_CODE void EHCI_Slot_Free( struct USB3_HCDNode *hn, U32 slot )
 {
 U32 pos;
 U32 lev;

@@ -56,7 +56,7 @@ SEC_CODE void HUB__HUB_Chg( struct USBBase *usbbase UNUSED, struct intern *in UN
 	// --
 
 	#if 0
-struct USB2_HUBStatus stat;
+struct USB3_HUBStatus stat;
 S32 err;
 
 //	  usbbase->usb_IExec->Disable();
@@ -66,7 +66,7 @@ S32 err;
 
 	err = HUB_GetHUBStatus( usbbase, in, &stat );
 
-	if ( err != USB2Err_NoError )
+	if ( err != USB3Err_NoError )
 	{
 		USBDEBUG( "Error reading HUB Status (%ld)", err );
 		goto bailout;

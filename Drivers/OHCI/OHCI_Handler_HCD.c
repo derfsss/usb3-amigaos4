@@ -51,7 +51,7 @@
 
 // --
 
-SEC_CODE void OHCI_Handler_HCD( struct USB2_HCDNode *hn, U32 mask UNUSED )
+SEC_CODE void OHCI_Handler_HCD( struct USB3_HCDNode *hn, U32 mask UNUSED )
 {
 struct RealFunctionNode *fn;
 struct RealRequest *ioreq;

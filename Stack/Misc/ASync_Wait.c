@@ -25,7 +25,7 @@
 // --
 
 // hmm should it only return when Counter is Zero
-SEC_CODE S32 __ASync_Wait( struct USBBase *usbbase, struct USB2_ASync *ua )
+SEC_CODE S32 __ASync_Wait( struct USBBase *usbbase, struct USB3_ASync *ua )
 {
 S32 retval;
 
@@ -42,7 +42,7 @@ S32 retval;
 		USBPANIC( "ASync_Wait : 1 : NULL Pointer" );
 	}
 
-	if ( ua->ua_StructID != ID_USB2_ASYNC )
+	if ( ua->ua_StructID != ID_USB3_ASYNC )
 	{
 		USBDEBUG( "ASync_Wait : 2 : Invalid ID $%08lx", ua->ua_StructID );
 		USBPANIC( "ASync_Wait : 2 : Invalid ID $%08lx", ua->ua_StructID );

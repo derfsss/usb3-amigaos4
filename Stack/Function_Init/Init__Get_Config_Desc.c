@@ -14,8 +14,8 @@
 
 SEC_CODE static S32 __Get_Config_Desc( 
 	struct RealFunctionNode *fn,
-	struct USB2_IORequest *ioreq,
-	struct USB2_SetupData *sd,
+	struct USB3_IORequest *ioreq,
+	struct USB3_SetupData *sd,
 	struct USBBase *usbbase )
 {
 S32 retval;
@@ -50,7 +50,7 @@ U32 cnt;
 
 		IO_DO(ioreq);
  
-		if ( ioreq->io_Error == USB2Err_NoError )
+		if ( ioreq->io_Error == USB3Err_NoError )
 		{
 			break;
 		}

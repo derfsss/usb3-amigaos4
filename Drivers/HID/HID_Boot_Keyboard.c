@@ -76,8 +76,8 @@ U16 key;
 
 SEC_CODE void HID_SendLED( struct USBBase *usbbase, struct intern *in )
 {
-struct USB2_IORequest *ioreq;
-struct USB2_SetupData *sd;
+struct USB3_IORequest *ioreq;
+struct USB3_SetupData *sd;
 U16 ifcnr;
 U8 leds;
 
@@ -102,7 +102,7 @@ U8 leds;
 	ioreq->io_Data			= & leds;
 	ioreq->io_Length		= 1;
 	ioreq->io_SetupData		= sd;
-	ioreq->io_SetupLength	= sizeof( struct USB2_SetupData );
+	ioreq->io_SetupLength	= sizeof( struct USB3_SetupData );
 
 	IO_DO( ioreq );
 	
@@ -114,7 +114,7 @@ U8 leds;
 // --
 // Check if Keyboard buffer triggered a rollover
 
-SEC_CODE static S32 myHID_Boot_Kbd_RollOver( struct USB2_BootKeyboard *report )
+SEC_CODE static S32 myHID_Boot_Kbd_RollOver( struct USB3_BootKeyboard *report )
 {
 S32 retval;
 
@@ -193,8 +193,8 @@ U8 mask2;
 SEC_CODE static void myHID_Boot_Kbd_KeyPress( 
 	struct USBBase *usbbase, 
 	struct intern *in, 
-	struct USB2_BootKeyboard *oldreport,
-	struct USB2_BootKeyboard *newreport )
+	struct USB3_BootKeyboard *oldreport,
+	struct USB3_BootKeyboard *newreport )
 {
 S16 amikey;
 S16 usbkey;
@@ -274,8 +274,8 @@ U32 newpos;
 SEC_CODE static void myHID_Boot_Kbd_KeyRelease( 
 	struct USBBase *usbbase, 
 	struct intern *in, 
-	struct USB2_BootKeyboard *oldreport,
-	struct USB2_BootKeyboard *newreport )
+	struct USB3_BootKeyboard *oldreport,
+	struct USB3_BootKeyboard *newreport )
 {
 U32 oldpos;
 S16 amikey;
@@ -395,8 +395,8 @@ S16 last;
 
 SEC_CODE static void myHID_Boot_DoKeyboard( struct USBBase *usbbase, struct intern *in, struct RealRequest *ioreq )
 {
-struct USB2_BootKeyboard *newreport;
-struct USB2_BootKeyboard *oldreport;
+struct USB3_BootKeyboard *newreport;
+struct USB3_BootKeyboard *oldreport;
 
 	newreport = (PTR) ioreq->req_Public.io_Data;
 	oldreport = & in->Type.Boot_Keyboard.KeyboardData;
@@ -454,7 +454,7 @@ struct USB2_BootKeyboard *oldreport;
 
 	// -- And now copy Report for next time
 
-	MEM_COPY( newreport, oldreport, sizeof( struct USB2_BootKeyboard ));
+	MEM_COPY( newreport, oldreport, sizeof( struct USB3_BootKeyboard ));
 
 	TASK_NAME_LEAVE();
 }
@@ -550,11 +550,11 @@ U32 max;
 
 		switch( ioreq->req_Public.io_Error )
 		{
-			case USB2Err_NoError:
+			case USB3Err_NoError:
 			{
 //				USBDEBUG( "HID_Boot_Keyboard : Got Int" );
 
-				if ( ioreq->req_Public.io_Actual >= sizeof( struct USB2_BootKeyboard ))
+				if ( ioreq->req_Public.io_Actual >= sizeof( struct USB3_BootKeyboard ))
 				{
 					in->ErrorCnt = 0;
 
@@ -567,7 +567,7 @@ U32 max;
 				break;
 			}
 
-			case USB2Err_Device_Detached:
+			case USB3Err_Device_Detached:
 			{
 				USBDEBUG( "HID_Boot_Keyboard : Int : Detached" );
 				in->Running = FALSE;

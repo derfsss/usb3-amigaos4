@@ -31,18 +31,18 @@ struct ExecIFace *IExec;
 	IExec->Enable();
 
 	#if 0
-	struct USB2_IORequest			req_Public;
+	struct USB3_IORequest			req_Public;
 	// -- 
 	U32								req_StructID;
 	S32								req_Locks;
 	U16								req_Detach;
 	U16								req_FreeMe;
-//	struct USB2_TaskNode *			req_Task;
-//	struct USB2_ASync *				req_ASync;
+//	struct USB3_TaskNode *			req_Task;
+//	struct USB3_ASync *				req_ASync;
 	// --
 	struct RealFunctionNode *		req_Function;
-	struct USB2_EndPointNode *		req_EndPoint;
-	struct USB2_MsgPort				req_MsgPort;
+	struct USB3_EndPointNode *		req_EndPoint;
+	struct USB3_MsgPort				req_MsgPort;
 //	struct TimeRequest				req_TimerIOReq;
 	enum IORStat					req_PublicStat;
 	#endif
@@ -53,7 +53,7 @@ struct ExecIFace *IExec;
 static void _manager_BeginIO( struct DeviceManagerInterface *Self, struct RealRequest *ioreq )
 {
 struct RealFunctionNode *fn;
-struct USB2_HCDNode *hn;
+struct USB3_HCDNode *hn;
 //struct ExecIFace *IExec;
 struct USBBase *usbbase;
 S32 reply;
@@ -89,7 +89,7 @@ S32 reply;
 			{
 				IOREQUEST_PRINT( usbbase, ioreq );
 
-				ioreq->req_Public.io_Error = USB2Err_Stack_InvalidStructure;
+				ioreq->req_Public.io_Error = USB3Err_Stack_InvalidStructure;
 				USBPANIC( "_manager_BeginIO : IOReq %p : Invalid IOReq : Stat %ld != %ld", ioreq, (S32) ioreq->req_PublicStat, (S32) IORS_User );
 				break;
 			}
@@ -98,7 +98,7 @@ S32 reply;
 
 			if (( ioreq->req_Detach ) || ( ioreq->req_FreeMe ))
 			{
-				ioreq->req_Public.io_Error = USB2Err_Stack_InvalidStructure;
+				ioreq->req_Public.io_Error = USB3Err_Stack_InvalidStructure;
 				USBPANIC( "_manager_BeginIO : IOReq %p : Invalid IOReq : Detached", ioreq );
 				break;
 			}
@@ -109,14 +109,14 @@ S32 reply;
 
 			if ( FUNCTION_VALID(fn) != VSTAT_Okay )
 			{
-				ioreq->req_Public.io_Error = USB2Err_Stack_InvalidStructure;
+				ioreq->req_Public.io_Error = USB3Err_Stack_InvalidStructure;
 				USBDEBUG( "_manager_BeginIO : Invalid Function Node : FN    %p", fn );
 				break;
 			}
 
 			if (( fn->fkt_Detach ) || ( fn->fkt_FreeMe ))
 			{
-				ioreq->req_Public.io_Error = USB2Err_Device_Detached;
+				ioreq->req_Public.io_Error = USB3Err_Device_Detached;
 				USBDEBUG( "_manager_BeginIO : Function Detached" );
 				break;
 			}
@@ -125,7 +125,7 @@ S32 reply;
 
 			if ( HCD_VALID( hn ) != VSTAT_Okay )
 			{
-				ioreq->req_Public.io_Error = USB2Err_Stack_InvalidStructure;
+				ioreq->req_Public.io_Error = USB3Err_Stack_InvalidStructure;
 				USBDEBUG( "_manager_BeginIO : Invalid hn Node" );
 				break;
 			}

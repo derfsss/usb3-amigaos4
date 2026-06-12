@@ -18,7 +18,7 @@ void _usb_Free( struct USB_Struct *us )
 
 	if ( us->us_Register )
 	{
-		USB2_Reg_Unregister( us->us_Register );
+		USB3_Reg_Unregister( us->us_Register );
 		us->us_Register = NULL;
 	}
 }

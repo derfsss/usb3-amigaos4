@@ -13,8 +13,8 @@
 // --
 
 SEC_CODE static S32 __Set_Config( 
-		struct USB2_SetupData *sd, 
-		struct USB2_HCDNode *hn, 
+		struct USB3_SetupData *sd, 
+		struct USB3_HCDNode *hn, 
 UNUSED	struct USBBase *usbbase )
 {
 U16 wLength;
@@ -22,7 +22,7 @@ U16 wValue;
 U16 wIndex;
 S32 err;
 
-	err		= USB2Err_Host_Stall;
+	err		= USB3Err_Host_Stall;
 	wValue	= LE_SWAP16( sd->Value );
 	wIndex	= LE_SWAP16( sd->Index );
 	wLength	= LE_SWAP16( sd->Length );
@@ -31,12 +31,12 @@ S32 err;
 	{
 		USBDEBUG( "__Set_Config : Setting Config Nr #%ld", (S32) wValue );
 		hn->hn_HUB_ConfigNr = wValue;
-		err = USB2Err_NoError;
+		err = USB3Err_NoError;
 	}
 	else
 	{
 		USBDEBUG( "__Set_Config : hmm unknown 11" );
-		err = USB2Err_Host_Stall;
+		err = USB3Err_Host_Stall;
 	}
 
 	return( err );

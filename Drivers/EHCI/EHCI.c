@@ -107,28 +107,28 @@ SEC_RODATA const struct HCDFunctions EHCIFunctions =
 
 	// -- Root HUB Functions --
 
-	S8		( *Port_Clr_Enable )				( struct USB2_HCDNode *hn, U32 port );
-	S8		( *Port_Clr_Suspend )				( struct USB2_HCDNode *hn, U32 port );
-	S8		( *Port_Clr_Power )					( struct USB2_HCDNode *hn, U32 port );
-	S8		( *Port_Clr_Indicator )				( struct USB2_HCDNode *hn, U32 port );
-	S8		( *Port_Clr_Enable_Chg )			( struct USB2_HCDNode *hn, U32 port );
-	S8		( *Port_Clr_Suspend_Chg )			( struct USB2_HCDNode *hn, U32 port );
-	S8		( *Port_Clr_OverCurrent_Chg )		( struct USB2_HCDNode *hn, U32 port );
-	S8 		( *Port_Clr_Reset_Chg )				( struct USB2_HCDNode *hn, U32 port );
+	S8		( *Port_Clr_Enable )				( struct USB3_HCDNode *hn, U32 port );
+	S8		( *Port_Clr_Suspend )				( struct USB3_HCDNode *hn, U32 port );
+	S8		( *Port_Clr_Power )					( struct USB3_HCDNode *hn, U32 port );
+	S8		( *Port_Clr_Indicator )				( struct USB3_HCDNode *hn, U32 port );
+	S8		( *Port_Clr_Enable_Chg )			( struct USB3_HCDNode *hn, U32 port );
+	S8		( *Port_Clr_Suspend_Chg )			( struct USB3_HCDNode *hn, U32 port );
+	S8		( *Port_Clr_OverCurrent_Chg )		( struct USB3_HCDNode *hn, U32 port );
+	S8 		( *Port_Clr_Reset_Chg )				( struct USB3_HCDNode *hn, U32 port );
 
-	S8		( *Port_Set_Enable )				( struct USB2_HCDNode *hn, U32 port );
-	S8		( *Port_Set_Suspend )				( struct USB2_HCDNode *hn, U32 port );
-	S8		( *Port_Set_Reset )					( struct USB2_HCDNode *hn, U32 port );
-	S8		( *Port_Set_Power )					( struct USB2_HCDNode *hn, U32 port );
-	S8		( *Port_Set_Indicator )				( struct USB2_HCDNode *hn, U32 port );
+	S8		( *Port_Set_Enable )				( struct USB3_HCDNode *hn, U32 port );
+	S8		( *Port_Set_Suspend )				( struct USB3_HCDNode *hn, U32 port );
+	S8		( *Port_Set_Reset )					( struct USB3_HCDNode *hn, U32 port );
+	S8		( *Port_Set_Power )					( struct USB3_HCDNode *hn, U32 port );
+	S8		( *Port_Set_Indicator )				( struct USB3_HCDNode *hn, U32 port );
 
 	// -- Buffer Functions --
 
 
-	S32		( *Isochronous_Build )				( struct USB2_HCDNode *hn, struct RealRequest *ioreq );
-	void	( *Isochronous_Add )				( struct USB2_HCDNode *hn, struct RealRequest *ioreq );
-	void	( *Isochronous_Remove )				( struct USB2_HCDNode *hn, struct RealRequest *ioreq );
-	U32		( *Isochronous_Length )				( struct USB2_HCDNode *hn, struct RealRequest *ioreq );
+	S32		( *Isochronous_Build )				( struct USB3_HCDNode *hn, struct RealRequest *ioreq );
+	void	( *Isochronous_Add )				( struct USB3_HCDNode *hn, struct RealRequest *ioreq );
+	void	( *Isochronous_Remove )				( struct USB3_HCDNode *hn, struct RealRequest *ioreq );
+	U32		( *Isochronous_Length )				( struct USB3_HCDNode *hn, struct RealRequest *ioreq );
 
 	#endif
 };

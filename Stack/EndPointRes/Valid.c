@@ -47,12 +47,12 @@ enum VSTAT vstat;
 		USBDEBUG( "__EndPointRes_Valid      : EPR   %p : Not Initalized : (%s)", epr, (file)?file:"<NULL>" );
 		vstat = VSTAT_Null;
 	} 
-	else if ( epr->epr_StructID == ID_USB2_FREED )
+	else if ( epr->epr_StructID == ID_USB3_FREED )
 	{
 		USBDEBUG( "__EndPointRes_Valid      : EPR   %p : Structure allready freed : (%s)", epr, (file)?file:"<NULL>" );
 		vstat = VSTAT_Null;
 	}
-	else if ( epr->epr_StructID != ID_USB2_EPR )
+	else if ( epr->epr_StructID != ID_USB3_EPR )
 	{
 		USBDEBUG( "__EndPointRes_Valid      : EPR   %p : Invalid ID $%08lx : (%s)", epr, epr->epr_StructID, (file)?file:"<NULL>" );
 		vstat = VSTAT_Error;

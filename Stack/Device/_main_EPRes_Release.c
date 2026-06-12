@@ -14,7 +14,7 @@
 
 /* -- Main Interface -- */
 
-static void _main_EPRes_Release( struct USB2IFace *Self, struct USB2_EPResource *epr )
+static void _main_EPRes_Release( struct USB3IFace *Self, struct USB3_EPResource *epr )
 {
 struct USBBase *usbbase;
 

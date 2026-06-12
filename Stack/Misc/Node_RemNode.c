@@ -12,11 +12,11 @@
 
 // --
 
-SEC_CODE void __Node_RemNode( struct USBBase *usbbase UNUSED, struct USB2_Header *header, PTR n )
+SEC_CODE void __Node_RemNode( struct USBBase *usbbase UNUSED, struct USB3_Header *header, PTR n )
 {
-struct USB2_Node *node = n;
-struct USB2_Node *next;
-struct USB2_Node *prev;
+struct USB3_Node *node = n;
+struct USB3_Node *next;
+struct USB3_Node *prev;
 
 	next = node->un_Next;
 	prev = node->un_Prev;

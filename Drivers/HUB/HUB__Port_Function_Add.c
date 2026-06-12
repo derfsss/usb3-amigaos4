@@ -47,7 +47,7 @@
 SEC_CODE S32 HUB__Port_Function_Add( struct USBBase *usbbase, struct intern *in, U32 port )
 {
 struct RealFunctionNode *fn;
-struct USB2_PortStatus stat;
+struct USB3_PortStatus stat;
 S32 retval;
 U32 retry;
 S32 err;
@@ -83,7 +83,7 @@ S32 err;
 
 	err = HUB__Port_Status_Get( usbbase, in, port, & stat );
 
-	if ( err != USB2Err_NoError )
+	if ( err != USB3Err_NoError )
 	{
 		USBDEBUG( "HUB__Port_Function_Add : Error reading Port Status (%ld)", err );
 		goto bailout;
@@ -99,7 +99,7 @@ S32 err;
 
 		err = HUB__Port_Feature_Clr( usbbase, in, port, PORT_ENABLE );
 
-		if ( err != USB2Err_NoError )
+		if ( err != USB3Err_NoError )
 		{
 			USBDEBUG( "HUB__Port_Function_Add : Error clearing Port Enable (%ld)", err );
 			goto bailout;

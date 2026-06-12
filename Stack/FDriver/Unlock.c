@@ -14,11 +14,11 @@
 
 #if defined( DO_PANIC ) || defined( DO_ERROR ) || defined( DO_DEBUG ) || defined( DO_INFO )
 
-SEC_CODE void __FDriver_Unlock( struct USBBase *usbbase, struct USB2_FktDriverNode *fdn, STR file UNUSED )
+SEC_CODE void __FDriver_Unlock( struct USBBase *usbbase, struct USB3_FktDriverNode *fdn, STR file UNUSED )
 
 #else
 
-SEC_CODE void __FDriver_Unlock( struct USBBase *usbbase, struct USB2_FktDriverNode *fdn )
+SEC_CODE void __FDriver_Unlock( struct USBBase *usbbase, struct USB3_FktDriverNode *fdn )
 
 #endif
 

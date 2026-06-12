@@ -13,7 +13,7 @@
 
 // --
 
-SEC_CODE S32 XHCI_Chip_Start( struct USB2_HCDNode *hn )
+SEC_CODE S32 XHCI_Chip_Start( struct USB3_HCDNode *hn )
 {
 struct _XHCI *xhci;
 U32 val;

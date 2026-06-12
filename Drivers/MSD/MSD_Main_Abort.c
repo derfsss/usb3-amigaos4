@@ -19,7 +19,7 @@ SEC_CODE void MSD_Main__myHandle_Abort( struct USBBase *usbbase UNUSED, struct M
 	USBERROR( "MSD : __myHandle_Abort" );
 
 	#if 0
-struct USB2_EndPointNode *ep;
+struct USB3_EndPointNode *ep;
 struct RealFunctionNode *fn;
 struct AbortIOMessage *msg;
 struct RealRequest *ioreq2;

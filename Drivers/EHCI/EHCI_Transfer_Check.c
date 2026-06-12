@@ -49,7 +49,7 @@
 
 // --
 
-SEC_CODE static S32 __is_QH_Finished( struct USB2_HCDNode *hn UNUSED, struct EHCI_QH *qh )
+SEC_CODE static S32 __is_QH_Finished( struct USB3_HCDNode *hn UNUSED, struct EHCI_QH *qh )
 {
 struct EHCI_TD *td;
 S32 retval;
@@ -192,7 +192,7 @@ U32 l;
 \\
 */
 
-SEC_CODE S32 EHCI_Transfer_Check( struct USB2_HCDNode *hn, struct RealRequest *ioreq )
+SEC_CODE S32 EHCI_Transfer_Check( struct USB3_HCDNode *hn, struct RealRequest *ioreq )
 {
 struct EHCI_QH *qh;
 S32 retval;

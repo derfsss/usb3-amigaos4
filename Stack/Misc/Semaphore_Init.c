@@ -12,7 +12,7 @@
 
 // --
 
-SEC_CODE void __Semaphore_Init( struct USBBase *usbbase, struct USB2_Semaphore *us )
+SEC_CODE void __Semaphore_Init( struct USBBase *usbbase, struct USB3_Semaphore *us )
 {
 struct ExecIFace *IExec;
 
@@ -23,7 +23,7 @@ struct ExecIFace *IExec;
 		USBPANIC( "Semaphore_Init : 1 : NULL Pointer" );
 	}
 
-	if (( us->us_StructID != 0 ) && ( us->us_StructID != ID_USB2_FREED ))
+	if (( us->us_StructID != 0 ) && ( us->us_StructID != ID_USB3_FREED ))
 	{
 		USBPANIC( "Semaphore_Init : 2 : IN    use" );
 	}
@@ -32,7 +32,7 @@ struct ExecIFace *IExec;
 
 	IExec = usbbase->usb_IExec;
 	IExec->InitSemaphore( & us->us_Semaphore );
-	us->us_StructID = ID_USB2_SEMA;
+	us->us_StructID = ID_USB3_SEMA;
 }
 
 // --

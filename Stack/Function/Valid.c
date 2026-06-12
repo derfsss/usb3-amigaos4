@@ -48,13 +48,13 @@ enum VSTAT vstat;
 		USBDEBUG( "__Function_Valid         : FN    %p : Not Initalized : (%s)", fn, (file)?file:"<NULL>" );
 		vstat = VSTAT_Null;
 	} 
-	else if ( fn->fkt_StructID == ID_USB2_FREED )
+	else if ( fn->fkt_StructID == ID_USB3_FREED )
 	{
 //		usbbase->usb_IExec->DebugPrintF( "__Function_Valid         : FN    %p : Structure allready freed : (%s)\n", fn, (file)?file:"<NULL>" );
 		USBDEBUG( "__Function_Valid         : FN    %p : Structure allready freed : (%s)", fn, (file)?file:"<NULL>" );
 		vstat = VSTAT_Null;
 	}
-	else if ( fn->fkt_StructID != ID_USB2_FKT )
+	else if ( fn->fkt_StructID != ID_USB3_FKT )
 	{
 //		usbbase->usb_IExec->DebugPrintF( "__Function_Valid         : FN    %p : Invalid ID $%08lx : (%s)\n", fn, fn->fkt_StructID, (file)?file:"<NULL>" );
 		USBDEBUG( "__Function_Valid         : FN    %p : Invalid ID $%08lx : (%s)", fn, fn->fkt_StructID, (file)?file:"<NULL>" );

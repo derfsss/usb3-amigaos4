@@ -49,7 +49,7 @@
 
 // --
 
-SEC_CODE void EHCI_Port_Disown( struct USB2_HCDNode *hn, U32 port )
+SEC_CODE void EHCI_Port_Disown( struct USB3_HCDNode *hn, U32 port )
 {
 U32 val;
 U32 adr;

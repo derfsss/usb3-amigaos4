@@ -16,7 +16,7 @@
 
 // --
 
-SEC_CODE S32 __Function_Init( struct USBBase *usbbase, struct RealFunctionNode *fn, struct USB2_ASync *as )
+SEC_CODE S32 __Function_Init( struct USBBase *usbbase, struct RealFunctionNode *fn, struct USB3_ASync *as )
 {
 //enum TaskReturn stat;
 S32 retval;
@@ -37,7 +37,7 @@ S32 retval;
 			// or can I run it from kickstart/opendevice(ramlib)??
 //			stat = 
 			TASK_START(
-				USB2_WaitForTermination, TRUE,
+				USB3_WaitForTermination, TRUE,
 				TASK_Tag_Func_Main, __myMain,
 				TASK_Tag_UserData, fn,
 				TASK_Tag_ASync, as,

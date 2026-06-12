@@ -49,7 +49,7 @@
 
 // --
 
-SEC_CODE void OHCI_Control_Add( struct USB2_HCDNode *hn, struct RealRequest *ioreq )
+SEC_CODE void OHCI_Control_Add( struct USB3_HCDNode *hn, struct RealRequest *ioreq )
 {
 struct OHCI_ED *last;
 struct OHCI_ED *new;

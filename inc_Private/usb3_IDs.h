@@ -18,29 +18,29 @@
 // From : https://numbergenerator.org/random-32-digit-hex-codes-generator#!numbers=8&length=8
 
 // --
-#define ID_USB2_FREED		0xCBFEA871		// Structure have been Freed
+#define ID_USB3_FREED		0xCBFEA871		// Structure have been Freed
 // --
-#define ID_USB2_EPR			0x55CF027E		// struct RealEndPointResource
-#define ID_USB2_IOR			0x03534DC1		// struct RealRequest
-#define ID_USB2_REG  		0xD2E37DDA		// struct RealRegistrer
-#define ID_USB2_SD  		0x1AB72537		// struct RealSetupData
+#define ID_USB3_EPR			0x55CF027E		// struct RealEndPointResource
+#define ID_USB3_IOR			0x03534DC1		// struct RealRequest
+#define ID_USB3_REG  		0xD2E37DDA		// struct RealRegistrer
+#define ID_USB3_SD  		0x1AB72537		// struct RealSetupData
 // --
-#define ID_USB2_ASYNC		0xF8A32493		// struct USB2_ASync
-#define ID_USB2_CFG  		0x5D8B0340		// struct USB2_ConfigNode
-#define ID_USB2_DN			0x0D964139		// struct USB2_DriverNode
-#define ID_USB2_EP			0xEBA71F15		// struct USB2_EndPointNode
-#define ID_USB2_FDN			0x91868623		// struct USB2_FktDriverNode
-#define ID_USB2_FKT			0xBB9A0BBE		// struct RealFunctionNode
-#define ID_USB2_HN			0x343D8884		// struct USB2_HCDNode
-#define ID_USB2_IFCG		0xC5266E8C		// struct USB2_InterfaceGroup
-#define ID_USB2_IFCH		0xE1565521		// struct USB2_InterfaceHeader
-#define ID_USB2_IFCN		0xAF02474F		// struct USB2_InterfaceNode
-#define ID_USB2_MP			0x0E46CDE0		// struct USB2_MsgPort
-#define ID_USB2_TMSG		0xC42C9576		// struct USB2_TaskMsg
-#define ID_USB2_SEMA		0xC09CE5F2		// struct USB2_Semaphore
-#define ID_USB2_SIG			0x756DCC2A		// struct USB2_Signal
-#define ID_USB2_TN			0x3BA9D5E8		// struct USB2_TaskNode
-#define ID_USB2_NN			0xAA1F5CB3		// struct USB2_NotifyNode
+#define ID_USB3_ASYNC		0xF8A32493		// struct USB3_ASync
+#define ID_USB3_CFG  		0x5D8B0340		// struct USB3_ConfigNode
+#define ID_USB3_DN			0x0D964139		// struct USB3_DriverNode
+#define ID_USB3_EP			0xEBA71F15		// struct USB3_EndPointNode
+#define ID_USB3_FDN			0x91868623		// struct USB3_FktDriverNode
+#define ID_USB3_FKT			0xBB9A0BBE		// struct RealFunctionNode
+#define ID_USB3_HN			0x343D8884		// struct USB3_HCDNode
+#define ID_USB3_IFCG		0xC5266E8C		// struct USB3_InterfaceGroup
+#define ID_USB3_IFCH		0xE1565521		// struct USB3_InterfaceHeader
+#define ID_USB3_IFCN		0xAF02474F		// struct USB3_InterfaceNode
+#define ID_USB3_MP			0x0E46CDE0		// struct USB3_MsgPort
+#define ID_USB3_TMSG		0xC42C9576		// struct USB3_TaskMsg
+#define ID_USB3_SEMA		0xC09CE5F2		// struct USB3_Semaphore
+#define ID_USB3_SIG			0x756DCC2A		// struct USB3_Signal
+#define ID_USB3_TN			0x3BA9D5E8		// struct USB3_TaskNode
+#define ID_USB3_NN			0xAA1F5CB3		// struct USB3_NotifyNode
 
 #ifdef DO_DEBUG
 #define	ID_IN_MASTER		0x545CCF7B		// Intern struct For Master Task

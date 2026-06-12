@@ -46,7 +46,7 @@
 
 SEC_CODE void HUB__Port_FAdd_Retry( 
 	struct RealFunctionNode *parent,
-	struct USB2_PortStatus *stat,
+	struct USB3_PortStatus *stat,
 	struct USBBase *usbbase, 
 	struct intern *in, 
 	U32 retry,
@@ -62,13 +62,13 @@ S32 err;
 
 	err = HUB__Port_Feature_Set( usbbase, in, port, PORT_RESET );
 
-	if ( err == USB2Err_Device_OwnershipChange )
+	if ( err == USB3Err_Device_OwnershipChange )
 	{
 		USBDEBUG( "HUB__Port_FAdd_Retry     : Ownership Change" );
 		return;
 	}
 
-	if ( err != USB2Err_NoError )
+	if ( err != USB3Err_NoError )
 	{
 		USBDEBUG( "HUB__Port_FAdd_Retry     : Error Setting Port Reset (%ld)", err );
 		return;
@@ -95,7 +95,7 @@ S32 err;
 
 		err = HUB__Port_Status_Get( usbbase, in, port, stat );
 
-		if ( err != USB2Err_NoError )
+		if ( err != USB3Err_NoError )
 		{
 			USBDEBUG( "HUB__Port_FAdd_Retry     : Error Getting Port Status (%ld)", err );
 			return;
@@ -116,7 +116,7 @@ S32 err;
 
 	err = HUB__Port_Feature_Clr( usbbase, in, port, PORT_CLR_RESET );
 
-	if ( err != USB2Err_NoError )
+	if ( err != USB3Err_NoError )
 	{
 		USBDEBUG( "HUB__Port_FAdd_Retry     : Error clearing Port Reset (%ld)", err );
 		return;
@@ -128,7 +128,7 @@ S32 err;
 
 	err = HUB__Port_Status_Get( usbbase, in, port, stat );
 
-	if ( err != USB2Err_NoError )
+	if ( err != USB3Err_NoError )
 	{
 		USBDEBUG( "HUB__Port_FAdd_Retry     : Error Getting Port Status (%ld)", err );
 		return;

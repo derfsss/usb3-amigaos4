@@ -15,9 +15,9 @@
 
 SEC_CODE S32 HID_Init( struct USBBase *usbbase, struct intern *in )
 {
-struct USB2_Interface_Desc *ifcdsc;
-struct USB2_IORequest *ioreq;
-//struct USB2_SetupData *sd;
+struct USB3_Interface_Desc *ifcdsc;
+struct USB3_IORequest *ioreq;
+//struct USB3_SetupData *sd;
 S32 retval;
 S32 ifcnr;
 U32 cnt;
@@ -40,9 +40,9 @@ U32 cnt;
 	usbbase->usb_IExec->DebugPrintF( "USB3: HID_Init: 2 Register\n" );
 
 	in->Register = REGISTER_REGISTERTAGS(
-		USB2Tag_Reg_DriverMessage, in->StartMsg,
-//		USB2Tag_Reg_TimeOut, 1000000*1,		// 1 sec
-		USB2Tag_Reg_Title, "HID",
+		USB3Tag_Reg_DriverMessage, in->StartMsg,
+//		USB3Tag_Reg_TimeOut, 1000000*1,		// 1 sec
+		USB3Tag_Reg_Title, "HID",
 		TAG_END
 	);
 
@@ -62,11 +62,11 @@ U32 cnt;
 	usbbase->usb_IExec->DebugPrintF( "USB3: HID_Init: 4 Obtain interrupt EP (ifcnr=%ld)\n", ifcnr );
 
 	in->Res_Interrupt = ENDPOINTRES_OBTAINTAGS( in->Register,
-		USB2Tag_EPRes_EPType, EPATT_Type_Interrupt,
-		USB2Tag_EPRes_EPDirection, EPADR_Dir_In,
-		USB2Tag_EPRes_NrOfIORequest, HID_IOReqCount,
-		USB2Tag_EPRes_InterfaceNr, ifcnr,
-		USB2Tag_EPRes_BufferSize, USB2Val_BufferSize_MaxPacketSize,
+		USB3Tag_EPRes_EPType, EPATT_Type_Interrupt,
+		USB3Tag_EPRes_EPDirection, EPADR_Dir_In,
+		USB3Tag_EPRes_NrOfIORequest, HID_IOReqCount,
+		USB3Tag_EPRes_InterfaceNr, ifcnr,
+		USB3Tag_EPRes_BufferSize, USB3Val_BufferSize_MaxPacketSize,
 		TAG_END
 	);
 
@@ -100,11 +100,11 @@ U32 cnt;
 		ioreq->io_Data			= NULL;
 		ioreq->io_Length		= 0;
 		ioreq->io_SetupData		= sd;
-		ioreq->io_SetupLength	= sizeof( struct USB2_SetupData );
+		ioreq->io_SetupLength	= sizeof( struct USB3_SetupData );
 
 		IO_DO( ioreq );
 
-		if ( ioreq->io_Error == USB2Err_NoError )
+		if ( ioreq->io_Error == USB3Err_NoError )
 		{
 			in->Driver_Mode = HID_DMode_Report;
 		}

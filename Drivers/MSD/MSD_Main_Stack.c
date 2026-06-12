@@ -15,7 +15,7 @@
 
 SEC_CODE void MSD_Main__myHandle_Stack( struct USBBase *usbbase UNUSED, struct MSDDevice *msddev UNUSED )
 {
-struct USB2_NotifyMessage *msg;
+struct USB3_NotifyMessage *msg;
 S32 stop;
 
 	TASK_NAME_ENTER( "MSD : __myHandle_Stack" );

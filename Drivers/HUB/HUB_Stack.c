@@ -46,7 +46,7 @@
 
 SEC_CODE void HUB_Handle_Stack( struct USBBase *usbbase, struct intern *in )
 {
-struct USB2_NotifyMessage *msg;
+struct USB3_NotifyMessage *msg;
 S32 stop;
 
 	TASK_NAME_ENTER( "HUB : HUB_Handle_Stack" );

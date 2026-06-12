@@ -58,7 +58,7 @@ bailout:
 
 static void ucmd_Handle_Open_Session( struct USB_Struct *us, struct USB_Command *cmd )
 {
-struct USB2_IORequest *ioreq;
+struct USB3_IORequest *ioreq;
 struct PTP_Container *con;
 
 	MYINFO( "PTP-USB : ucmd_Handle_Open_Session" );

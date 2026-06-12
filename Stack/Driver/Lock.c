@@ -14,11 +14,11 @@
 
 #if defined( DO_PANIC ) || defined( DO_ERROR ) || defined( DO_DEBUG ) || defined( DO_INFO )
 
-SEC_CODE enum LSTAT __Driver_Lock( struct USBBase *usbbase, struct USB2_DriverNode *dn, STR file UNUSED )
+SEC_CODE enum LSTAT __Driver_Lock( struct USBBase *usbbase, struct USB3_DriverNode *dn, STR file UNUSED )
 
 #else
 
-SEC_CODE enum LSTAT __Driver_Lock( struct USBBase *usbbase, struct USB2_DriverNode *dn )
+SEC_CODE enum LSTAT __Driver_Lock( struct USBBase *usbbase, struct USB3_DriverNode *dn )
 
 #endif
 

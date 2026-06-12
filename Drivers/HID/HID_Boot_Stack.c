@@ -15,7 +15,7 @@
 
 SEC_CODE void HID_Boot_Handle_Stack( struct USBBase *usbbase, struct intern *in )
 {
-struct USB2_NotifyMessage *msg;
+struct USB3_NotifyMessage *msg;
 S32 stop;
 
 	TASK_NAME_ENTER( "HID : HID_Boot_Handle_Stack" );

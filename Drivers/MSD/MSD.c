@@ -14,7 +14,7 @@
 
 // --
 
-SEC_CODE U32 MSD_Entry( struct USBBase *usbbase, struct USB2_DriverMessage *msg )
+SEC_CODE U32 MSD_Entry( struct USBBase *usbbase, struct USB3_DriverMessage *msg )
 {
 struct MSDDevice *msddev;
 U32 retval;
@@ -63,7 +63,7 @@ U32 retval;
 	}
 
 	// --
-	// Make sure we have "usb2disk.device"
+	// Make sure we have "usb3disk.device"
 
 	if ( ! usbbase->usb_MSDDevice )
 	{

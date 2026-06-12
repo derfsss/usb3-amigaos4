@@ -49,7 +49,7 @@
 
 // --
 
-SEC_CODE U32 OHCI_Slot_Find( struct USB2_HCDNode *hn, U32 interval )
+SEC_CODE U32 OHCI_Slot_Find( struct USB3_HCDNode *hn, U32 interval )
 {
 U32 lowestslot;
 U32 lowestbw;

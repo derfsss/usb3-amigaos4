@@ -49,7 +49,7 @@
  
 // --
 
-SEC_CODE S32 OHCI_Port_Clr_Enable( struct USB2_HCDNode *hn, U32 port )
+SEC_CODE S32 OHCI_Port_Clr_Enable( struct USB3_HCDNode *hn, U32 port )
 {
 S32 err;
 U32 val;
@@ -64,7 +64,7 @@ U32 val;
 	{
 		USBDEBUG( "Invalid Port Number #%lu", port );
 
-		err = USB2Err_Host_HostError;
+		err = USB3Err_Host_HostError;
 	}
 	else
 	{
@@ -77,7 +77,7 @@ U32 val;
 			PCI_WRITELONG( OHCI_RH_PORT_STATUS( port ), val );
 		}
 	
-		err = USB2Err_NoError;
+		err = USB3Err_NoError;
 	}
 
 	return( err );

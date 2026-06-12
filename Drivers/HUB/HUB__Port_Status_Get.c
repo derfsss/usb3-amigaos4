@@ -44,10 +44,10 @@
 
 // --
 
-SEC_CODE S32 HUB__Port_Status_Get( struct USBBase *usbbase, struct intern *in, U32 port, struct USB2_PortStatus *stat )
+SEC_CODE S32 HUB__Port_Status_Get( struct USBBase *usbbase, struct intern *in, U32 port, struct USB3_PortStatus *stat )
 {
-struct USB2_IORequest *ioreq;
-struct USB2_SetupData *sd;
+struct USB3_IORequest *ioreq;
+struct USB3_SetupData *sd;
 S32 errcode;
 
 	// --
@@ -80,20 +80,20 @@ S32 errcode;
 	sd->RequestCode		= REQCODE_Get_Status;
 	sd->Value			= LE_SWAP16( 0 );
 	sd->Index			= LE_SWAP16( port );
-	sd->Length			= LE_SWAP16( sizeof( struct USB2_PortStatus ) );
+	sd->Length			= LE_SWAP16( sizeof( struct USB3_PortStatus ) );
 
 	ioreq->io_Command		= CMD_READ;
 	ioreq->io_Data			= stat;
-	ioreq->io_Length		= sizeof( struct USB2_PortStatus );
+	ioreq->io_Length		= sizeof( struct USB3_PortStatus );
 	ioreq->io_SetupData		= sd;
-	ioreq->io_SetupLength	= sizeof( struct USB2_SetupData );
+	ioreq->io_SetupLength	= sizeof( struct USB3_SetupData );
 
 	USBDEBUG( "Get Port Status #%lu", port );
 
 	IO_DO( ioreq );
 
-	if (( ioreq->io_Error  == USB2Err_NoError )
-	&&	( ioreq->io_Actual == sizeof( struct USB2_PortStatus )))
+	if (( ioreq->io_Error  == USB3Err_NoError )
+	&&	( ioreq->io_Actual == sizeof( struct USB3_PortStatus )))
 	{
 		stat->wPortStatus = LE_SWAP16( stat->wPortStatus );
 		stat->wPortChange = LE_SWAP16( stat->wPortChange );
@@ -106,7 +106,7 @@ S32 errcode;
 //		usbbase->usb_IExec->DebugPrintF( "Port Change : 0x%04lx\n", stat->wPortChange );
 //		usbbase->usb_IExec->Enable();
 
-		errcode = USB2Err_NoError;
+		errcode = USB3Err_NoError;
 
 
 		#ifdef DO_DEBUG

@@ -16,7 +16,7 @@
 
 SEC_CODE void Master_Task_Entry( struct USBBase *usbbase, struct MasterStartMsg *msg )
 {
-struct USB2_TaskNode *tn;
+struct USB3_TaskNode *tn;
 struct intern *in;
 struct Task *parent;
 struct Task *self;

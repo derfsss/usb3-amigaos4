@@ -12,9 +12,9 @@
 
 // --
 
-SEC_RODATA static const struct USB2_Device_Desc DefaultDeviceDescriptor =
+SEC_RODATA static const struct USB3_Device_Desc DefaultDeviceDescriptor =
 {
-/* Length            */ sizeof( struct USB2_Device_Desc ),
+/* Length            */ sizeof( struct USB3_Device_Desc ),
 /* DescriptorType    */ DSCTYPE_Device,
 /* USB               */ LE_SWAP16( 0x0000 ),
 /* DeviceClass       */ 0x00,
@@ -30,7 +30,7 @@ SEC_RODATA static const struct USB2_Device_Desc DefaultDeviceDescriptor =
 /* NumConfigurations */ 0x01
 };
 
-SEC_RODATA static const struct USB2_EndPoint_Desc DefaultControl8 =
+SEC_RODATA static const struct USB3_EndPoint_Desc DefaultControl8 =
 {
 /* Length			*/ 7,
 /* DescriptorType	*/ DSCTYPE_EndPoint,
@@ -40,7 +40,7 @@ SEC_RODATA static const struct USB2_EndPoint_Desc DefaultControl8 =
 /* Interval			*/ 0,
 };
 
-SEC_RODATA static const struct USB2_EndPoint_Desc DefaultControl64 =
+SEC_RODATA static const struct USB3_EndPoint_Desc DefaultControl64 =
 {
 /* Length			*/ 7,
 /* DescriptorType	*/ DSCTYPE_EndPoint,
@@ -56,8 +56,8 @@ SEC_RODATA static const struct USB2_EndPoint_Desc DefaultControl64 =
 
 SEC_CODE struct RealFunctionNode *__Function_Alloc( 
 	struct USBBase *usbbase, 
-	struct USB2_HCDNode *hn, 
-	struct USB2_ASync *as, 
+	struct USB3_HCDNode *hn, 
+	struct USB3_ASync *as, 
 	U32 Speed,
 	U32 Tier,
 	STR file UNUSED )
@@ -66,15 +66,15 @@ SEC_CODE struct RealFunctionNode *__Function_Alloc(
 
 SEC_CODE struct RealFunctionNode *__Function_Alloc( 
 	struct USBBase *usbbase, 
-	struct USB2_HCDNode *hn, 
-	struct USB2_ASync *as, 
+	struct USB3_HCDNode *hn, 
+	struct USB3_ASync *as, 
 	U32 Speed,
 	U32 Tier )
 
 #endif
 
 {
-struct USB2_EndPointNode *epn;
+struct USB3_EndPointNode *epn;
 struct RealFunctionNode *fn;
 S32 error;
 
@@ -95,7 +95,7 @@ S32 error;
 	fn->fkt_DriverNode.un_Data = fn;
 	fn->fkt_GlobalNode.un_Data = fn;
 
-	fn->fkt_StructID	= ID_USB2_FKT;
+	fn->fkt_StructID	= ID_USB3_FKT;
 	fn->fkt_Tier		= Tier;
 	fn->fkt_NotifyID	= MISC_NEWNOTIFYID();
 //	fn->fkt_ConfigNr	= -1;
@@ -146,7 +146,7 @@ S32 error;
 	}
 
 	fn->fkt_ControlEndPoint = epn;
-	fn->fkt_DeviceDescriptor = MEM_ALLOCIOBUFFER( sizeof( struct USB2_Device_Desc ), FALSE );
+	fn->fkt_DeviceDescriptor = MEM_ALLOCIOBUFFER( sizeof( struct USB3_Device_Desc ), FALSE );
 
 	if ( ! fn->fkt_DeviceDescriptor )
 	{
@@ -154,7 +154,7 @@ S32 error;
 		goto bailout;
 	}
 
-	MEM_COPY( (PTR) & DefaultDeviceDescriptor, fn->fkt_DeviceDescriptor, sizeof( struct USB2_Device_Desc ));
+	MEM_COPY( (PTR) & DefaultDeviceDescriptor, fn->fkt_DeviceDescriptor, sizeof( struct USB3_Device_Desc ));
 
 	// --
 

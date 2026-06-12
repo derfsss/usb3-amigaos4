@@ -13,7 +13,7 @@
 
 // --
 
-SEC_CODE U32 XHCI_Port_Get_Status( struct USB2_HCDNode *hn, U32 port )
+SEC_CODE U32 XHCI_Port_Get_Status( struct USB3_HCDNode *hn, U32 port )
 {
 struct _XHCI *xhci;
 U32 status;

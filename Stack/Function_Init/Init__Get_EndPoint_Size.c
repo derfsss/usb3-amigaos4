@@ -13,10 +13,10 @@
 // --
 
 SEC_CODE static S32 __Get_EndPoint_Size( 
-	struct USB2_EPResource *epr,
+	struct USB3_EPResource *epr,
 	struct RealFunctionNode *fn,
-	struct USB2_IORequest *ioreq,
-	struct USB2_SetupData *sd,
+	struct USB3_IORequest *ioreq,
+	struct USB3_SetupData *sd,
 	struct USBBase *usbbase )
 {
 S32 retval;
@@ -53,18 +53,18 @@ U32 cnt;
 		ioreq->io_Length		= 8;
 		ioreq->io_Command		= CMD_READ;
 		ioreq->io_SetupData		= sd;
-		ioreq->io_SetupLength	= sizeof( struct USB2_SetupData );
+		ioreq->io_SetupLength	= sizeof( struct USB3_SetupData );
 
 		IO_DO(ioreq);
 
-		if ( ioreq->io_Error == USB2Err_NoError )
+		if ( ioreq->io_Error == USB3Err_NoError )
 		{
 			break;
 		}
 	}
 
 	// Update Control EndPoint PacketSize
-	((struct USB2_EndPointNode *)epr->EndPoint)->ep_MaxPacketSize = fn->fkt_DeviceDescriptor->MaxPacketSize0;
+	((struct USB3_EndPointNode *)epr->EndPoint)->ep_MaxPacketSize = fn->fkt_DeviceDescriptor->MaxPacketSize0;
 
 	retval = TRUE;
 

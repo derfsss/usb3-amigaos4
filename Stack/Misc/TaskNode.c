@@ -13,28 +13,28 @@
 // --
 
 #if 0
-struct USB2_TaskNode
+struct USB3_TaskNode
 {
-	struct USB2_Node				tn_Node;
+	struct USB3_Node				tn_Node;
 	// -- 
 	U32								tn_StructID;
 	S32								tn_Locks;
 	U16								tn_Detach;
 	U16								tn_FreeMe;
-	//	struct USB2_TaskNode *			tn_TaskAdr; 
-	struct USB2_ASync *				tn_ASync;
+	//	struct USB3_TaskNode *			tn_TaskAdr; 
+	struct USB3_ASync *				tn_ASync;
 	// --
 	struct Task *					tn_TaskAdr;
 	struct Task *					tn_Parent;
 	U32								tn_Mask;
 	enum TaskState					tn_State;
 	enum TaskType					tn_Type;
-	PTR								tn_Owner;			// Points to a struct like 'struct USB2_HCDNode' see Type
+	PTR								tn_Owner;			// Points to a struct like 'struct USB3_HCDNode' see Type
 };
 #endif
 
 #ifdef DO_DEBUG
-SEC_CODE void __TaskNode_Print( struct USBBase *usbbase, struct USB2_TaskNode *tn )
+SEC_CODE void __TaskNode_Print( struct USBBase *usbbase, struct USB3_TaskNode *tn )
 {
 struct ExecIFace *IExec;
 
@@ -79,7 +79,7 @@ struct ExecIFace *IExec;
 
 // --
 
-SEC_CODE void __Task_Settle( struct USBBase *usbbase, struct USB2_TaskNode *tn )
+SEC_CODE void __Task_Settle( struct USBBase *usbbase, struct USB3_TaskNode *tn )
 {
 U32 timecnt;
 

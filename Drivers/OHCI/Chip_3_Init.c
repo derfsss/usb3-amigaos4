@@ -52,7 +52,7 @@
 // OHCI periodic schedule (HCCA + ED tree) is initialized in Chip_2_Alloc.c
 // via Init_HCCABuffer(). This function handles any additional post-alloc init.
 
-SEC_CODE S32 OHCI_Chip_Init( struct USB2_HCDNode *hn UNUSED )
+SEC_CODE S32 OHCI_Chip_Init( struct USB3_HCDNode *hn UNUSED )
 {
 S32 retval;
 

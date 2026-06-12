@@ -19,7 +19,7 @@ void _usb_Bulk_Stage_Read_Data3( struct USB_Struct *us, struct USB_Command *cmd 
 
 void _usb_Bulk_Stage_Read_Data1( struct USB_Struct *us, struct USB_Command *cmd )
 {
-struct USB2_IORequest *ioreq;
+struct USB3_IORequest *ioreq;
 
 	MYINFO( "PTP-USB : _usb_Bulk_Stage_Read_Data1 : TransID %ld", us->us_TransactionID );
 	MYINFO( "PTP-USB : _usb_Bulk_Stage_Read_Data1 : MaxP %ld", us->us_Res_BulkIn->EndPointMax );
@@ -37,7 +37,7 @@ struct USB2_IORequest *ioreq;
 
 void _usb_Bulk_Stage_Read_Data2( struct USB_Struct *us, struct USB_Command *cmd )
 {
-struct USB2_IORequest *ioreq;
+struct USB3_IORequest *ioreq;
 struct PTP_Container *con;
 U32 left;
 U32 len;
@@ -145,7 +145,7 @@ U8 *data;
 
 void _usb_Bulk_Stage_Read_Data3( struct USB_Struct *us, struct USB_Command *cmd )
 {
-struct USB2_IORequest *ioreq;
+struct USB3_IORequest *ioreq;
 U32 left;
 U32 len;
 U8 *data;

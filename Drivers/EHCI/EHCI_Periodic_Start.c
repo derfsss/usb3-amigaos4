@@ -49,7 +49,7 @@
 
 // --
 
-SEC_CODE void EHCI_Periodic_Start( struct USB2_HCDNode *hn )
+SEC_CODE void EHCI_Periodic_Start( struct USB3_HCDNode *hn )
 {
 U32 val;
 

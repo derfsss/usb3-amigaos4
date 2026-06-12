@@ -14,11 +14,11 @@
 
 #if defined( DO_PANIC ) || defined( DO_ERROR ) || defined( DO_DEBUG ) || defined( DO_INFO )
 
-SEC_CODE void __Interface_UnlockHeader( struct USBBase *usbbase, struct USB2_InterfaceHeader *ih, STR file UNUSED )
+SEC_CODE void __Interface_UnlockHeader( struct USBBase *usbbase, struct USB3_InterfaceHeader *ih, STR file UNUSED )
 
 #else
 
-SEC_CODE void __Interface_UnlockHeader( struct USBBase *usbbase, struct USB2_InterfaceHeader *ih )
+SEC_CODE void __Interface_UnlockHeader( struct USBBase *usbbase, struct USB3_InterfaceHeader *ih )
 
 #endif
 

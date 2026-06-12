@@ -12,7 +12,7 @@
 
 // --
 
-SEC_CODE static void __Free_3_Rem_HUB( struct USBBase *usbbase UNUSED, struct USB2_HCDNode *hn, struct intern *in UNUSED )
+SEC_CODE static void __Free_3_Rem_HUB( struct USBBase *usbbase UNUSED, struct USB3_HCDNode *hn, struct intern *in UNUSED )
 {
 struct RealFunctionNode *fn;
 

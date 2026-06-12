@@ -87,14 +87,14 @@ struct Mem_HeaderNode1				// non aligned mem
 
 struct Mem_HeaderNode2				// alligned mem
 {
-	struct USB2_Header				Pages;
+	struct USB3_Header				Pages;
 	U32								Real_Size;
 };
 
 struct Mem_HeaderNode
 {
 	struct Mem_FreeNode *			mhn_Free_Nodes;
-	struct USB2_Semaphore			mhn_Semaphore;
+	struct USB3_Semaphore			mhn_Semaphore;
 	U32								mhn_Mem_Size;
 	U32								mhn_Align;		// Alignment, also used to figure out what memtype
 
@@ -107,7 +107,7 @@ struct Mem_HeaderNode
 
 struct Mem_PageNode
 {
-	struct USB2_Node 				mpn_Node;
+	struct USB3_Node 				mpn_Node;
 	S32								mpn_Free;			// Free Chunks
 	S32								mpn_Total;			// Total Chunks
 	PTR								mpn_Memory;			// Virtual Memory Address

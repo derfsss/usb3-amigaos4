@@ -180,9 +180,9 @@ U32 v;
 
 // --
 
-SEC_CODE struct USB2_FktDriverNode *__FDriver_Load( struct USBBase *usbbase, STR filename )
+SEC_CODE struct USB3_FktDriverNode *__FDriver_Load( struct USBBase *usbbase, STR filename )
 {
-struct USB2_FktDriverNode *fdn;
+struct USB3_FktDriverNode *fdn;
 struct TagItem Tags[_LAST+1];
 struct ExamineData *ed;
 struct DOSIFace *IDOS;
@@ -236,22 +236,22 @@ S32 chr;
 		Tags[pos].ti_Data	= 0;
 	}
 	
-	Tags[ _FNClass	].ti_Tag	= (Tag) USB2Tag_FDriver_Class_Filename;
+	Tags[ _FNClass	].ti_Tag	= (Tag) USB3Tag_FDriver_Class_Filename;
 	Tags[ _FNClass	].ti_Data	= (Tag) filename;
 
-//	Tags[ _Device	].ti_Tag	= (Tag) USB2Tag_FDriver_DeviceList;
+//	Tags[ _Device	].ti_Tag	= (Tag) USB3Tag_FDriver_DeviceList;
 //	Tags[ _Device	].ti_Data	= (Tag) & l;
 
-//	Tags[ _Date 	].ti_Tag	= (Tag) USB2Tag_FDriver_DriverDate;
+//	Tags[ _Date 	].ti_Tag	= (Tag) USB3Tag_FDriver_DriverDate;
 //	Tags[ _Date		].ti_Data	= (Tag) & ed->Date;
 
-//	Tags[ _Class 	].ti_Tag	= (Tag) USB2Tag_FDriver_Class;
+//	Tags[ _Class 	].ti_Tag	= (Tag) USB3Tag_FDriver_Class;
 //	Tags[ _Class	].ti_Data	= (Tag) FDCLASS_Any;
 
-//	Tags[ _SubClass ].ti_Tag	= (Tag) USB2Tag_FDriver_SubClass;
+//	Tags[ _SubClass ].ti_Tag	= (Tag) USB3Tag_FDriver_SubClass;
 //	Tags[ _SubClass	].ti_Data	= (Tag) FDSUBCLASS_Any;
 
-//	Tags[ _Protocol	].ti_Tag	= (Tag) USB2Tag_FDriver_Protocol;
+//	Tags[ _Protocol	].ti_Tag	= (Tag) USB3Tag_FDriver_Protocol;
 //	Tags[ _Protocol	].ti_Data	= (Tag) FDPROTOCOL_Any;
 
 	Tags[ _LAST		].ti_Tag	= (Tag) TAG_END;
@@ -376,18 +376,18 @@ S32 chr;
 					{
 						/**/ if ( ! MISC_STRINCASECOMPARE( "Interface", & mem[pos], 9 ))
 						{
-							Tags[_Type].ti_Tag  = USB2Tag_FDriver_Type;
-							Tags[_Type].ti_Data = USB2Val_FDriver_Interface;
+							Tags[_Type].ti_Tag  = USB3Tag_FDriver_Type;
+							Tags[_Type].ti_Data = USB3Val_FDriver_Interface;
 						}
 						else if ( ! MISC_STRINCASECOMPARE( "Function", & mem[pos], 9 ))
 						{
-							Tags[_Type].ti_Tag  = USB2Tag_FDriver_Type;
-							Tags[_Type].ti_Data = USB2Val_FDriver_Function;
+							Tags[_Type].ti_Tag  = USB3Tag_FDriver_Type;
+							Tags[_Type].ti_Data = USB3Val_FDriver_Function;
 						}
 						else if ( ! MISC_STRINCASECOMPARE( "Device", & mem[pos], 6 ))
 						{
-							Tags[_Type].ti_Tag  = USB2Tag_FDriver_Type;
-							Tags[_Type].ti_Data = USB2Val_FDriver_Device;
+							Tags[_Type].ti_Tag  = USB3Tag_FDriver_Type;
+							Tags[_Type].ti_Data = USB3Val_FDriver_Device;
 						}
 					}
 					break;
@@ -397,7 +397,7 @@ S32 chr;
 				{
 					if (( mem[pos] ) && ( mem[pos] != 10 ))
 					{
-						Tags[_Class].ti_Tag  = USB2Tag_FDriver_Class;
+						Tags[_Class].ti_Tag  = USB3Tag_FDriver_Class;
 						Tags[_Class].ti_Data = ReadValue( & mem[pos] );
 					}
 					break;
@@ -407,7 +407,7 @@ S32 chr;
 				{
 					if (( mem[pos] ) && ( mem[pos] != 10 ))
 					{
-						Tags[_SubClass].ti_Tag  = USB2Tag_FDriver_SubClass;
+						Tags[_SubClass].ti_Tag  = USB3Tag_FDriver_SubClass;
 						Tags[_SubClass].ti_Data = ReadValue( & mem[pos] );
 					}
 					break;
@@ -417,7 +417,7 @@ S32 chr;
 				{
 					if (( mem[pos] ) && ( mem[pos] != 10 ))
 					{
-						Tags[_Protocol].ti_Tag  = USB2Tag_FDriver_Protocol;
+						Tags[_Protocol].ti_Tag  = USB3Tag_FDriver_Protocol;
 						Tags[_Protocol].ti_Data = ReadValue( & mem[pos] );
 					}
 					break;
@@ -464,17 +464,17 @@ S32 chr;
 						{
 							/**/ if ( Cmds[cmdpos].CmdType == _Title )
 							{
-								Tags[_Title].ti_Tag  = USB2Tag_FDriver_Title;
+								Tags[_Title].ti_Tag  = USB3Tag_FDriver_Title;
 								Tags[_Title].ti_Data = (U32) & mem[argstart];
 							}
 							else if ( Cmds[cmdpos].CmdType == _FNDriver )
 							{
-								Tags[_FNDriver].ti_Tag  = USB2Tag_FDriver_Driver_Filename;
+								Tags[_FNDriver].ti_Tag  = USB3Tag_FDriver_Driver_Filename;
 								Tags[_FNDriver].ti_Data = (U32) & mem[argstart];
 							}
 //							else
 //							{
-//								Tags[_Hotkey].ti_Tag  = USB2Tag_FDriver_Hotkey;
+//								Tags[_Hotkey].ti_Tag  = USB3Tag_FDriver_Hotkey;
 //								Tags[_Hotkey].ti_Data = (U32) & mem[argstart];
 //							}
 						}

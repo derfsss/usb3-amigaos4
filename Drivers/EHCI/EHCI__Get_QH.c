@@ -49,9 +49,9 @@
 
 // --
 
-SEC_CODE struct EHCI_QH *EHCI_Get_QHBuffer( struct USB2_HCDNode *hn, struct RealRequest *ioreq )
+SEC_CODE struct EHCI_QH *EHCI_Get_QHBuffer( struct USB3_HCDNode *hn, struct RealRequest *ioreq )
 {
-struct USB2_EndPointNode *ep;
+struct USB3_EndPointNode *ep;
 struct RealFunctionNode *fn;
 struct EHCI_QH *qh;
 U32 speed;

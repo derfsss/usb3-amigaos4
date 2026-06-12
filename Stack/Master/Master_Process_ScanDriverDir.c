@@ -14,14 +14,14 @@
 // --
 
 /*
-** Scan Driver Dir ( libs:usb2/ ) for extrenal classes
+** Scan Driver Dir ( libs:usb3/ ) for extrenal classes
 ** Skipping known.. they have a file notify
 **
 */
 
 SEC_CODE static void __myProcess_ScanDriverDir( struct USBBase *usbbase, struct intern *in UNUSED )
 {
-struct USB2_FktDriverNode *fdn;
+struct USB3_FktDriverNode *fdn;
 // struct NotifyMessage *msg;
 struct ExamineData *dat;
 struct DOSIFace *IDOS;

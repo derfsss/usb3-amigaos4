@@ -174,7 +174,7 @@ struct MSDBase
 	U16								msdbase_Pad;
 	PTR								msdbase_SegList;
 	struct USBBase *				msdbase_usbbase;				// USB stack
-	struct USB2_Semaphore 			msdbase_MSDDisk_Semaphore;
+	struct USB3_Semaphore 			msdbase_MSDDisk_Semaphore;
 	PTR								msdbase_MSDDisk_Units[MAX_MSD_UNITS];	// struct MSDDisk's
 };
 
@@ -182,16 +182,16 @@ struct MSDBase
 
 struct MSDDevice
 {
-	struct USB2_Node				msddev_Node;
-	struct USB2_DriverMessage *		msddev_StartMsg;
+	struct USB3_Node				msddev_Node;
+	struct USB3_DriverMessage *		msddev_StartMsg;
 	struct MSDBase *				msddev_MSDBase;
-	struct USB2_Header				msddev_MSDDisk_Header;			// struct MSDDisk's
-	struct USB2_MsgPort				msddev_MsgPort_Begin;
-	struct USB2_MsgPort				msddev_MsgPort_Abort;
+	struct USB3_Header				msddev_MSDDisk_Header;			// struct MSDDisk's
+	struct USB3_MsgPort				msddev_MsgPort_Begin;
+	struct USB3_MsgPort				msddev_MsgPort_Abort;
 	struct RealRegister *			msddev_Register;
-	struct USB2_EPResource *		msddev_Res_Bulk_Out;
-	struct USB2_EPResource *		msddev_Res_Bulk_In;
-	struct USB2_EPResource *		msddev_Res_Control;
+	struct USB3_EPResource *		msddev_Res_Bulk_Out;
+	struct USB3_EPResource *		msddev_Res_Bulk_In;
+	struct USB3_EPResource *		msddev_Res_Control;
 	U32								msddev_Bulk_TagID;
 	U32								msddev_InterfaceNr;
 
@@ -205,7 +205,7 @@ struct MSDDevice
 
 struct MSDDisk
 {
-	struct USB2_Node				msddisk_Node;
+	struct USB3_Node				msddisk_Node;
 	struct MSDDevice *				msddisk_MSDDev;
 	struct MSDBase *				msddisk_MSDBase;
 	struct DriveGeometry			msddisk_Geometry;				// Drive Geometry
@@ -220,13 +220,13 @@ struct MSDDisk
 	U32								msddisk_Lun;
 
 	S32								msddisk_OpenCnt;
-	struct USB2_MsgPort *			msddisk_MsgPort_Begin;
-	struct USB2_MsgPort *			msddisk_MsgPort_Abort;
+	struct USB3_MsgPort *			msddisk_MsgPort_Begin;
+	struct USB3_MsgPort *			msddisk_MsgPort_Abort;
 	U32								msddisk_UnitNr;
 
-	struct USB2_Semaphore 			msddisk_MSDUnit_Semaphore;
-	struct USB2_Header				msddisk_MSDUnit_ChangeList;
-	struct USB2_Header				msddisk_MSDUnit_StatList;
+	struct USB3_Semaphore 			msddisk_MSDUnit_Semaphore;
+	struct USB3_Header				msddisk_MSDUnit_ChangeList;
+	struct USB3_Header				msddisk_MSDUnit_StatList;
 
 	// -- Config
 	U8								msddisk_DeviceType;				// Disk or CDRom
@@ -311,7 +311,7 @@ void MSD_Main__myHandle_Stack( struct USBBase *usbbase UNUSED, struct MSDDevice 
 
 S32						MSD_CreateDevice(		struct USBBase *usbbase );
 
-struct MSDDevice *		MSD_Device_Alloc(		struct USBBase *usbbase, struct USB2_DriverMessage *msg );
+struct MSDDevice *		MSD_Device_Alloc(		struct USBBase *usbbase, struct USB3_DriverMessage *msg );
 void					MSD_Device_Free(		struct USBBase *usbbase, struct MSDDevice *msddev );
 U32						MSD_Device_GetMaxLun(	struct USBBase *usbbase, struct MSDDevice *msddev );
 

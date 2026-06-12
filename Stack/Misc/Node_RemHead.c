@@ -12,10 +12,10 @@
 
 // --
 
-SEC_CODE PTR __Node_RemHead( struct USBBase *usbbase UNUSED, struct USB2_Header *header )
+SEC_CODE PTR __Node_RemHead( struct USBBase *usbbase UNUSED, struct USB3_Header *header )
 {
-struct USB2_Node *node;
-struct USB2_Node *next;
+struct USB3_Node *node;
+struct USB3_Node *next;
 
 	node = header->uh_Head;
 

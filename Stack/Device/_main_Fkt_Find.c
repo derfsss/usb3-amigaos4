@@ -15,7 +15,7 @@
 SEC_CODE static void _myFKT_GetTail( struct USBBase *usbbase, struct RealFunctionNode **ptr_fn )
 {
 struct RealFunctionNode *fn;
-struct USB2_Node *n;
+struct USB3_Node *n;
 PTR f;
 
 	// --
@@ -45,7 +45,7 @@ PTR f;
 SEC_CODE static void _myFKT_GetPrev( struct RealFunctionNode **ptr_fn )
 {
 struct RealFunctionNode *fn;
-struct USB2_Node *n;
+struct USB3_Node *n;
 PTR f;
 
 	// --
@@ -78,16 +78,16 @@ PTR f;
 
 /* -- Main Interface -- */
 
-static struct USB2_Function * VARARGS68K _main_Fkt_FindTags( struct USB2IFace *Self, ... )
+static struct USB3_Function * VARARGS68K _main_Fkt_FindTags( struct USB3IFace *Self, ... )
 {
 va_list ap;
 PTR fn;
 
-//	USBERROR( "USB2 Stack : _main_FindFunctionTags" );
+//	USBERROR( "USB3 Stack : _main_FindFunctionTags" );
 
 	va_start( ap, Self );
 
-	fn = Self->USB2_Fkt_FindList( va_getlinearva( ap, struct TagItem * ));
+	fn = Self->USB3_Fkt_FindList( va_getlinearva( ap, struct TagItem * ));
 
 	va_end( ap );
 
@@ -96,7 +96,7 @@ PTR fn;
 
 // --
 
-static struct USB2_Function *_main_Fkt_FindList( struct USB2IFace *Self, struct TagItem *taglist )
+static struct USB3_Function *_main_Fkt_FindList( struct USB3IFace *Self, struct TagItem *taglist )
 {
 struct RealFunctionNode *fn;
 struct USBBase *usbbase;
@@ -118,7 +118,7 @@ S32 Class;
 U32 cnt;
 
 	usbbase = (PTR) Self->Data.LibBase;
-	USBERROR( "USB2 Stack : _main_FindFunctionList" );
+	USBERROR( "USB3 Stack : _main_FindFunctionList" );
 
 	retval = NULL;
 
@@ -146,7 +146,7 @@ U32 cnt;
 	{
 		switch ( tag->ti_Tag )
 		{
-			case USB2Tag_Find_VendorID:
+			case USB3Tag_Find_VendorID:
 			{
 				USBINFO( "Find VendorID  : $%04lx", tag->ti_Data );
 				Vendor = tag->ti_Data;
@@ -154,7 +154,7 @@ U32 cnt;
 				break;
 			}
 
-			case USB2Tag_Find_DeviceID:
+			case USB3Tag_Find_DeviceID:
 			{
 				USBINFO( "Find DeviceID : $%04lx", tag->ti_Data );
 				Device = tag->ti_Data;
@@ -162,7 +162,7 @@ U32 cnt;
 				break;
 			}
 
-			case USB2Tag_Find_Class:
+			case USB3Tag_Find_Class:
 			{
 				USBINFO( "Find Class     : %ld", tag->ti_Data );
 				Class = tag->ti_Data;
@@ -170,7 +170,7 @@ U32 cnt;
 				break;
 			}
 
-			case USB2Tag_Find_SubClass:
+			case USB3Tag_Find_SubClass:
 			{
 				USBINFO( "Find SubClass  : %ld", tag->ti_Data );
 				SubClass = tag->ti_Data;
@@ -178,7 +178,7 @@ U32 cnt;
 				break;
 			}
 
-			case USB2Tag_Find_SeeClaimed:
+			case USB3Tag_Find_SeeClaimed:
 			{
 				USBINFO( "Find SeeClaimed: %s", ( tag->ti_Data ) ? "Yes" : "No" );
 				SeeClaimed = ( tag->ti_Data ) ? TRUE : FALSE ;
@@ -186,7 +186,7 @@ U32 cnt;
 				break;
 			}
 
-			case USB2Tag_Find_Index:
+			case USB3Tag_Find_Index:
 			{
 				USBINFO( "Find Index     : %ld", tag->ti_Data );
 				Index = tag->ti_Data;
@@ -214,7 +214,7 @@ U32 cnt;
 
 	while( fn )
 	{
-//		USBERROR( "USB2 Stack : _main_FindFunctionList : FN    %p : FktClass %lu", fn, fn->fkt_Class );
+//		USBERROR( "USB3 Stack : _main_FindFunctionList : FN    %p : FktClass %lu", fn, fn->fkt_Class );
 
 		found = TRUE;
 

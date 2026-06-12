@@ -12,15 +12,15 @@
 
 // --
 
-SEC_CODE static void __Update( struct USBBase *usbbase, struct RealFunctionNode *fn, struct USB2_ConfigNode *cfgnode )
+SEC_CODE static void __Update( struct USBBase *usbbase, struct RealFunctionNode *fn, struct USB3_ConfigNode *cfgnode )
 {
-struct USB2_InterfaceHeader *ih;
-struct USB2_Interface_Desc *ifcdsc;
-struct USB2_InterfaceGroup *ig;
-struct USB2_InterfaceNode *in;
-struct USB2_EndPointNode **array;
-struct USB2_EndPointNode *ep;
-struct USB2_ConfigNode *cn;
+struct USB3_InterfaceHeader *ih;
+struct USB3_Interface_Desc *ifcdsc;
+struct USB3_InterfaceGroup *ig;
+struct USB3_InterfaceNode *in;
+struct USB3_EndPointNode **array;
+struct USB3_EndPointNode *ep;
+struct USB3_ConfigNode *cn;
 struct RealRequest *ioreq;
 U32 offset;
 
@@ -169,8 +169,8 @@ SEC_CODE S32 __Config_Set(
 #endif
 
 {
-struct USB2_ConfigNode *cn;
-struct USB2_SetupData sd;
+struct USB3_ConfigNode *cn;
+struct USB3_SetupData sd;
 S32 retval;
 //U8 data[1];
 
@@ -178,7 +178,7 @@ S32 retval;
 
 	#if 0
 	{
-		struct USB2_EndPointNode **array = fn->fkt_HCD->hn_EndPoint_Array;
+		struct USB3_EndPointNode **array = fn->fkt_HCD->hn_EndPoint_Array;
 		U32 adr = fn->fkt_Address;
 		U32 cnt;
 
@@ -248,11 +248,11 @@ S32 retval;
 	ioreq->req_Public.io_Data		= NULL;
 	ioreq->req_Public.io_Length		= 0;
 	ioreq->req_Public.io_SetupData	= & sd;
-	ioreq->req_Public.io_SetupLength	= sizeof( struct USB2_SetupData );
+	ioreq->req_Public.io_SetupLength	= sizeof( struct USB3_SetupData );
 
 	IO_DO( ioreq );
 
-	if ( ioreq->req_Public.io_Error != USB2Err_NoError )
+	if ( ioreq->req_Public.io_Error != USB3Err_NoError )
 	{
 		USBDEBUG( "__Config_Set             : Set Configuration return %ld", (S32) ioreq->req_Public.io_Error );
 		goto bailout;
@@ -278,7 +278,7 @@ S32 retval;
 	ioreq->req_Public.io_Data			= data;
 	ioreq->req_Public.io_Length			= 1;
 	ioreq->req_Public.io_SetupData		= & sd;
-	ioreq->req_Public.io_SetupLength	= sizeof( struct USB2_SetupData );
+	ioreq->req_Public.io_SetupLength	= sizeof( struct USB3_SetupData );
 
 	#ifdef DO_PANIC
 	data[0] = 172;
@@ -290,12 +290,12 @@ S32 retval;
 	USBDEBUG( "io_Error .... : %ld", (S32) ioreq->req_Public.io_Error );
 	USBDEBUG( "data[0] ..... : %lu", (U32) data[0] );
 
-	/**/ if ( ioreq->req_Public.io_Error == USB2Err_Host_Stall )
+	/**/ if ( ioreq->req_Public.io_Error == USB3Err_Host_Stall )
 	{
 		// Not all Devices support Get Config
 		data[0] = CfgNr;
 	}
-	else if ( ioreq->req_Public.io_Error != USB2Err_NoError )
+	else if ( ioreq->req_Public.io_Error != USB3Err_NoError )
 	{
 		USBDEBUG( "__Config_Set             : Get Configuration return %ld", ioreq->req_Public.io_Error );
 		goto bailout;
@@ -317,7 +317,7 @@ bailout:
 
 	#if 0
 	{
-		struct USB2_EndPointNode **array = fn->fkt_HCD->hn_EndPoint_Array;
+		struct USB3_EndPointNode **array = fn->fkt_HCD->hn_EndPoint_Array;
 		U32 adr = fn->fkt_Address;
 		U32 cnt;
 

@@ -18,11 +18,11 @@
 
 #if defined( DO_PANIC ) || defined( DO_ERROR ) || defined( DO_DEBUG ) || defined( DO_INFO )
 
-SEC_CODE void __MsgPort_Reinit( struct USBBase *usbbase, struct USB2_MsgPort *mp, STR file UNUSED )
+SEC_CODE void __MsgPort_Reinit( struct USBBase *usbbase, struct USB3_MsgPort *mp, STR file UNUSED )
 
 #else
 
-SEC_CODE void __MsgPort_Reinit( struct USBBase *usbbase, struct USB2_MsgPort *mp )
+SEC_CODE void __MsgPort_Reinit( struct USBBase *usbbase, struct USB3_MsgPort *mp )
 
 #endif
 
@@ -36,7 +36,7 @@ SEC_CODE void __MsgPort_Reinit( struct USBBase *usbbase, struct USB2_MsgPort *mp
 		USBPANIC( "__MsgPort_Reinit : 1 : NULL Pointer : %s", file );
 	}
 
-	if (( mp->ump_StructID ) && ( mp->ump_StructID != ID_USB2_MP ))
+	if (( mp->ump_StructID ) && ( mp->ump_StructID != ID_USB3_MP ))
 	{
 		USBPANIC( "__MsgPort_Reinit : 2 : Invalid : %s", file );
 	}

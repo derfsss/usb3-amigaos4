@@ -17,19 +17,19 @@
 
 struct RealFunctionNode
 {
-	struct USB2_Function			fkt_Public;					// At the moment must be first, todo: do same as EPResource or ?
+	struct USB3_Function			fkt_Public;					// At the moment must be first, todo: do same as EPResource or ?
 	U32								fkt_StructID;
 	S32								fkt_Locks;
 	U16								fkt_Detach;
 	U16								fkt_FreeMe;
-//	struct USB2_TaskNode *			fkt_Task; 
-	struct USB2_ASync *				fkt_ASync;
+//	struct USB3_TaskNode *			fkt_Task; 
+	struct USB3_ASync *				fkt_ASync;
 	// --
 	S32								fkt_ActiveIOReq;
-	struct USB2_Semaphore			fkt_Semaphore;
-//	struct USB2_ASync *				fkt_HUB_ASync;
+	struct USB3_Semaphore			fkt_Semaphore;
+//	struct USB3_ASync *				fkt_HUB_ASync;
 	struct RealFunctionNode *		fkt_Parent;
-	USB2_ID							fkt_NotifyID;
+	USB3_ID							fkt_NotifyID;
 //	STR								fkt_ProcessName;
 
 	U8								fkt_SelfPowered;
@@ -60,29 +60,29 @@ struct RealFunctionNode
 
 	U32								fkt_HUB_Data;				// Used by HUB
 
-//	struct USB2_Header				fkt_Drivers;				// Driver connect too this Fkt, USB2_DriverNode, use dev_Process_Semaphore
+//	struct USB3_Header				fkt_Drivers;				// Driver connect too this Fkt, USB3_DriverNode, use dev_Process_Semaphore
 
-	struct USB2_Node				fkt_DriverNode;				// HUB list
-	struct USB2_Node				fkt_GlobalNode;				// Device list
+	struct USB3_Node				fkt_DriverNode;				// HUB list
+	struct USB3_Node				fkt_GlobalNode;				// Device list
 
-	struct USB2_Header				fkt_Configs;
-	struct USB2_ConfigNode *		fkt_Config_Active;
+	struct USB3_Header				fkt_Configs;
+	struct USB3_ConfigNode *		fkt_Config_Active;
 	U32								fkt_Config_Desc_Size;
-	struct USB2_Descriptor *		fkt_Config_Desc_Buf;
+	struct USB3_Descriptor *		fkt_Config_Desc_Buf;
 
-	struct USB2_Device_Desc *		fkt_DeviceDescriptor;
-	struct USB2_HUB_Desc *			fkt_HUBDescriptor;			// Only valid when HUB Device
+	struct USB3_Device_Desc *		fkt_DeviceDescriptor;
+	struct USB3_HUB_Desc *			fkt_HUBDescriptor;			// Only valid when HUB Device
 
-	struct USB2_HCDNode *			fkt_HCD;
-	struct USB2_EndPointNode *		fkt_ControlEndPoint;
+	struct USB3_HCDNode *			fkt_HCD;
+	struct USB3_EndPointNode *		fkt_ControlEndPoint;
 
-//	struct USB2_FunctionDriverNode *fkt_FunctionDriverNode;		// if AutoStarted via a Function Driver
+//	struct USB3_FunctionDriverNode *fkt_FunctionDriverNode;		// if AutoStarted via a Function Driver
 
 	S32								fkt_InterfaceClaimLocks;
 	struct RealRegister *			fkt_Owner;
 //	S32								fkt_Locks;
-//	struct USB2_Header				fkt_ExpungedList;
-//	struct USB2_Node				fkt_ResourceTrackingNode;
+//	struct USB3_Header				fkt_ExpungedList;
+//	struct USB3_Node				fkt_ResourceTrackingNode;
 };
 
 /***************************************************************************/

@@ -60,7 +60,7 @@ static const char *xhci_pls_name( U32 pls )
 // polling XHCI_Handler_HCD for the Transfer Event (no IORequest needed,
 // uses the slot's LastTransfer_Done/CC fields).
 
-static UNUSED void XHCI_DefaultGetDescriptor8( struct USB2_HCDNode *hn, U32 slotid )
+static UNUSED void XHCI_DefaultGetDescriptor8( struct USB3_HCDNode *hn, U32 slotid )
 {
 struct _XHCI *xhci = & hn->hn_HCD.XHCI;
 struct USBBase *usbbase = hn->hn_USBBase;
@@ -182,7 +182,7 @@ U32  cnt;
 
 // --
 
-SEC_CODE S32 XHCI_Port_Set_Reset( struct USB2_HCDNode *hn, U32 port )
+SEC_CODE S32 XHCI_Port_Set_Reset( struct USB3_HCDNode *hn, U32 port )
 {
 struct _XHCI *xhci;
 U32 val;
@@ -309,7 +309,7 @@ S32 retval;
 		// the fallback EnableSlot+Slot_Alloc path.
 		xhci->SlotID_ByAddress[0] = 0;
 
-		retval = USB2Err_NoError;
+		retval = USB3Err_NoError;
 	}
 	else
 	{

@@ -326,7 +326,7 @@ struct _OHCI
 {
 //	U32							InitConnect;
 
-	struct USB2_Signal			Signal_WDH;
+	struct USB3_Signal			Signal_WDH;
 
 	U32				    		Frame_Interval;
 	U32						    Remote_Wakeup_Connect;

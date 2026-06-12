@@ -15,11 +15,11 @@
 
 /***************************************************************************/
 
-struct USB2_MsgPort
+struct USB3_MsgPort
 {
 	U32								ump_StructID;
 	struct MsgPort					ump_MsgPort;
-	struct USB2_Signal				ump_Signal;
+	struct USB3_Signal				ump_Signal;
 };
 
 /***************************************************************************/

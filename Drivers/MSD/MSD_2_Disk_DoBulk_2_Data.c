@@ -15,8 +15,8 @@
 
 SEC_CODE enum PhaseStat MSD_Bulk_Cmd_Data( struct USBBase *usbbase, struct MSDDisk *msddisk, struct DoBulkStruct *dbs )
 {
-struct USB2_EPResource *epr;
-struct USB2_IORequest *ioreq;
+struct USB3_EPResource *epr;
+struct USB3_IORequest *ioreq;
 struct MSDDevice *msddev;
 struct ExecIFace *IExec;
 //struct MSDDisk *msddisk;
@@ -50,7 +50,7 @@ U32 IsRead;
 
 //	IExec->DebugPrintF( "Data : io_Error = %ld : io_Actual %ld\n", ioreq->io_Error, ioreq->io_Actual );
 
-	/**/ if ( ioreq->io_Error == USB2Err_NoError )
+	/**/ if ( ioreq->io_Error == USB3Err_NoError )
 	{
 		// IN short read is normal; OUT short write is suspicious.
 		if (( ! IsRead ) && ( ioreq->io_Actual != dbs->dbs_Data_Length )) 
@@ -62,13 +62,13 @@ U32 IsRead;
 
 		stat = PS_Okay;
 	}
-	else if ( ioreq->io_Error == USB2Err_Device_Detached )
+	else if ( ioreq->io_Error == USB3Err_Device_Detached )
 	{
 		USBERROR( "MSD_Bulk_Cmd_Data : Detached" );
 		MSD_Disk_Detach( usbbase, msddisk );
 		stat = PS_Error;
 	}
-	else if ( ioreq->io_Error == USB2Err_Host_Stall )
+	else if ( ioreq->io_Error == USB3Err_Host_Stall )
 	{
 		// Clearing both Bulk, some devices need this, hope it wont break others
 		ENDPOINTRES_DESTALL( msddev->msddev_Res_Bulk_In );

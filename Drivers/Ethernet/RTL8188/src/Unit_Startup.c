@@ -33,7 +33,7 @@ S32 sig;
 
 	if ( ! Unit_Startup_USB( unit ))
 	{
-		USBERROR( "RTL8188 : Failed to open usb2.device" );
+		USBERROR( "RTL8188 : Failed to open usb3.device" );
 		goto bailout;
 	}
 

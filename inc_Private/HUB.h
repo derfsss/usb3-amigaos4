@@ -25,9 +25,9 @@
 
 struct myHUB_Cfg
 {
-	struct USB2_Config_Desc			cn;
-	struct USB2_Interface_Desc		ifc;
-	struct USB2_EndPoint_Desc		ep;
+	struct USB3_Config_Desc			cn;
+	struct USB3_Interface_Desc		ifc;
+	struct USB3_EndPoint_Desc		ep;
 };
 
 /***************************************************************************/
@@ -45,7 +45,7 @@ struct myHUB_Cfg
 #define DSCTYPE_SS_HUB				0x2A	/* Super Speed */
 
 /***************************************************************************/
-// usb2 stack HUB bits
+// usb3 stack HUB bits
 // Each OHCI/UHCI/EHCI bits get converted into those Bits
 
 // Status Bits
@@ -118,7 +118,7 @@ enum
 	PORT_INDICATOR			= 22	// Port status LEDs (optional)
 };
 
-struct USB2_HUBStatus
+struct USB3_HUBStatus
 {
 	U16		wHubStatus;
 	U16		wHubChange;
@@ -130,7 +130,7 @@ struct USB2_HUBStatus
 #define HUBCHGF_Local_Power_Chg		0x01U
 #define HUBCHGF_Over_Current_Chg		0x02U
 
-struct USB2_PortStatus
+struct USB3_PortStatus
 {
 	U16		wPortStatus;
 	U16		wPortChange;

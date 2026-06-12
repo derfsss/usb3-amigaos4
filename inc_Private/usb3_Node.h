@@ -15,9 +15,9 @@
 
 /***************************************************************************/
 
-#define Header_Head(x)	((struct USB2_Header *)x)->uh_Head
-//#define Header_Tail(x)	((struct USB2_Header *)x)->uh_Tail
-//#define Node_ID(x)	((struct USB2_Node *)x)->un_StructID
+#define Header_Head(x)	((struct USB3_Header *)x)->uh_Head
+//#define Header_Tail(x)	((struct USB3_Header *)x)->uh_Tail
+//#define Node_ID(x)	((struct USB3_Node *)x)->un_StructID
 
 #if 0
 //#ifdef DO_PANIC
@@ -31,21 +31,21 @@ PTR __Node_Prev( struct USBBase *, PTR cur, STR file );
 
 #else
 
-#define Node_Next(x)	((struct USB2_Node *)x)->un_Next
-#define Node_Prev(x)	((struct USB2_Node *)x)->un_Prev
+#define Node_Next(x)	((struct USB3_Node *)x)->un_Next
+#define Node_Prev(x)	((struct USB3_Node *)x)->un_Prev
 
 #endif
 
 /***************************************************************************/
 
-struct USB2_Header
+struct USB3_Header
 {
 	PTR							uh_Head;
 	PTR							uh_Tail;
 	S32							uh_Nodes;
 };
 
-struct USB2_Node
+struct USB3_Node
 {
 	PTR							un_Next;
 	PTR							un_Prev;

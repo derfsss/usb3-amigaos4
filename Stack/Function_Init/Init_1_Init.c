@@ -12,7 +12,7 @@
 static S32 __myInit( struct USBBase *usbbase, PTR userdata UNUSED, PTR in UNUSED )
 {
 //struct RealFunctionNode *fn;
-//struct USB2_HCDNode *hn;
+//struct USB3_HCDNode *hn;
 S32 retval;
 
 	retval = FALSE;

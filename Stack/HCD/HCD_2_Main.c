@@ -25,7 +25,7 @@
 
 SEC_CODE static void __myMain( struct USBBase *usbbase, PTR userdata, PTR in_ptr )
 {
-struct USB2_HCDNode *hn;
+struct USB3_HCDNode *hn;
 struct intern *in;
 
 	hn = userdata;

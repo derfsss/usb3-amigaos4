@@ -80,20 +80,20 @@ enum IORStat
 
 struct RealRequest
 {
-	struct USB2_IORequest			req_Public;					// At the moment must be first, todo: do same as EPResource or ?
+	struct USB3_IORequest			req_Public;					// At the moment must be first, todo: do same as EPResource or ?
 
 	// -- 
 	U32								req_StructID;
 	S32								req_Locks;
 	U16								req_Detach;
 	U16								req_FreeMe;
-//	struct USB2_TaskNode *			req_Task;
-//	struct USB2_ASync *				req_ASync;
+//	struct USB3_TaskNode *			req_Task;
+//	struct USB3_ASync *				req_ASync;
 	// --
 
 	struct RealFunctionNode *		req_Function;
-	struct USB2_EndPointNode *		req_EndPoint;
-	struct USB2_MsgPort				req_MsgPort;
+	struct USB3_EndPointNode *		req_EndPoint;
+	struct USB3_MsgPort				req_MsgPort;
 	struct TimeRequest				req_TimerIOReq;
 	enum IORStat					req_PublicStat;
 

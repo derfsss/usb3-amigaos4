@@ -15,8 +15,8 @@
 
 SEC_CODE U32 MSD_Device_GetMaxLun( struct USBBase *usbbase, struct MSDDevice *msddev )
 {
-struct USB2_IORequest *ioreq;
-struct USB2_SetupData *sd;
+struct USB3_IORequest *ioreq;
+struct USB3_SetupData *sd;
 U32 maxlun;
 U32 cnt;
 U8 data[1];
@@ -41,22 +41,22 @@ U8 data[1];
 		ioreq->io_Data			= & data;
 		ioreq->io_Length		= 1;
 		ioreq->io_SetupData		= sd;
-		ioreq->io_SetupLength	= sizeof( struct USB2_SetupData );
+		ioreq->io_SetupLength	= sizeof( struct USB3_SetupData );
 
 		IO_DO( ioreq );
 
-		/**/ if ( ioreq->io_Error == USB2Err_NoError )
+		/**/ if ( ioreq->io_Error == USB3Err_NoError )
 		{
 			maxlun = data[0];
 			
 			USBERROR( "MSD_GetMaxLun : Got MaxLuns (%ld)", maxlun );
 			break;
 		}
-		else if ( ioreq->io_Error == USB2Err_Host_Stall )
+		else if ( ioreq->io_Error == USB3Err_Host_Stall )
 		{
 			break;
 		}
-		else if ( ioreq->io_Error == USB2Err_Device_Detached )
+		else if ( ioreq->io_Error == USB3Err_Device_Detached )
 		{
 			USBERROR( "MSD_Device_GetMaxLun : Detached" );
 			msddev->msddev_Detached = TRUE;

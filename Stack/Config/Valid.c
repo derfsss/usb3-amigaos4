@@ -14,11 +14,11 @@
 
 #if defined( DO_PANIC ) || defined( DO_ERROR ) || defined( DO_DEBUG ) || defined( DO_INFO )
 
-SEC_CODE enum VSTAT __Config_Valid( struct USBBase *usbbase UNUSED, struct USB2_ConfigNode *cn, STR file UNUSED )
+SEC_CODE enum VSTAT __Config_Valid( struct USBBase *usbbase UNUSED, struct USB3_ConfigNode *cn, STR file UNUSED )
 
 #else
 
-SEC_CODE enum VSTAT __Config_Valid( struct USBBase *usbbase UNUSED, struct USB2_ConfigNode *cn )
+SEC_CODE enum VSTAT __Config_Valid( struct USBBase *usbbase UNUSED, struct USB3_ConfigNode *cn )
 
 #endif
 
@@ -47,12 +47,12 @@ enum VSTAT vstat;
 		USBDEBUG( "__Config_Valid           : CN    %p : Not Initalized : (%s)", cn, (file)?file:"<NULL>" );
 		vstat = VSTAT_Null;
 	} 
-	else if ( cn->cfg_StructID == ID_USB2_FREED )
+	else if ( cn->cfg_StructID == ID_USB3_FREED )
 	{
 		USBDEBUG( "__Config_Valid           : CN    %p : Structure allready freed : (%s)", cn, (file)?file:"<NULL>" );
 		vstat = VSTAT_Null;
 	}
-	else if ( cn->cfg_StructID != ID_USB2_CFG )
+	else if ( cn->cfg_StructID != ID_USB3_CFG )
 	{
 		USBDEBUG( "__Config_Valid           : CN    %p : Invalid ID $%08lx : (%s)", cn, cn->cfg_StructID, (file)?file:"<NULL>" );
 		vstat = VSTAT_Error;

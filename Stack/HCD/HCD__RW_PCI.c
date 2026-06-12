@@ -12,7 +12,7 @@
 
 // --
 
-static U8 PCI_ReadByte( struct USB2_HCDNode *hn, U32 addr )
+static U8 PCI_ReadByte( struct USB3_HCDNode *hn, U32 addr )
 {
 struct PCIDevice *pd = hn->hn_PCIDevice;
 U32 pos;
@@ -36,7 +36,7 @@ U8 val;
 
 // --
 
-static U16 PCI_ReadWord( struct USB2_HCDNode *hn, U32 addr )
+static U16 PCI_ReadWord( struct USB3_HCDNode *hn, U32 addr )
 {
 struct PCIDevice *pd = hn->hn_PCIDevice;
 U32 pos;
@@ -60,7 +60,7 @@ U16 val;
 
 // --
 
-SEC_CODE static U32 PCI_ReadLong( struct USB2_HCDNode *hn, U32 addr )
+SEC_CODE static U32 PCI_ReadLong( struct USB3_HCDNode *hn, U32 addr )
 {
 struct PCIDevice *pd = hn->hn_PCIDevice;
 U32 pos;
@@ -84,7 +84,7 @@ U32 val;
 
 // --
 
-SEC_CODE static void PCI_WriteByte( struct USB2_HCDNode *hn, U32 addr, U8 val )
+SEC_CODE static void PCI_WriteByte( struct USB3_HCDNode *hn, U32 addr, U8 val )
 {
 struct PCIDevice *pd = hn->hn_PCIDevice;
 U32 pos;
@@ -106,7 +106,7 @@ U32 pos;
 
 // --
 
-SEC_CODE static void PCI_WriteWord( struct USB2_HCDNode *hn, U32 addr, U16 val )
+SEC_CODE static void PCI_WriteWord( struct USB3_HCDNode *hn, U32 addr, U16 val )
 {
 struct PCIDevice *pd = hn->hn_PCIDevice;
 U32 pos;
@@ -128,7 +128,7 @@ U32 pos;
 
 // --
 
-SEC_CODE static void PCI_WriteLong( struct USB2_HCDNode *hn, U32 addr, U32 val )
+SEC_CODE static void PCI_WriteLong( struct USB3_HCDNode *hn, U32 addr, U32 val )
 {
 struct PCIDevice *pd = hn->hn_PCIDevice;
 U32 pos;

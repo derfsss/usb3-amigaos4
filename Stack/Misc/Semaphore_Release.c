@@ -12,7 +12,7 @@
 
 // --
 
-SEC_CODE void __Semaphore_Release( struct USBBase *usbbase UNUSED, struct USB2_Semaphore *us )
+SEC_CODE void __Semaphore_Release( struct USBBase *usbbase UNUSED, struct USB3_Semaphore *us )
 {
 struct ExecIFace *IExec;
 
@@ -23,7 +23,7 @@ struct ExecIFace *IExec;
 		USBPANIC( "Semaphore_Release : 1 : NULL Pointer" );
 	}
 
-	if ( us->us_StructID != ID_USB2_SEMA )
+	if ( us->us_StructID != ID_USB3_SEMA )
 	{
 		USBPANIC( "Semaphore_Release : 2 : Invalid ID" );
 	}

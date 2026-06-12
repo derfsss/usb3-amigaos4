@@ -14,11 +14,11 @@
 
 #if defined( DO_PANIC ) || defined( DO_ERROR ) || defined( DO_DEBUG ) || defined( DO_INFO )
 
-SEC_CODE enum VSTAT __Interface_ValidHeader( struct USBBase *usbbase UNUSED, struct USB2_InterfaceHeader *ih, STR file )
+SEC_CODE enum VSTAT __Interface_ValidHeader( struct USBBase *usbbase UNUSED, struct USB3_InterfaceHeader *ih, STR file )
 
 #else
 
-SEC_CODE enum VSTAT __Interface_ValidHeader( struct USBBase *usbbase UNUSED, struct USB2_InterfaceHeader *ih )
+SEC_CODE enum VSTAT __Interface_ValidHeader( struct USBBase *usbbase UNUSED, struct USB3_InterfaceHeader *ih )
 
 #endif
 
@@ -47,12 +47,12 @@ enum VSTAT vstat;
 		USBDEBUG( "__Interface_ValidHeader  : IH    %p : Not Initalized", ih );
 		vstat = VSTAT_Null;
 	} 
-	else if ( ih->ih_StructID == ID_USB2_FREED )
+	else if ( ih->ih_StructID == ID_USB3_FREED )
 	{
 		USBDEBUG( "__Interface_ValidHeader  : IH    %p : Free Struct", ih );
 		vstat = VSTAT_Null;
 	}
-	else if ( ih->ih_StructID != ID_USB2_IFCH )
+	else if ( ih->ih_StructID != ID_USB3_IFCH )
 	{
 		USBDEBUG( "__Interface_ValidHeader  : IH    %p : Invalid ID ($%08lx)", ih, ih->ih_StructID );
 		vstat = VSTAT_Error;

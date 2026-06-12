@@ -24,7 +24,7 @@
 
 // --
 
-SEC_CODE S32 __ASync_Init( struct USBBase *usbbase, struct USB2_ASync *ua, struct Task *owner )
+SEC_CODE S32 __ASync_Init( struct USBBase *usbbase, struct USB3_ASync *ua, struct Task *owner )
 {
 S32 retval;
 
@@ -41,7 +41,7 @@ S32 retval;
 		USBPANIC( "ASync_Init : 1 : NULL Pointer" );
 	}
 
-	if (( ua->ua_StructID != 0 ) && ( ua->ua_StructID != ID_USB2_FREED ))
+	if (( ua->ua_StructID != 0 ) && ( ua->ua_StructID != ID_USB3_FREED ))
 	{
 		USBDEBUG( "__ASync_Init : id $%08lx", ua->ua_StructID );
 		USBPANIC( "ASync_Init : 2 : IN    use" );
@@ -49,7 +49,7 @@ S32 retval;
 
 	#endif
 
-	MEM_SET( ua, 0, sizeof( struct USB2_ASync ));
+	MEM_SET( ua, 0, sizeof( struct USB3_ASync ));
 
 	// Ohh what task should the Signal belong to??
 	// maybe only ASync_Wait() should create it
@@ -60,7 +60,7 @@ S32 retval;
 
 	SEMAPHORE_INIT( & ua->ua_Semaphore );
 
-	ua->ua_StructID = ID_USB2_ASYNC;
+	ua->ua_StructID = ID_USB3_ASYNC;
 //	ua->ua_Counter = 0;
 //	ua->ua_Signal = NULL;
 //	ua->ua_Task = NULL;

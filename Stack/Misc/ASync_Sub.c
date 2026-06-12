@@ -24,7 +24,7 @@
 
 // --
 
-SEC_CODE void __ASync_Sub( struct USBBase *usbbase, struct USB2_ASync *as )
+SEC_CODE void __ASync_Sub( struct USBBase *usbbase, struct USB3_ASync *as )
 {
 //	USBDEBUG( "__ASync_Sub              : AS    %p", as );
 
@@ -39,7 +39,7 @@ SEC_CODE void __ASync_Sub( struct USBBase *usbbase, struct USB2_ASync *as )
 
 	#ifdef DO_PANIC
 
-	if ( as->ua_StructID != ID_USB2_ASYNC )
+	if ( as->ua_StructID != ID_USB3_ASYNC )
 	{
 		USBPANIC( "ASync_Sub : 3 : Invalid ID : AS    %p", as );
 	}

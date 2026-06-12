@@ -14,8 +14,8 @@
 
 SEC_CODE void __HCD_Controllers_Stop( struct USBBase *usbbase )
 {
-struct USB2_HCDNode *next;
-struct USB2_HCDNode *hn;
+struct USB3_HCDNode *next;
+struct USB3_HCDNode *hn;
 
 	USBINFO( "__HCD_Controllers_Stop   :  1 : Send CTRL to HCDs" );
 	TASK_NAME_ENTER( "HCD : __HCD_Controllers_Stop" );

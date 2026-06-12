@@ -12,7 +12,7 @@
 
 // --
 
-SEC_CODE U8 LE_ReadByte( struct USB2_HCDNode *hn, U32 addr )
+SEC_CODE U8 LE_ReadByte( struct USB3_HCDNode *hn, U32 addr )
 {
 U32 pos;
 U8 val;
@@ -36,7 +36,7 @@ U8 val;
 
 // --
 
-SEC_CODE U16 LE_ReadWord( struct USB2_HCDNode *hn, U32 addr )
+SEC_CODE U16 LE_ReadWord( struct USB3_HCDNode *hn, U32 addr )
 {
 U32 pos;
 U16 val;
@@ -61,7 +61,7 @@ U16 val;
 
 // --
 
-SEC_CODE U32 LE_ReadLong( struct USB2_HCDNode *hn, U32 addr )
+SEC_CODE U32 LE_ReadLong( struct USB3_HCDNode *hn, U32 addr )
 {
 U32 pos;
 U32 val;
@@ -86,7 +86,7 @@ U32 val;
 
 // --
 
-SEC_CODE void LE_WriteByte( struct USB2_HCDNode *hn, U32 addr, U8 val )
+SEC_CODE void LE_WriteByte( struct USB3_HCDNode *hn, U32 addr, U8 val )
 {
 U32 pos;
 
@@ -107,7 +107,7 @@ U32 pos;
 
 // --
 
-SEC_CODE void LE_WriteWord( struct USB2_HCDNode *hn, U32 addr, U16 val )
+SEC_CODE void LE_WriteWord( struct USB3_HCDNode *hn, U32 addr, U16 val )
 {
 U32 pos;
 
@@ -129,7 +129,7 @@ U32 pos;
 
 // --
 
-SEC_CODE void LE_WriteLong( struct USB2_HCDNode *hn, U32 addr, U32 val )
+SEC_CODE void LE_WriteLong( struct USB3_HCDNode *hn, U32 addr, U32 val )
 {
 U32 pos;
 

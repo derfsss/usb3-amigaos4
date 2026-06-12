@@ -15,16 +15,16 @@
 
 SEC_CODE static void __Release( struct USBBase *usbbase, struct RealFunctionNode *fn )
 {
-struct USB2_InterfaceHeader *ih2;
-struct USB2_InterfaceHeader *ih;
-struct USB2_InterfaceGroup *ig2;
-struct USB2_InterfaceGroup *ig;
-struct USB2_InterfaceNode *in2;
-struct USB2_InterfaceNode *in;
-struct USB2_EndPointNode *ep2;
-struct USB2_EndPointNode *ep;
-struct USB2_ConfigNode *cn2;
-struct USB2_ConfigNode *cn;
+struct USB3_InterfaceHeader *ih2;
+struct USB3_InterfaceHeader *ih;
+struct USB3_InterfaceGroup *ig2;
+struct USB3_InterfaceGroup *ig;
+struct USB3_InterfaceNode *in2;
+struct USB3_InterfaceNode *in;
+struct USB3_EndPointNode *ep2;
+struct USB3_EndPointNode *ep;
+struct USB3_ConfigNode *cn2;
+struct USB3_ConfigNode *cn;
 struct RealRequest *ioreq;
 
 	USBDEBUG( "__Release                : FN    %p : 1", fn );
@@ -295,7 +295,7 @@ SEC_CODE enum FSTAT __Function_Free( struct USBBase *usbbase, struct RealFunctio
 #endif
 
 {
-struct USB2_HCDNode *hn;
+struct USB3_HCDNode *hn;
 enum VSTAT vstat;
 enum FSTAT fstat;
 
@@ -345,7 +345,7 @@ enum FSTAT fstat;
 		}
 		else
 		{
-			fn->fkt_StructID = ID_USB2_FREED;
+			fn->fkt_StructID = ID_USB3_FREED;
 			fstat = FSTAT_Okay;
 		}
 	}

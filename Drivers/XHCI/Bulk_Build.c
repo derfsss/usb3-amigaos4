@@ -40,10 +40,10 @@
 #define XHCI_BULK_RING_CHUNKS	( XHCI_TRB_RING_SIZE - 4 )
 #define XHCI_BULK_MAX_CHUNKS	MIN( XHCI_BULK_TABLE_CHUNKS, XHCI_BULK_RING_CHUNKS )
 
-SEC_CODE S32 XHCI_Bulk_Build( struct USB2_HCDNode *hn, struct RealRequest *ioreq )
+SEC_CODE S32 XHCI_Bulk_Build( struct USB3_HCDNode *hn, struct RealRequest *ioreq )
 {
 struct XHCI_BounceChunk *chunks;
-struct USB2_EndPointNode *ep;
+struct USB3_EndPointNode *ep;
 struct RealFunctionNode *fn;
 struct XHCI_Slot *slot;
 struct XHCI_Ring *ring;
@@ -76,7 +76,7 @@ U8 *src;
 	if ( ! slotid )
 	{
 		USBERROR( "XHCI: Bulk_Build: no slot for address %ld", (U32) fn->fkt_Address );
-		ioreq->req_Public.io_Error = USB2Err_Stack_FunctionNotFound;
+		ioreq->req_Public.io_Error = USB3Err_Stack_FunctionNotFound;
 		goto bailout;
 	}
 
@@ -85,7 +85,7 @@ U8 *src;
 	if ( ! slot )
 	{
 		USBERROR( "XHCI: Bulk_Build: slot %ld not allocated", slotid );
-		ioreq->req_Public.io_Error = USB2Err_Stack_FunctionNotFound;
+		ioreq->req_Public.io_Error = USB3Err_Stack_FunctionNotFound;
 		goto bailout;
 	}
 
@@ -97,7 +97,7 @@ U8 *src;
 	{
 		USBERROR( "XHCI: Bulk_Build: no ring for DCI %ld (ep %ld dir %ld)",
 			dci, ep->ep_Number, ep->ep_Direction );
-		ioreq->req_Public.io_Error = USB2Err_Stack_EndPointNotFound;
+		ioreq->req_Public.io_Error = USB3Err_Stack_EndPointNotFound;
 		goto bailout;
 	}
 
@@ -118,7 +118,7 @@ U8 *src;
 	{
 		USBERROR( "XHCI: Bulk_Build: io_Length %ld exceeds %ld chunk limit",
 			total, (U32) XHCI_BULK_MAX_CHUNKS );
-		ioreq->req_Public.io_Error = USB2Err_Stack_NoMemory;
+		ioreq->req_Public.io_Error = USB3Err_Stack_NoMemory;
 		goto bailout;
 	}
 
@@ -143,7 +143,7 @@ U8 *src;
 	if ( ! chunks )
 	{
 		USBERROR( "XHCI: Bulk_Build: error allocating chunk table" );
-		ioreq->req_Public.io_Error = USB2Err_Stack_NoMemory;
+		ioreq->req_Public.io_Error = USB3Err_Stack_NoMemory;
 		goto bailout;
 	}
 
@@ -163,7 +163,7 @@ U8 *src;
 		if ( ! buf )
 		{
 			USBERROR( "XHCI: Bulk_Build: error allocating bounce chunk %ld/%ld", cnt, ntrbs );
-			ioreq->req_Public.io_Error = USB2Err_Stack_NoMemory;
+			ioreq->req_Public.io_Error = USB3Err_Stack_NoMemory;
 			goto bailout;
 		}
 

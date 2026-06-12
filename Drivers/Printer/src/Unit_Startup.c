@@ -33,7 +33,7 @@ S32 sig;
 
 	if ( ! Unit_Startup_USB( unit ))
 	{
-		USBERROR( "Printer : Failed to open usb2.device" );
+		USBERROR( "Printer : Failed to open usb3.device" );
 		goto bailout;
 	}
 

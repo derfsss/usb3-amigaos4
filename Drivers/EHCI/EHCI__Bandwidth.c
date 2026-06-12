@@ -49,9 +49,9 @@
 
 // --
 
-SEC_CODE S32 EHCI_Enough_Bandwidth( struct USB2_HCDNode *hn, struct RealRequest *ioreq )
+SEC_CODE S32 EHCI_Enough_Bandwidth( struct USB3_HCDNode *hn, struct RealRequest *ioreq )
 {
-struct USB2_EndPointNode *ep;
+struct USB3_EndPointNode *ep;
 U32 retval;
 U32 cnt;
 U32 max_per_slot;

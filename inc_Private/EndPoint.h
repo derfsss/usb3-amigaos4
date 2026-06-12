@@ -21,24 +21,24 @@
 
 /***************************************************************************/
 
-struct USB2_EndPointNode
+struct USB3_EndPointNode
 {
-	struct USB2_Node				ep_Node;
+	struct USB3_Node				ep_Node;
 
 	// -- 
 	U32								ep_StructID;
 	S32								ep_Locks;
 	U16								ep_Detach;
 	U16								ep_FreeMe;
-//	struct USB2_TaskNode *			ep_Task; 
-//	struct USB2_ASync *				ep_ASync;
+//	struct USB3_TaskNode *			ep_Task; 
+//	struct USB3_ASync *				ep_ASync;
 	// --
 
 	struct RealFunctionNode *		ep_Function;
-	struct USB2_InterfaceNode *		ep_Interface;
-	struct USB2_EndPoint_Desc *		ep_Descriptor;
+	struct USB3_InterfaceNode *		ep_Interface;
+	struct USB3_EndPoint_Desc *		ep_Descriptor;
 	struct RealRequest *			ep_Request_Active;
-	struct USB2_Header				ep_Request_Queue;
+	struct USB3_Header				ep_Request_Queue;
 
 	U32								ep_Type;				// EPATASK_Type_Type_xxx
 	U32								ep_Number;				// Number 0-15
@@ -54,17 +54,17 @@ struct USB2_EndPointNode
 
 struct RealEndPointResource
 {
-	struct USB2_Node				epr_Node;
+	struct USB3_Node				epr_Node;
 	U32								epr_StructID;
 	S32								epr_Locks;
 	U16								epr_Detach;
 	U16								epr_FreeMe; 
-	struct USB2_EPResource			epr_Public;
+	struct USB3_EPResource			epr_Public;
  	struct RealRegister *			epr_Register;
 
 //	S32								epr_Delete;
 //	struct MsgPort					epr_MsgPort;
-//	struct USB2_MsgPort				epr_MsgPort;
+//	struct USB3_MsgPort				epr_MsgPort;
 //	int								epr_MsgPortUsed;
 };
 

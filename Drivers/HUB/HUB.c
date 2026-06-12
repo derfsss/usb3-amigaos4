@@ -78,7 +78,7 @@
 #endif
 // --
 
-SEC_CODE U32 HUB_Entry( struct USBBase *usbbase, struct USB2_DriverMessage *msg )
+SEC_CODE U32 HUB_Entry( struct USBBase *usbbase, struct USB3_DriverMessage *msg )
 {
 struct intern *in;
 U32 retval;

@@ -13,8 +13,8 @@
 // --
 
 SEC_CODE static S32 __Get_Status( 
-		struct USB2_SetupData *sd, 
-UNUSED	struct USB2_HCDNode *hn, 
+		struct USB3_SetupData *sd, 
+UNUSED	struct USB3_HCDNode *hn, 
 UNUSED	struct USBBase *usbbase,
 		PTR buffer, 
 		U32 *max )
@@ -24,7 +24,7 @@ U16 val;
 
 	/**/ if	( sd->RequestType == ( REQTYPE_Read | REQTYPE_Standard | REQTYPE_Device ))
 	{
-		struct USB2_DeviceStatus *devstat = buffer;
+		struct USB3_DeviceStatus *devstat = buffer;
 
 		// Get Device Status
 
@@ -34,13 +34,13 @@ U16 val;
 //		val |= USBSTATUS_Device_RemoteWakeup;
 		devstat->Stat = LE_SWAP16( val );
 
-		*max = sizeof( struct USB2_DeviceStatus );
+		*max = sizeof( struct USB3_DeviceStatus );
 
-		err = USB2Err_NoError;
+		err = USB3Err_NoError;
 	}
 	else if	( sd->RequestType == ( REQTYPE_Read | REQTYPE_Standard | REQTYPE_Interface ))
 	{
-		struct USB2_InterfaceStatus *ifcstat = buffer;
+		struct USB3_InterfaceStatus *ifcstat = buffer;
 
 		// Get Interface Status
 
@@ -49,13 +49,13 @@ U16 val;
 		val = 0;
 		ifcstat->Stat = LE_SWAP16( val );
 
-		*max = sizeof( struct USB2_InterfaceStatus );
+		*max = sizeof( struct USB3_InterfaceStatus );
 
-		err = USB2Err_NoError;
+		err = USB3Err_NoError;
 	}
 	else if	( sd->RequestType == ( REQTYPE_Read | REQTYPE_Standard | REQTYPE_EndPoint ))
 	{
-		struct USB2_EndPointStatus *epstat = buffer;
+		struct USB3_EndPointStatus *epstat = buffer;
 
 		// Get EndPoint Status
 
@@ -64,13 +64,13 @@ U16 val;
 		val = 0;
 		epstat->Stat = LE_SWAP16( val );
 
-		*max = sizeof( struct USB2_EndPointStatus );
+		*max = sizeof( struct USB3_EndPointStatus );
 
-		err = USB2Err_NoError;
+		err = USB3Err_NoError;
 	}
 	else if	( sd->RequestType == ( REQTYPE_Read | REQTYPE_Class | REQTYPE_Device ))
 	{
-		struct USB2_HUBStatus *hubstat = buffer;
+		struct USB3_HUBStatus *hubstat = buffer;
 
 		// Get HUB Status
 
@@ -94,13 +94,13 @@ U16 val;
 
 		// --
 
-		*max = sizeof( struct USB2_HUBStatus );
+		*max = sizeof( struct USB3_HUBStatus );
 
-		err = USB2Err_NoError;
+		err = USB3Err_NoError;
 	}
 	else if ( sd->RequestType == ( REQTYPE_Read | REQTYPE_Class | REQTYPE_Other ))
 	{
-		struct USB2_PortStatus *portstat = buffer;
+		struct USB3_PortStatus *portstat = buffer;
 		U32 status;
 		U16 wIndex;
 		U32 port;
@@ -148,9 +148,9 @@ U16 val;
 
 		portstat->wPortChange = LE_SWAP16( val );
 
-		*max = sizeof( struct USB2_PortStatus );
+		*max = sizeof( struct USB3_PortStatus );
 
-		err = USB2Err_NoError;
+		err = USB3Err_NoError;
 	}
 	else
 	{

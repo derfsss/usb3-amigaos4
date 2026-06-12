@@ -47,12 +47,12 @@ enum VSTAT vstat;
 		USBDEBUG( "__Register_Valid         : REG   %p : Not Initalized : (%s)", reg, (file)?file:"<NULL>" );
 		vstat = VSTAT_Null;
 	} 
-	else if ( reg->reg_StructID == ID_USB2_FREED )
+	else if ( reg->reg_StructID == ID_USB3_FREED )
 	{
 		USBDEBUG( "__Register_Valid         : REG   %p : Structure allready freed : (%s)", reg, (file)?file:"<NULL>" );
 		vstat = VSTAT_Null;
 	}
-	else if ( reg->reg_StructID != ID_USB2_REG )
+	else if ( reg->reg_StructID != ID_USB3_REG )
 	{
 		USBDEBUG( "__Register_Valid         : REG   %p : Invalid ID $%08lx : (%s)", reg, reg->reg_StructID, (file)?file:"<NULL>" );
 		vstat = VSTAT_Error;
