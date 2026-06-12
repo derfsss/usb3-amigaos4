@@ -76,6 +76,11 @@ See [INSTALL.md](INSTALL.md). In short: copy `usb3.device` to `DEVS:`, create
 devices attached to the card appear via `usb3disk.device` and mount
 automatically.
 
+## Roadmap
+
+Development priorities — starting with automatic mount/dismount of storage
+devices on insert/removal — are tracked in [ROADMAP.md](ROADMAP.md).
+
 ## Known issues
 
 - **Warm-reboot controller wedge (uPD720202).** If the controller is left
