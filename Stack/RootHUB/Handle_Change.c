@@ -28,7 +28,7 @@ S32 len;
 
 	if ( ! ioreq )
 	{
-		usbbase->usb_IExec->DebugPrintF( "USB2: Handle_Change: NO IORequests in queue (HCD #%ld)\n", hn->hn_HCDIndex );
+		usbbase->usb_IExec->DebugPrintF( "USB3: Handle_Change: NO IORequests in queue (HCD #%ld)\n", hn->hn_HCDIndex );
 	}
 
 	while( ioreq )
@@ -38,7 +38,7 @@ S32 len;
 
 		len = __Interrupt_Read( usbbase, hn, ioreq->req_Public.io_Data, ioreq->req_Public.io_Length );
 
-		usbbase->usb_IExec->DebugPrintF( "USB2: Handle_Change: IntRead len=%ld (HCD #%ld)\n", len, hn->hn_HCDIndex );
+		usbbase->usb_IExec->DebugPrintF( "USB3: Handle_Change: IntRead len=%ld (HCD #%ld)\n", len, hn->hn_HCDIndex );
 
 		if ( len > 0 )
 		{

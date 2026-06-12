@@ -126,7 +126,7 @@ PTR node;
 //	IExec->DebugPrintF( "usb2 ROM Init\n" );
 
 	// Make sure we havent started
-	if ( IExec->FindName( & mySysBase->DeviceList, "usb2.device" ))
+	if ( IExec->FindName( & mySysBase->DeviceList, "usb3.device" ))
 	{
 //		IExec->DebugPrintF( "11\n" );
 		goto bailout;
@@ -148,7 +148,7 @@ PTR node;
 
 	usbbase->usb_Library.lib_Node.ln_Type	= NT_DEVICE;
 	usbbase->usb_Library.lib_Node.ln_Pri	= 0;
-	usbbase->usb_Library.lib_Node.ln_Name	= (STR) "usb2.device",
+	usbbase->usb_Library.lib_Node.ln_Name	= (STR) "usb3.device",
 	usbbase->usb_Library.lib_Flags			= LIBF_SUMUSED | LIBF_CHANGED;
 	usbbase->usb_Library.lib_Version		= VERSION;
 	usbbase->usb_Library.lib_Revision		= REVISION;
@@ -177,9 +177,9 @@ PTR node;
 	usbbase->usb_IMMU			= (PTR) IExec->GetInterface( (PTR) mySysBase, "mmu", 1, NULL );
 	usbbase->usb_IUSB2			= (PTR) IExec->GetInterface( (PTR) usbbase, "main", 1, NULL );
 
-	IExec->DebugPrintF( "USB2: ExpansionBase=%p IExpansion=%p IPCI=%p\n",
+	IExec->DebugPrintF( "USB3: ExpansionBase=%p IExpansion=%p IPCI=%p\n",
 		usbbase->usb_ExpansionBase, usbbase->usb_IExpansion, usbbase->usb_IPCI );
-	IExec->DebugPrintF( "USB2: ITimer=%p IMMU=%p IUSB2=%p\n",
+	IExec->DebugPrintF( "USB3: ITimer=%p IMMU=%p IUSB2=%p\n",
 		usbbase->usb_ITimer, usbbase->usb_IMMU, usbbase->usb_IUSB2 );
 
 	if (( ! usbbase->usb_IUtility )
@@ -189,7 +189,7 @@ PTR node;
 	||	( ! usbbase->usb_ITimer )
 	||	( ! usbbase->usb_IUSB2 ))
 	{
-		IExec->DebugPrintF( "USB2: Interface check FAILED: IUtility=%p IExpansion=%p IPCI=%p IMMU=%p ITimer=%p IUSB2=%p\n",
+		IExec->DebugPrintF( "USB3: Interface check FAILED: IUtility=%p IExpansion=%p IPCI=%p IMMU=%p ITimer=%p IUSB2=%p\n",
 			usbbase->usb_IUtility, usbbase->usb_IExpansion, usbbase->usb_IPCI,
 			usbbase->usb_IMMU, usbbase->usb_ITimer, usbbase->usb_IUSB2 );
 		goto bailout;
@@ -331,7 +331,7 @@ PTR node;
 	if ( ! HCD_CONTROLLERS_FIND() )
 	{
 		// Hmm keep output
-		IExec->DebugPrintF( "USB : No Controllers found\n" );
+		IExec->DebugPrintF( "USB3: No Controllers found\n" );
 		goto bailout;
 	}
 
@@ -438,7 +438,7 @@ PTR node;
 	IExec->AddDevice( (PTR) usbbase );
 
 //	USBERROR( "Rock'n Roll" );
-	IExec->DebugPrintF( "USB : Rock'n Roll\n" );
+	IExec->DebugPrintF( "USB3: Rock'n Roll\n" );
 
 //	IExec->Wait(0);
 

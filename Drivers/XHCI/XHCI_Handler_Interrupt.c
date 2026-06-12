@@ -13,7 +13,7 @@
 
 // --
 
-SEC_CODE U32 XHCI_Handler_Interrupt( struct ExceptionContext *Context UNUSED, struct ExecBase *SysBase, PTR userData )
+SEC_CODE U32 XHCI_Handler_Interrupt( struct ExceptionContext *Context UNUSED, struct ExecBase *SysBase UNUSED, PTR userData )
 {
 struct USB2_HCDNode *hn;
 struct USBBase *usbbase;
@@ -51,14 +51,14 @@ U32 sigflags;
 
 	sigflags = 0;
 
-	// Host System Error — signal for chip restart
+	// Host System Error -- signal for chip restart
 	if ( status & XHCI_STS_HSE )
 	{
 		sigflags |= hn->HCD_Restart_Chip.sig_Signal_Mask;
 		IExec->DebugPrintF( "XHCI: Host System Error!\n" );
 	}
 
-	// Event interrupt or Port Change — signal HCD task to process events
+	// Event interrupt or Port Change -- signal HCD task to process events
 	if ( status & XHCI_STS_EINT )
 	{
 		sigflags |= xhci->Signal_Event.sig_Signal_Mask;

@@ -18,7 +18,7 @@ struct ExecIFace *IExec;
 struct USBBase *usbbase;
 PTR seglist;
 
-	TASK_NAME_ENTER( "USB : _manager_Expunge" );
+	TASK_NAME_ENTER( "USB3: _manager_Expunge" );
 
 	usbbase = (PTR) Self->Data.LibBase;
 

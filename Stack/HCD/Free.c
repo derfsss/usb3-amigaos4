@@ -119,6 +119,32 @@ enum FSTAT fstat;
 
 	USBINFO( "__HCD_Free               : Freeing %p : (%s)", hn, (file)?file:"<NULL>" );
 
+	// -- Release the PCIDevice resources we acquired in Controllers_Find.
+	// Order matters: free the resource range first (it was queried via
+	// pcidev->GetResourceRange), then unlock the device, then drop our
+	// reference. The autodoc explicitly states GetResourceRange's return
+	// value MUST be released with FreeResourceRange, and any device that
+	// was Lock()'d must be Unlock()'d before we stop using it.
+
+	if ( hn->hn_PCIDevice )
+	{
+		if ( hn->hn_PCIDevResource )
+		{
+			hn->hn_PCIDevice->FreeResourceRange( hn->hn_PCIDevResource );
+			hn->hn_PCIDevResource = NULL;
+		}
+		if ( hn->hn_PCIDevLock )
+		{
+			hn->hn_PCIDevice->Unlock();
+			hn->hn_PCIDevLock = 0;
+		}
+		// Release the PCIDevice interface itself (matches FindDeviceTags
+		// in Controllers_Find). Per autodoc, the interface returned by
+		// FindDevice "must be released with FreeDevice after use".
+		usbbase->usb_IPCI->FreeDevice( hn->hn_PCIDevice );
+		hn->hn_PCIDevice = NULL;
+	}
+
 	// --
 
 	#ifdef DO_PANIC

@@ -416,7 +416,7 @@ U8 *inp;
 		return( FALSE );
 	}
 
-	// Walk interface groups → interface headers → active interface node → endpoints
+	// Walk interface groups -> interface headers -> active interface node -> endpoints
 	{
 	struct USB2_InterfaceGroup *ig;
 

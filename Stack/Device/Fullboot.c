@@ -43,7 +43,7 @@ struct DOSIFace *IDOS;
 struct Library *DOSBase;
 
 	IExec = (PTR)(*(struct ExecBase **)4)->MainInterface;
-	IExec->DebugPrintF( "USB : Full Boot\n" );
+	IExec->DebugPrintF( "USB3: Full Boot\n" );
 
 	IDOS = NULL;
 
@@ -142,7 +142,7 @@ U8 usbstat;
 		goto bailout;
 	}
 
-	usbstat = IExec->OpenDevice( "usb2.device", 0, usbreq, 0 );
+	usbstat = IExec->OpenDevice( "usb3.device", 0, usbreq, 0 );
 
 	// OpenDevice changes DebugLevel so reset it
 

@@ -249,7 +249,7 @@ U32 cnt;
 
 	IPCI = usbbase->usb_IPCI;
 
-	usbbase->usb_IExec->DebugPrintF( "USB2: _do_PCI: IPCI=%p, searching class=0x%06lx\n",
+	usbbase->usb_IExec->DebugPrintF( "USB3: _do_PCI: IPCI=%p, searching class=0x%06lx\n",
 		IPCI, fs->fs_IOBase );
 
 	idx = 0;
@@ -258,7 +258,7 @@ U32 cnt;
 	{
 		// --
 
-		usbbase->usb_IExec->DebugPrintF( "USB2: _do_PCI: FindDeviceTags(class=0x%06lx, mask=0x%08lx, idx=%ld)\n",
+		usbbase->usb_IExec->DebugPrintF( "USB3: _do_PCI: FindDeviceTags(class=0x%06lx, mask=0x%08lx, idx=%ld)\n",
 			fs->fs_IOBase, 0x00ffffff, idx );
 
 		pcidev = IPCI->FindDeviceTags(
@@ -268,7 +268,7 @@ U32 cnt;
 			TAG_END
 		);
 
-		usbbase->usb_IExec->DebugPrintF( "USB2: _do_PCI: FindDeviceTags returned pcidev=%p\n", pcidev );
+		usbbase->usb_IExec->DebugPrintF( "USB3: _do_PCI: FindDeviceTags returned pcidev=%p\n", pcidev );
 
 		if ( ! pcidev )
 		{
@@ -293,8 +293,9 @@ U32 cnt;
 
 		// --
 
+		node->hn_PCIDevice  = pcidev;
 		node->hn_PCIDevLock = pcidev->Lock( PCI_LOCK_EXCLUSIVE );
-	
+
 		if ( ! node->hn_PCIDevLock )
 		{
 			USBERROR( "Error locking PCI device" );
@@ -325,7 +326,7 @@ U32 cnt;
 		node->hn_PCIDevResource = range;
 		node->hn_PCIDevIOBase = range->BaseAddress;
 
-		usbbase->usb_IExec->DebugPrintF( "USB2: _do_PCI: BAR BaseAddress=0x%08lx, Flags=0x%08lx, Size=0x%08lx\n",
+		usbbase->usb_IExec->DebugPrintF( "USB3: _do_PCI: BAR BaseAddress=0x%08lx, Flags=0x%08lx, Size=0x%08lx\n",
 			range->BaseAddress, range->Flags, range->Size );
 
 		if ( ! node->hn_PCIDevIOBase )
@@ -336,7 +337,7 @@ U32 cnt;
 
 		node->hn_HCDInterruptNr = pcidev->MapInterrupt();
 
-		usbbase->usb_IExec->DebugPrintF( "USB2: _do_PCI: IRQ=%ld, I/O=%s\n",
+		usbbase->usb_IExec->DebugPrintF( "USB3: _do_PCI: IRQ=%ld, I/O=%s\n",
 			node->hn_HCDInterruptNr, (range->Flags & PCI_RANGE_IO) ? "PIO" : "MMIO" );
 
 		// --
@@ -433,7 +434,7 @@ U32 pos;
 
 	IExec	= usbbase->usb_IExec;
 
-	IExec->DebugPrintF( "USB2: Controllers_Find: IPCI=%p MachineType=%ld\n",
+	IExec->DebugPrintF( "USB3: Controllers_Find: IPCI=%p MachineType=%ld\n",
 		usbbase->usb_IPCI, usbbase->usb_MachineType );
 
 	retval	= FALSE;
@@ -451,13 +452,13 @@ U32 pos;
 
 		/**/ if ( _FindList[pos].fs_Type1 == FT1_Onboard )
 		{
-			IExec->DebugPrintF( "USB2: [%ld] Onboard scan, machine=%ld, IOBase=0x%08lx\n",
+			IExec->DebugPrintF( "USB3: [%ld] Onboard scan, machine=%ld, IOBase=0x%08lx\n",
 				pos, _FindList[pos].fs_Machine, _FindList[pos].fs_IOBase );
 			_do_Onboard( usbbase, & in, & _FindList[pos] );
 		}
 		else if ( _FindList[pos].fs_Type1 == FT1_PCI )
 		{
-			IExec->DebugPrintF( "USB2: [%ld] PCI scan, class=0x%06lx\n",
+			IExec->DebugPrintF( "USB3: [%ld] PCI scan, class=0x%06lx\n",
 				pos, _FindList[pos].fs_IOBase );
 			_do_PCI( usbbase, & in, & _FindList[pos] );
 		}

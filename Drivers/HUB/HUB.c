@@ -93,7 +93,7 @@ U32 retval;
 
 	struct RealFunctionNode *fn = (PTR) msg->Function;
 
-	usbbase->usb_IExec->DebugPrintF( "USB2: HUB_Entry: addr=%ld tier=%ld port=%ld HCD=#%ld\n",
+	usbbase->usb_IExec->DebugPrintF( "USB3: HUB_Entry: addr=%ld tier=%ld port=%ld HCD=#%ld\n",
 		(U32) fn->fkt_Address, (U32) fn->fkt_Tier, (U32) fn->fkt_PortNr,
 		fn->fkt_HCD ? fn->fkt_HCD->hn_HCDIndex : -1 );
 

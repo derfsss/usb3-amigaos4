@@ -67,6 +67,7 @@
 #define XHCI_STS_EINT				0x00000008UL	// Event Interrupt
 #define XHCI_STS_PCD				0x00000010UL	// Port Change Detect
 #define XHCI_STS_CNR				0x00000800UL	// Controller Not Ready
+#define XHCI_STS_HCE				0x00001000UL	// Host Controller Error (unrecoverable)
 
 // PORTSC bits
 #define XHCI_PS_CCS				0x00000001UL	// Current Connect Status
@@ -84,9 +85,22 @@
 #define XHCI_PS_OCC				0x00100000UL	// Over-current Change
 #define XHCI_PS_PRC				0x00200000UL	// Port Reset Change
 #define XHCI_PS_PLC				0x00400000UL	// Port Link State Change
+#define XHCI_PS_LWS				0x00010000UL	// Port Link State Write Strobe (commits PLS write)
+#define XHCI_PS_WPR				0x80000000UL	// Warm Port Reset (RW1S)
 
-// PORTSC RW1C mask — all change bits that must be preserved when writing
+// PORTSC RW1C change bits -- writing 1 clears the change flag
 #define XHCI_PS_CHANGE_MASK			(XHCI_PS_CSC | XHCI_PS_PEC | XHCI_PS_WRC | XHCI_PS_OCC | XHCI_PS_PRC | XHCI_PS_PLC)
+
+// PORTSC bits that trigger an ACTION when written as 1: PED is RW1C and
+// writing 1 DISABLES the port, PR/WPR are RW1S and start a reset, LWS
+// commits a PLS change. A read-modify-write of PORTSC that preserves any
+// of these re-triggers the action -- e.g. writing back PED=1 while
+// clearing PRC silently disables the port just enabled by the reset.
+// Same idea as Linux's xhci_port_state_to_neutral().
+#define XHCI_PS_W1_ACTION_MASK			(XHCI_PS_PED | XHCI_PS_PR | XHCI_PS_WPR | XHCI_PS_LWS)
+
+// Everything that must be stripped from a PORTSC value before writing it back
+#define XHCI_PS_WRITE_STRIP_MASK		(XHCI_PS_CHANGE_MASK | XHCI_PS_W1_ACTION_MASK)
 
 // Port speed values (from PORTSC)
 #define XHCI_PS_SPEED_FS			1		// Full Speed
@@ -133,7 +147,7 @@
 #define XHCI_DB_TARGET(ep)			(ep)			// Doorbell target = DCI (Device Context Index)
 
 /***************************************************************************/
-// TRB (Transfer Request Block) — 16 bytes
+// TRB (Transfer Request Block) -- 16 bytes
 
 struct XHCI_TRB
 {
@@ -163,7 +177,7 @@ struct XHCI_TRB
 #define XHCI_TRB_SET_TYPE(x)		((x) << XHCI_TRB_TYPE_SHIFT)
 #define XHCI_TRB_GET_TYPE(x)		(((x) >> XHCI_TRB_TYPE_SHIFT) & 0x3FU)
 
-// TRB types — Transfer
+// TRB types -- Transfer
 #define XHCI_TRB_NORMAL			1
 #define XHCI_TRB_SETUP				2
 #define XHCI_TRB_DATA				3
@@ -173,7 +187,7 @@ struct XHCI_TRB
 #define XHCI_TRB_EVENT_DATA		7
 #define XHCI_TRB_NOOP				8
 
-// TRB types — Command
+// TRB types -- Command
 #define XHCI_TRB_ENABLE_SLOT		9
 #define XHCI_TRB_DISABLE_SLOT		10
 #define XHCI_TRB_ADDRESS_DEVICE		11
@@ -185,33 +199,33 @@ struct XHCI_TRB
 #define XHCI_TRB_RESET_DEVICE		17
 #define XHCI_TRB_NOOP_CMD			23
 
-// TRB types — Event
+// TRB types -- Event
 #define XHCI_TRB_TRANSFER_EVENT		32
 #define XHCI_TRB_CMD_COMPLETION		33
 #define XHCI_TRB_PORT_STATUS_CHG	34
 #define XHCI_TRB_HOST_CTRL_ERROR	37
 
-// TRB status field — transfer length (bits 0-16)
+// TRB status field -- transfer length (bits 0-16)
 #define XHCI_TRB_SET_XFERLEN(x)	((x) & 0x1FFFFU)
 #define XHCI_TRB_GET_XFERLEN(x)	((x) & 0x1FFFFU)
 
-// TRB status field — completion code (bits 24-31, in event TRBs)
+// TRB status field -- completion code (bits 24-31, in event TRBs)
 #define XHCI_TRB_GET_COMPCODE(x)	(((x) >> 24) & 0xFFU)
 
-// TRB status field — interrupter target (bits 22-31)
+// TRB status field -- interrupter target (bits 22-31)
 #define XHCI_TRB_SET_INTR(x)		(((x) & 0x3FFU) << 22)
 
-// TRB status field — TD Size (bits 17-21)
+// TRB status field -- TD Size (bits 17-21)
 #define XHCI_TRB_SET_TDSIZE(x)		(((x) & 0x1FU) << 17)
 
-// TRB control field — Slot ID (bits 24-31, in command TRBs)
+// TRB control field -- Slot ID (bits 24-31, in command TRBs)
 #define XHCI_TRB_SET_SLOT(x)		(((x) & 0xFFU) << 24)
 #define XHCI_TRB_GET_SLOT(x)		(((x) >> 24) & 0xFFU)
 
-// TRB control field — Endpoint ID (bits 16-20, in command TRBs)
+// TRB control field -- Endpoint ID (bits 16-20, in command TRBs)
 #define XHCI_TRB_SET_EP(x)			(((x) & 0x1FU) << 16)
 
-// Setup TRB — Transfer Type (bits 16-17 of control)
+// Setup TRB -- Transfer Type (bits 16-17 of control)
 #define XHCI_TRB_TRT_NODATA		(0U << 16)
 #define XHCI_TRB_TRT_OUT			(2U << 16)
 #define XHCI_TRB_TRT_IN			(3U << 16)
@@ -232,7 +246,7 @@ struct XHCI_TRB
 #define XHCI_CC_STOPPED_LENGTH		27
 
 /***************************************************************************/
-// Event Ring Segment Table Entry — 16 bytes
+// Event Ring Segment Table Entry -- 16 bytes
 
 struct XHCI_ERSTE
 {
@@ -243,7 +257,7 @@ struct XHCI_ERSTE
 };
 
 /***************************************************************************/
-// Slot Context — 32 bytes (or 64 if CSZ=1)
+// Slot Context -- 32 bytes (or 64 if CSZ=1)
 
 struct XHCI_SlotCtx
 {
@@ -263,7 +277,7 @@ struct XHCI_SlotCtx
 #define XHCI_SCTX_SET_RHPORT(x)	(((x) & 0xFFU) << 16)
 
 /***************************************************************************/
-// Endpoint Context — 32 bytes (or 64 if CSZ=1)
+// Endpoint Context -- 32 bytes (or 64 if CSZ=1)
 
 struct XHCI_EPCtx
 {
@@ -298,11 +312,11 @@ struct XHCI_EPCtx
 #define XHCI_EPCTX_SET_AVGTRB(x)	((x) & 0xFFFFU)
 #define XHCI_EPCTX_SET_MAXESIT(x)	(((x) & 0xFFFFU) << 16)
 
-// Dequeue pointer — DCS bit
+// Dequeue pointer -- DCS bit
 #define XHCI_EPCTX_DCS				0x00000001UL
 
 /***************************************************************************/
-// Input Control Context — 32 bytes (or 64 if CSZ=1)
+// Input Control Context -- 32 bytes (or 64 if CSZ=1)
 
 struct XHCI_InputCtrlCtx
 {
@@ -335,11 +349,13 @@ struct XHCI_Slot
 	U32					input_ctx_phy;
 	struct XHCI_Ring	transfer_ring[31];	// Transfer rings per endpoint (DCI 1-31)
 	U8					enabled;
-	U8					pad[3];
+	volatile U8			LastTransfer_Done;	// Set by handler when a TransferEvent arrives for this slot
+	U8					LastTransfer_CC;	// Completion code from last transfer event
+	U8					pad;
 };
 
 /***************************************************************************/
-// Main XHCI state — embedded in USB2_HCDNode.hn_HCD.XHCI
+// Main XHCI state -- embedded in USB2_HCDNode.hn_HCD.XHCI
 
 struct _XHCI
 {
@@ -379,7 +395,14 @@ struct _XHCI
 	// Port tracking
 	U8 *					PortResetChange;
 
-	// Address-to-slot mapping (USB address 0-127 → XHCI slot ID)
+	// Per-port cached speed (post-reset snapshot). The Renesas uPD720202
+	// drops the PORTSC speed field back to 0 ("Undefined") after software
+	// clears PRC, so we cache the speed observed during the post-reset
+	// frame and use it later when SET_ADDRESS interception needs to fill
+	// the Slot Context. Indexed by 1-based port number (1..MaxPorts).
+	U8						PortSpeed[16];
+
+	// Address-to-slot mapping (USB address 0-127 -> XHCI slot ID)
 	U8						SlotID_ByAddress[128];
 
 	// Signals

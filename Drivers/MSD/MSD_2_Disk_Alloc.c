@@ -127,7 +127,7 @@ U8 type;
 
 	if (( ! blk_size ) || (( blk_size & ( blk_size - 1 )))) 
 	{
-		// Not a power of two → fail (or fallback to 512 if you prefer)
+		// Not a power of two -> fail (or fallback to 512 if you prefer)
 		USBERROR( "MSD : TD_GetGeometry : bad Block Size %llu (Defaults to 512)", blk_size );
 		blk_size = 512;
 	}

@@ -31,6 +31,38 @@ U32 speed;
 
 	usbbase->usb_IExec->DebugPrintF( "XHCI: Port_Get_Status(%ld) PORTSC=0x%08lx\n", port, status );
 
+	// xHCI 1.1 4.19.1.1.4: a SuperSpeed port stuck in Compliance Mode (PLS=10)
+	// can be recovered by software writing PLS=5 (RxDetect) with LWS=1, which
+	// restarts the LTSSM cycle. Try this whenever we see compliance on a poll.
+	{
+		U32 pls = ( status & XHCI_PS_PLS_MASK ) >> XHCI_PS_PLS_SHIFT;
+
+		if ( pls == 10 )
+		{
+			U32 escape;
+
+			usbbase->usb_IExec->DebugPrintF(
+				"USB3: Port %ld stuck in Compliance Mode (PLS=10) - escaping to RxDetect\n",
+				port );
+
+			escape  = status & ~XHCI_PS_WRITE_STRIP_MASK;	// neutral write base
+			escape &= ~XHCI_PS_PLS_MASK;				// clear PLS field
+			escape |= ( 5U << XHCI_PS_PLS_SHIFT );		// PLS=5 (RxDetect)
+			escape |= XHCI_PS_LWS;						// LWS=1 to commit PLS write
+
+			PCI_WRITELONG( xhci->OpBase + XHCI_PORTSC( port - 1 ), escape );
+
+			// Brief settle and re-read to report new state
+			HCD_WAIT_MS( hn, 5 );
+			status = PCI_READLONG( xhci->OpBase + XHCI_PORTSC( port - 1 ) );
+
+			usbbase->usb_IExec->DebugPrintF(
+				"USB3: Port %ld post-escape PORTSC=0x%08lx (PLS=%ld)\n",
+				port, status,
+				( status & XHCI_PS_PLS_MASK ) >> XHCI_PS_PLS_SHIFT );
+		}
+	}
+
 	// Connection
 	if ( status & XHCI_PS_CCS )
 	{
@@ -93,7 +125,7 @@ U32 speed;
 	// Clear hardware PRC to prevent it from triggering spurious changes.
 	if ( status & XHCI_PS_PRC )
 	{
-		U32 clr = status & ~XHCI_PS_CHANGE_MASK;
+		U32 clr = status & ~XHCI_PS_WRITE_STRIP_MASK;
 		clr |= XHCI_PS_PRC;
 		PCI_WRITELONG( xhci->OpBase + XHCI_PORTSC( port - 1 ), clr );
 	}

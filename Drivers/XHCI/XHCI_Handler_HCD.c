@@ -38,7 +38,7 @@ U32 ctrl;
 
 		ctrl = LE_SWAP32( trb->trb_control );
 
-		// Check cycle bit — if it doesn't match our expected cycle, ring is empty
+		// Check cycle bit -- if it doesn't match our expected cycle, ring is empty
 		if ( ( ctrl & XHCI_TRB_CYCLE ) != xhci->EvtRing.cycle )
 		{
 			break;
@@ -64,13 +64,23 @@ U32 ctrl;
 		}
 		else if ( type == XHCI_TRB_TRANSFER_EVENT )
 		{
-			// Transfer Event — match to pending IORequest by slot ID
+			// Transfer Event -- match to pending IORequest by slot ID
 			U32 evt_slot = XHCI_TRB_GET_SLOT( ctrl );
 			U32 evt_cc   = XHCI_TRB_GET_COMPCODE( LE_SWAP32( trb->trb_status ) );
 			U32 evt_len  = XHCI_TRB_GET_XFERLEN( LE_SWAP32( trb->trb_status ) );
 
 			usbbase->usb_IExec->DebugPrintF( "XHCI: TransferEvent slot=%ld cc=%ld residual=%ld\n",
 				evt_slot, evt_cc, evt_len );
+
+			// Stash the last transfer outcome on the slot itself so that
+			// in-context callers (e.g. the GET_DESCRIPTOR(8) injection in
+			// Port_Set_Reset that runs without an IORequest) can poll for
+			// completion. Existing IORequest matching below still applies.
+			if ( evt_slot && evt_slot <= xhci->MaxSlots && xhci->Slots[ evt_slot ] )
+			{
+				xhci->Slots[ evt_slot ]->LastTransfer_CC   = (U8) evt_cc;
+				xhci->Slots[ evt_slot ]->LastTransfer_Done = 1;
+			}
 
 			struct RealRequest *scan = hn->hn_Active_Transfer_List.uh_Head;
 

@@ -13,7 +13,7 @@
 
 // --
 
-// Stub — will be implemented in Phase 3c/3d/3e
+// Stub -- will be implemented in Phase 3c/3d/3e
 
 SEC_CODE U32 XHCI_Bulk_Length( struct USB2_HCDNode *hn UNUSED, struct RealRequest *ioreq UNUSED )
 {

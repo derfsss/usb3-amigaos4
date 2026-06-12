@@ -19,7 +19,7 @@
 
 #define MAX_MSD_UNITS			32
 
-#define MSD_Device_Name			"usb2disk.device"
+#define MSD_Device_Name			"usb3disk.device"
 #define MSD_Device_Version		1
 #define MSD_Device_Revision		0
 

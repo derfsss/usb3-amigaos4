@@ -75,7 +75,7 @@ S32 err;
 		goto bailout;
 	}
 
-	usbbase->usb_IExec->DebugPrintF( "USB2: Port_Chg: port=%ld status=0x%04lx change=0x%04lx err=%ld\n",
+	usbbase->usb_IExec->DebugPrintF( "USB3: Port_Chg: port=%ld status=0x%04lx change=0x%04lx err=%ld\n",
 		port, (U32) stat.wPortStatus, (U32) stat.wPortChange, err );
 
 	// -- Handle Port Change

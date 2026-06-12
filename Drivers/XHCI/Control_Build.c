@@ -32,30 +32,65 @@ U32 desired_addr;
 	port  = fn->fkt_PortNr;
 	speed = fn->fkt_Speed;
 
+	// fn->fkt_Speed is what the HUB driver thinks the device is, which for
+	// root-hub ports is unreliable (observed: always Full-Speed). Use the
+	// negotiated speed that Port_Set_Reset cached from the post-reset
+	// PORTSC frame instead -- that is the authoritative value for filling
+	// in the Slot Context.
+	if ( port < ( sizeof( xhci->PortSpeed ) / sizeof( xhci->PortSpeed[0] ) )
+	&&   xhci->PortSpeed[ port ] != 0 )
+	{
+		U32 cached = xhci->PortSpeed[ port ];
+
+		usbbase->usb_IExec->DebugPrintF(
+			"USB3: SET_ADDRESS: using cached post-reset usb_speed=%ld for port %ld (HUB driver said %ld)\n",
+			cached, port, speed );
+
+		speed = cached;
+	}
+	else
+	{
+		usbbase->usb_IExec->DebugPrintF(
+			"USB3: SET_ADDRESS: no cached speed for port %ld, falling back to HUB driver value %ld\n",
+			port, speed );
+	}
+
 	// Get desired address from setup packet (fn->fkt_Address is temporarily 0)
 	desired_addr = LE_SWAP16( ioreq->req_Public.io_SetupData->Value );
 
 	usbbase->usb_IExec->DebugPrintF( "XHCI: SET_ADDRESS intercepted (port=%ld speed=%ld addr=%ld)\n",
 		port, speed, desired_addr );
 
-	// The slot was already created during Port_Set_Reset with BSR=1.
-	// Look it up from address 0 (default address).
+	// Port_Set_Reset defers slot creation to this interception, so address
+	// 0 normally has no slot yet. (A non-zero entry would come from an HCD
+	// variant that pre-allocates the slot during port reset.)
 	slotid = xhci->SlotID_ByAddress[0];
+
+	usbbase->usb_IExec->DebugPrintF(
+		"USB3: SET_ADDRESS: SlotID_ByAddress[0]=%ld\n", slotid );
 
 	if ( ! slotid )
 	{
-		// Fallback: create slot now if not done during port reset
+		usbbase->usb_IExec->DebugPrintF(
+			"USB3: SET_ADDRESS: no slot for address 0 yet, doing EnableSlot+SlotAlloc\n" );
+
 		slotid = XHCI_Cmd_EnableSlot( hn );
 
 		if ( ! slotid )
 		{
+			usbbase->usb_IExec->DebugPrintF(
+				"USB3: SET_ADDRESS: EnableSlot FAILED\n" );
 			USBERROR( "XHCI: SET_ADDRESS: Enable Slot failed" );
 			ioreq->req_Public.io_Error = USB2Err_Host_HostError;
 			return( TRUE );
 		}
 
-		if ( ! XHCI_Slot_Alloc( hn, slotid, port, speed ) )
+		// XHCI_Slot_Alloc expects a 0-based port index (it does +1 internally
+		// to set the 1-based RHPORT field). fn->fkt_PortNr is 1-based.
+		if ( ! XHCI_Slot_Alloc( hn, slotid, port - 1, speed ) )
 		{
+			usbbase->usb_IExec->DebugPrintF(
+				"USB3: SET_ADDRESS: Slot_Alloc FAILED, releasing slot %ld\n", slotid );
 			USBERROR( "XHCI: SET_ADDRESS: Slot Alloc failed" );
 			XHCI_Cmd_DisableSlot( hn, slotid );
 			ioreq->req_Public.io_Error = USB2Err_Stack_NoMemory;
@@ -64,12 +99,19 @@ U32 desired_addr;
 	}
 
 	// Issue Address Device command (bsr=0 for full address assignment)
+	usbbase->usb_IExec->DebugPrintF(
+		"USB3: SET_ADDRESS: calling AddressDevice(slot=%ld, bsr=0) -> assign addr %ld\n",
+		slotid, desired_addr );
+
 	if ( ! XHCI_Cmd_AddressDevice( hn, slotid, 0 ) )
 	{
+		usbbase->usb_IExec->DebugPrintF(
+			"USB3: SET_ADDRESS: AddressDevice(BSR=0) FAILED - tearing down slot %ld\n", slotid );
 		USBERROR( "XHCI: SET_ADDRESS: Address Device failed" );
 		XHCI_Slot_Free( hn, slotid );
 		XHCI_Cmd_DisableSlot( hn, slotid );
 		ioreq->req_Public.io_Error = USB2Err_Host_HostError;
+		xhci->SlotID_ByAddress[0] = 0;	// invalidate stale mapping
 		return( TRUE );
 	}
 
@@ -88,7 +130,7 @@ U32 desired_addr;
 	usbbase->usb_IExec->DebugPrintF( "XHCI: SET_ADDRESS complete (slot=%ld addr=%ld)\n",
 		slotid, desired_addr );
 
-	// Return TRUE — SET_ADDRESS completed synchronously
+	// Return TRUE -- SET_ADDRESS completed synchronously
 	return( TRUE );
 }
 
@@ -198,17 +240,17 @@ U32 status_dir;
 	if ( data_len == 0 )
 	{
 		trt = XHCI_TRB_TRT_NODATA;
-		status_dir = XHCI_TRB_DIR_IN;		// No data → status IN
+		status_dir = XHCI_TRB_DIR_IN;		// No data -> status IN
 	}
 	else if ( ioreq->req_Public.io_Command == CMD_READ )
 	{
 		trt = XHCI_TRB_TRT_IN;
-		status_dir = 0;						// Data IN → status OUT
+		status_dir = 0;						// Data IN -> status OUT
 	}
 	else
 	{
 		trt = XHCI_TRB_TRT_OUT;
-		status_dir = XHCI_TRB_DIR_IN;		// Data OUT → status IN
+		status_dir = XHCI_TRB_DIR_IN;		// Data OUT -> status IN
 	}
 
 	// -- Setup Stage TRB (type=2, IDT=Immediate Data)

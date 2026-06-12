@@ -14,7 +14,7 @@
 
 SEC_CODE static U32 _manager_Obtain( struct Interface *Self )
 {
-	TASK_NAME_ENTER( "USB : _manager_Obtain" );
+	TASK_NAME_ENTER( "USB3: _manager_Obtain" );
 
 	Self->Data.RefCount++;
 

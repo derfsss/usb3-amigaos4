@@ -174,7 +174,7 @@ S32 stat;
 		goto bailout;
 	}
 
-	// Phase error or other unexpected status → transport failure
+	// Phase error or other unexpected status -> transport failure
 	ioreq->io_Error = IOERR_BADLENGTH;
 
 	// --

@@ -21,7 +21,7 @@ SEC_CODE static S32 _manager_Open(
 struct USB2_DeviceUnit *unit;
 struct USBBase *usbbase;
 
-	TASK_NAME_ENTER( "USB : _manager_Open" );
+	TASK_NAME_ENTER( "USB3: _manager_Open" );
 
 	usbbase = (PTR) Self->Data.LibBase;
 //	usbbase->usb_IExec->DebugPrintF( "manager_open\n" );

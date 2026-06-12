@@ -29,12 +29,12 @@ enum LSTAT lstat;
 
 	USBDEBUG( "__Register_Lock          : REG   %p : Locks %2ld (old) : (%s)", reg, ( reg )?reg->reg_Locks:0, (file)?file:"<NULL>" );
 
-	usbbase->usb_IExec->DebugPrintF( "USB: RegLock: sem obtain [%s] reg=%p\n",
+	usbbase->usb_IExec->DebugPrintF( "USB3: RegLock: sem obtain [%s] reg=%p\n",
 		usbbase->usb_IExec->FindTask(NULL)->tc_Node.ln_Name, reg );
 
 	SEMAPHORE_OBTAIN( & usbbase->usb_LockSemaphore );
 
-	usbbase->usb_IExec->DebugPrintF( "USB: RegLock: sem GOT [%s]\n",
+	usbbase->usb_IExec->DebugPrintF( "USB3: RegLock: sem GOT [%s]\n",
 		usbbase->usb_IExec->FindTask(NULL)->tc_Node.ln_Name );
 
 	if ( REGISTER_VALID( reg ) == VSTAT_Okay )

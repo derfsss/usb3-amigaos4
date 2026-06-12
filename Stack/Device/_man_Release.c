@@ -14,7 +14,7 @@
 
 SEC_CODE static U32 _manager_Release( struct Interface *Self )
 {
-	TASK_NAME_ENTER( "USB : _manager_Release" );
+	TASK_NAME_ENTER( "USB3: _manager_Release" );
 
 	Self->Data.RefCount--;
 

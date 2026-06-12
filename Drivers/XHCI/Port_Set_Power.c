@@ -28,8 +28,8 @@ U32 val;
 
 	val = PCI_READLONG( xhci->OpBase + XHCI_PORTSC( port - 1 ) );
 
-	// Preserve non-change bits, clear change bits, set PP
-	val &= ~XHCI_PS_CHANGE_MASK;
+	// Strip change bits and write-1-action bits, set PP
+	val &= ~XHCI_PS_WRITE_STRIP_MASK;
 	val |= XHCI_PS_PP;
 
 	PCI_WRITELONG( xhci->OpBase + XHCI_PORTSC( port - 1 ), val );

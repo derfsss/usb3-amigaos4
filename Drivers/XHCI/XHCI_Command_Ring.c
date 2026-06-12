@@ -27,7 +27,7 @@ U32 idx;
 
 	ring_trb = & xhci->CmdRing.trbs[ idx ];
 
-	// Write TRB fields (param and status first, control last — cycle bit activates it)
+	// Write TRB fields (param and status first, control last -- cycle bit activates it)
 	ring_trb->trb_param_lo = trb->trb_param_lo;
 	ring_trb->trb_param_hi = trb->trb_param_hi;
 	ring_trb->trb_status   = trb->trb_status;
@@ -88,17 +88,13 @@ U32 idx;
 static U32 XHCI_Cmd_Wait( struct USB2_HCDNode *hn )
 {
 struct _XHCI *xhci;
-U32 mask;
 U32 cnt;
 
 	struct USBBase *usbbase = hn->hn_USBBase;
 
 	xhci = & hn->hn_HCD.XHCI;
 
-	// Clear any pending command completion signal
-	mask = xhci->Signal_Command.sig_Signal_Mask;
-
-	// Poll for command completion — the HCD handler processes events
+	// Poll for command completion -- the HCD handler processes events
 	// and sets CmdResult_Code when a command completion event arrives.
 	// We poll since we might be called before the HCD task is running.
 
@@ -115,20 +111,33 @@ U32 cnt;
 		}
 
 		HCD_WAIT_MS( hn, 1 );
+
+		// Periodic heartbeat so a hung wait is visible
+		if ( cnt == 100 || cnt == 500 || cnt == 1000 || cnt == 2000 )
+		{
+			usbbase->usb_IExec->DebugPrintF(
+				"USB3: Cmd_Wait: %ld ms elapsed, no completion yet\n", cnt );
+		}
 	}
 
 	if ( xhci->CmdResult_Code == 0 )
 	{
+		usbbase->usb_IExec->DebugPrintF(
+			"USB3: Cmd_Wait: TIMEOUT after %ld ms - no completion event\n", cnt );
 		USBERROR( "XHCI: Command timeout (no completion event after 5s)" );
 		return( 0 );
 	}
+
+	usbbase->usb_IExec->DebugPrintF(
+		"USB3: Cmd_Wait: completion received after %ld ms, cc=%ld\n",
+		cnt, xhci->CmdResult_Code );
 
 	return( xhci->CmdResult_Code );
 }
 
 // --
 
-// Enable Slot command — returns slot ID (1-MaxSlots), or 0 on failure
+// Enable Slot command -- returns slot ID (1-MaxSlots), or 0 on failure
 
 SEC_CODE U32 XHCI_Cmd_EnableSlot( struct USB2_HCDNode *hn )
 {
@@ -150,7 +159,7 @@ U32 cc;
 		return( 0 );
 	}
 
-	usbbase->usb_IExec->DebugPrintF( "XHCI: Enable Slot → slot %ld\n",
+	usbbase->usb_IExec->DebugPrintF( "XHCI: Enable Slot -> slot %ld\n",
 		hn->hn_HCD.XHCI.CmdResult_SlotID );
 
 	return( hn->hn_HCD.XHCI.CmdResult_SlotID );
@@ -179,7 +188,7 @@ U32 cc;
 
 // --
 
-// Address Device command — sets device address via XHCI hardware
+// Address Device command -- sets device address via XHCI hardware
 // bsr=1: Block Set Address Request (don't assign address yet, just setup)
 // bsr=0: Full address assignment
 
@@ -195,8 +204,14 @@ U32 cc;
 	xhci = & hn->hn_HCD.XHCI;
 	slot = xhci->Slots[ slotid ];
 
+	usbbase->usb_IExec->DebugPrintF(
+		"USB3: AddressDevice ENTER slot=%ld bsr=%ld input_ctx_phy=0x%08lx\n",
+		slotid, bsr, slot ? slot->input_ctx_phy : 0 );
+
 	if ( ! slot )
 	{
+		usbbase->usb_IExec->DebugPrintF(
+			"USB3: AddressDevice: slot %ld not allocated, FAIL\n", slotid );
 		USBERROR( "XHCI: AddressDevice: slot %ld not allocated", slotid );
 		return( FALSE );
 	}
@@ -209,17 +224,27 @@ U32 cc;
 		XHCI_TRB_SET_SLOT( slotid ) |
 		( bsr ? XHCI_TRB_BSR : 0 ) );
 
+	usbbase->usb_IExec->DebugPrintF(
+		"USB3: AddressDevice: enqueueing TRB (control=0x%08lx)\n",
+		LE_SWAP32( trb.trb_control ) );
+
 	XHCI_Cmd_Enqueue( hn, & trb );
+
+	usbbase->usb_IExec->DebugPrintF(
+		"USB3: AddressDevice: TRB enqueued + doorbell rung, waiting for completion ...\n" );
 
 	cc = XHCI_Cmd_Wait( hn );
 
 	if ( cc != XHCI_CC_SUCCESS )
 	{
+		usbbase->usb_IExec->DebugPrintF(
+			"USB3: AddressDevice FAILED slot=%ld bsr=%ld cc=%ld\n",
+			slotid, bsr, cc );
 		USBERROR( "XHCI: Address Device failed (slot=%ld bsr=%ld cc=%ld)", slotid, bsr, cc );
 		return( FALSE );
 	}
 
-	usbbase->usb_IExec->DebugPrintF( "XHCI: Address Device slot %ld (bsr=%ld) → success\n", slotid, bsr );
+	usbbase->usb_IExec->DebugPrintF( "XHCI: Address Device slot %ld (bsr=%ld) -> success\n", slotid, bsr );
 
 	return( TRUE );
 }
@@ -263,14 +288,14 @@ U32 cc;
 		return( FALSE );
 	}
 
-	usbbase->usb_IExec->DebugPrintF( "XHCI: Configure Endpoint slot %ld → success\n", slotid );
+	usbbase->usb_IExec->DebugPrintF( "XHCI: Configure Endpoint slot %ld -> success\n", slotid );
 
 	return( TRUE );
 }
 
 // --
 
-// Evaluate Context command — used to update max packet size after reading device descriptor
+// Evaluate Context command -- used to update max packet size after reading device descriptor
 
 SEC_CODE S32 XHCI_Cmd_EvaluateContext( struct USB2_HCDNode *hn, U32 slotid )
 {
@@ -305,7 +330,7 @@ U32 cc;
 
 // --
 
-// Reset Endpoint command — used to clear a stalled endpoint
+// Reset Endpoint command -- used to clear a stalled endpoint
 
 SEC_CODE S32 XHCI_Cmd_ResetEndpoint( struct USB2_HCDNode *hn, U32 slotid, U32 dci )
 {

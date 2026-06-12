@@ -26,18 +26,18 @@ U32 cnt;
 
 	TASK_NAME_ENTER( "HID_Init" );
 
-	usbbase->usb_IExec->DebugPrintF( "USB: HID_Init: 1 MsgPort init\n" );
+	usbbase->usb_IExec->DebugPrintF( "USB3: HID_Init: 1 MsgPort init\n" );
 
 	if ( ! MSGPORT_INIT( & in->Input_MsgPort ))
 	{
-		usbbase->usb_IExec->DebugPrintF( "USB: HID_Init: MsgPort init FAILED\n" );
+		usbbase->usb_IExec->DebugPrintF( "USB3: HID_Init: MsgPort init FAILED\n" );
 		goto bailout;
 	}
 
 	MEM_COPY( usbbase->usb_InputIORequest, & in->Input_IOReq, sizeof( struct IOStdReq ));
 	in->Input_IOReq.io_Message.mn_ReplyPort = & in->Input_MsgPort.ump_MsgPort;
 
-	usbbase->usb_IExec->DebugPrintF( "USB: HID_Init: 2 Register\n" );
+	usbbase->usb_IExec->DebugPrintF( "USB3: HID_Init: 2 Register\n" );
 
 	in->Register = REGISTER_REGISTERTAGS(
 		USB2Tag_Reg_DriverMessage, in->StartMsg,
@@ -52,14 +52,14 @@ U32 cnt;
 		goto bailout;
 	}
 
-	usbbase->usb_IExec->DebugPrintF( "USB: HID_Init: 3 Register OK=%p\n", in->Register );
+	usbbase->usb_IExec->DebugPrintF( "USB3: HID_Init: 3 Register OK=%p\n", in->Register );
 
 	in->Res_Control = in->Register->reg_Public.Res_Control;
 	ifcdsc	= in->StartMsg->InterfaceDescriptor;
 	ioreq	= in->Res_Control->IORequests[0];
 	ifcnr	= ifcdsc->InterfaceNumber;
 
-	usbbase->usb_IExec->DebugPrintF( "USB: HID_Init: 4 Obtain interrupt EP (ifcnr=%ld)\n", ifcnr );
+	usbbase->usb_IExec->DebugPrintF( "USB3: HID_Init: 4 Obtain interrupt EP (ifcnr=%ld)\n", ifcnr );
 
 	in->Res_Interrupt = ENDPOINTRES_OBTAINTAGS( in->Register,
 		USB2Tag_EPRes_EPType, EPATT_Type_Interrupt,
@@ -70,11 +70,11 @@ U32 cnt;
 		TAG_END
 	);
 
-	usbbase->usb_IExec->DebugPrintF( "USB: HID_Init: 5 Res_Interrupt=%p\n", in->Res_Interrupt );
+	usbbase->usb_IExec->DebugPrintF( "USB3: HID_Init: 5 Res_Interrupt=%p\n", in->Res_Interrupt );
 
 	if ( ! in->Res_Interrupt )
 	{
-		usbbase->usb_IExec->DebugPrintF( "USB: HID_Init: Interrupt EP FAILED\n" );
+		usbbase->usb_IExec->DebugPrintF( "USB3: HID_Init: Interrupt EP FAILED\n" );
 		goto bailout;
 	}
 
@@ -121,23 +121,23 @@ U32 cnt;
 
 	// -- Check Supported modes
 
-	usbbase->usb_IExec->DebugPrintF( "USB: HID_Init: 6 mode=%ld\n", in->Driver_Mode );
+	usbbase->usb_IExec->DebugPrintF( "USB3: HID_Init: 6 mode=%ld\n", in->Driver_Mode );
 
 	/**/ if ( in->Driver_Mode == HID_DMode_Boot )
 	{
 		/**/ if ( ifcdsc->InterfaceProtocol == USBHID_PROTOCOL_KEYBOARD )
 		{
-			usbbase->usb_IExec->DebugPrintF( "USB: HID_Init: Boot Keyboard!\n" );
+			usbbase->usb_IExec->DebugPrintF( "USB3: HID_Init: Boot Keyboard!\n" );
 			in->Driver_Type = HID_DType_Keyboard;
 		}
 		else if ( ifcdsc->InterfaceProtocol == USBHID_PROTOCOL_MOUSE )
 		{
-			usbbase->usb_IExec->DebugPrintF( "USB: HID_Init: Boot Mouse!\n" );
+			usbbase->usb_IExec->DebugPrintF( "USB3: HID_Init: Boot Mouse!\n" );
 			in->Driver_Type = HID_DType_Mouse;
 		}
 		else
 		{
-			usbbase->usb_IExec->DebugPrintF( "USB: HID_Init: Unsupported boot protocol %ld\n", (U32) ifcdsc->InterfaceProtocol );
+			usbbase->usb_IExec->DebugPrintF( "USB3: HID_Init: Unsupported boot protocol %ld\n", (U32) ifcdsc->InterfaceProtocol );
 			goto bailout;
 		}
 	}

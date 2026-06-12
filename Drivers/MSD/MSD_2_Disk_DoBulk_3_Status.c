@@ -63,7 +63,7 @@ S32 tries;
 			}
 			else
 			{
-				// Short/long read without STALL → invalid CSW, fail fast.
+				// Short/long read without STALL -> invalid CSW, fail fast.
 				IExec->DebugPrintF ("CSW : unexpected size %ld (wanted %ld)\n", ioreq->io_Actual, (S32) sizeof( struct MSDCSW ));
 				stat = PS_Error;
 			}
@@ -84,7 +84,7 @@ S32 tries;
 		}
 		else
 		{
-			// Any other transport error (timeout, CRC, etc.) → fail
+			// Any other transport error (timeout, CRC, etc.) -> fail
 			stat = PS_Error;
 			break;
 		}

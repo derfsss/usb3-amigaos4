@@ -69,13 +69,13 @@ U32 to;
 
 	// --
 	
-	usbbase->usb_IExec->DebugPrintF( "USB: EPR_ObtainList: enter reg=%p\n", reg );
+	usbbase->usb_IExec->DebugPrintF( "USB3: EPR_ObtainList: enter reg=%p\n", reg );
 
 	epr = ENDPOINTRES_ALLOC();
 
 	if ( ! epr )
 	{
-		usbbase->usb_IExec->DebugPrintF( "USB: EPR_ObtainList: ALLOC FAILED\n" );
+		usbbase->usb_IExec->DebugPrintF( "USB3: EPR_ObtainList: ALLOC FAILED\n" );
 		goto bailout;
 	}
 
@@ -255,7 +255,7 @@ U32 to;
 		cn = fn->fkt_Config_Active;
 		ig = ( cn ) ? cn->cfg_InterfaceGroups.uh_Head : NULL;
 
-		usbbase->usb_IExec->DebugPrintF( "USB: EPR_ObtainList: search EP type=%ld dir=%ld ifcnr=%ld cn=%p ig=%p\n",
+		usbbase->usb_IExec->DebugPrintF( "USB3: EPR_ObtainList: search EP type=%ld dir=%ld ifcnr=%ld cn=%p ig=%p\n",
 			eptype, epdir, ifcnr, cn, ig );
 
 		epn = NULL;
@@ -266,7 +266,7 @@ U32 to;
 
 			while( ih )
 			{
-				usbbase->usb_IExec->DebugPrintF( "USB: EPR_ObtainList: ih=%p owner=%p reg=%p fn_owner=%p ih_num=%ld\n",
+				usbbase->usb_IExec->DebugPrintF( "USB3: EPR_ObtainList: ih=%p owner=%p reg=%p fn_owner=%p ih_num=%ld\n",
 					ih, ih->ih_Owner, reg, fn->fkt_Owner, (U32) ih->ih_Number );
 
 				if ((( ih->ih_Owner == reg ) || ( fn->fkt_Owner == reg ))
@@ -328,11 +328,11 @@ U32 to;
 
 //	USBDEBUG( "__EndPointRes_ObtainList : 7 :" );
 
-	usbbase->usb_IExec->DebugPrintF( "USB: EPR_ObtainList: search done epn=%p\n", epn );
+	usbbase->usb_IExec->DebugPrintF( "USB3: EPR_ObtainList: search done epn=%p\n", epn );
 
 	if ( ENDPOINT_VALID(epn) != VSTAT_Okay )
 	{
-		usbbase->usb_IExec->DebugPrintF( "USB: EPR_ObtainList: EP NOT FOUND\n" );
+		usbbase->usb_IExec->DebugPrintF( "USB3: EPR_ObtainList: EP NOT FOUND\n" );
 		goto bailout;
 	}
 
@@ -516,12 +516,12 @@ va_list ap;
 
 //	USBDEBUG( "__EndPointRes_ObtainTags : REG   %p : (%s)", reg, (file)?file:"<NULL>" );
 
-	usbbase->usb_IExec->DebugPrintF( "USB: EPR_ObtainTags: reg=%p locking... [%s]\n",
+	usbbase->usb_IExec->DebugPrintF( "USB3: EPR_ObtainTags: reg=%p locking... [%s]\n",
 		reg, usbbase->usb_IExec->FindTask(NULL)->tc_Node.ln_Name );
 
 	if ( REGISTER_LOCK( reg ) == LSTAT_Okay )
 	{
-		usbbase->usb_IExec->DebugPrintF( "USB: EPR_ObtainTags: locked, calling ObtainList\n" );
+		usbbase->usb_IExec->DebugPrintF( "USB3: EPR_ObtainTags: locked, calling ObtainList\n" );
 
 		va_start( ap, reg );
 
@@ -529,13 +529,13 @@ va_list ap;
 
 		va_end( ap );
 
-		usbbase->usb_IExec->DebugPrintF( "USB: EPR_ObtainTags: ObtainList returned epr=%p\n", epr );
+		usbbase->usb_IExec->DebugPrintF( "USB3: EPR_ObtainTags: ObtainList returned epr=%p\n", epr );
 
 		REGISTER_UNLOCK( reg );
 	}
 	else
 	{
-		usbbase->usb_IExec->DebugPrintF( "USB: EPR_ObtainTags: LOCK FAILED\n" );
+		usbbase->usb_IExec->DebugPrintF( "USB3: EPR_ObtainTags: LOCK FAILED\n" );
 		epr = NULL;
 	}
 

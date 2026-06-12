@@ -101,7 +101,7 @@ S32 remove;
 			ioreq->req_RetryCount++;
 			ioreq->req_Public.io_Error = 0;
 
-			usbbase->usb_IExec->DebugPrintF( "USB2: Retry %ld/%ld for IOReq %p\n",
+			usbbase->usb_IExec->DebugPrintF( "USB3: Retry %ld/%ld for IOReq %p\n",
 				(U32) ioreq->req_RetryCount, (U32) ioreq->req_RetryMax, ioreq );
 
 			// Re-submit: rebuild and re-add to hardware

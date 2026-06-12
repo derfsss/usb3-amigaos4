@@ -42,7 +42,7 @@ S32 retval;
 
 	MEM_SET( xhci->CmdRing.trbs, 0, 4096 );
 
-	// Place Link TRB at last position — points back to ring start, toggles cycle
+	// Place Link TRB at last position -- points back to ring start, toggles cycle
 	trb = & xhci->CmdRing.trbs[ xhci->CmdRing.size - 1 ];
 	trb->trb_param_lo = LE_SWAP32( xhci->CmdRing.phys );
 	trb->trb_param_hi = 0;
@@ -72,7 +72,7 @@ S32 retval;
 	{
 		usbbase->usb_IExec->DebugPrintF( "XHCI: Init : 5 : Scratchpad (%ld pages)\n", xhci->ScratchpadCount );
 
-		// Scratchpad array — array of 64-bit physical addresses
+		// Scratchpad array -- array of 64-bit physical addresses
 		xhci->ScratchpadArray = MEMORY_ALLOC( MEMID_HCD_4k, FALSE );
 
 		if ( ! xhci->ScratchpadArray )

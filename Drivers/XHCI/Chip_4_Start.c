@@ -67,7 +67,7 @@ S32 retval;
 
 	if ( val & XHCI_STS_HCH )
 	{
-		USBERROR( "XHCI: Start timeout — controller did not start" );
+		USBERROR( "XHCI: Start timeout -- controller did not start" );
 		goto bailout;
 	}
 

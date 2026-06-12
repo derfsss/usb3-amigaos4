@@ -20,7 +20,7 @@ struct USB2_DeviceUnit *unit;
 struct USBBase *usbbase;
 PTR seglist;
 
-	TASK_NAME_ENTER( "USB : _manager_Close" );
+	TASK_NAME_ENTER( "USB3: _manager_Close" );
 
 	usbbase = (PTR) Self->Data.LibBase;
 //	usbbase->usb_IExec->DebugPrintF( "manager_close\n" );

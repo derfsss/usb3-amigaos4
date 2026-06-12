@@ -145,7 +145,7 @@ SEC_RWDATA const struct Resident usb_res =
 /* rt_Version	*/			VERSION,
 /* rt_Type		*/			NT_UNKNOWN,
 /* rt_Pri		*/			1,
-/* rt_Name		*/ (STR)	"usb2.device", //"Universal Serial Bus",
+/* rt_Name		*/ (STR)	"usb3.device", //"Universal Serial Bus",
 /* rt_IdString	*/ (STR)	VSTRING,
 /* rt_Init		*/ (PTR)	ROMInit
 };

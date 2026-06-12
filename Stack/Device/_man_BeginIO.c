@@ -58,7 +58,7 @@ struct USB2_HCDNode *hn;
 struct USBBase *usbbase;
 S32 reply;
 
-	TASK_NAME_ENTER( "USB : _manager_BeginIO" );
+	TASK_NAME_ENTER( "USB3: _manager_BeginIO" );
 
 	usbbase = (PTR) Self->Data.LibBase;
 

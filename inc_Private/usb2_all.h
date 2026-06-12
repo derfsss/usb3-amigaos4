@@ -70,7 +70,7 @@
 
 // --
 
-#define DRIVERDIR		"libs:USB2"
+#define DRIVERDIR		"libs:USB3"
 
 // --
 

@@ -100,7 +100,7 @@ struct ExecIFace *IExec;
 	{
 		IExec->DebugPrintF( "MSD_DoBulk_Recovery 17\n" );
 
-		// TUR failed → ask for sense (fixed format, 18 bytes)
+		// TUR failed -> ask for sense (fixed format, 18 bytes)
 		if ( MSD_SCSI_RequestSense( usbbase, msddisk, NULL, sense, sizeof( sense ))) 
 		{
 			U8 key  = sense[2] & 0x0F;
@@ -110,7 +110,7 @@ struct ExecIFace *IExec;
 			IExec->DebugPrintF( "Recovery/TUR: Sense key=%02lx ASC=%02lx ASCQ=%02lx\n", key, asc, ascq );
 
 			// No fallback here (per your plan). Just good logging:
-			// if (key==0x05 && asc==0x20 && ascq==0x00) → device doesn’t support READ(16).
+			// if (key==0x05 && asc==0x20 && ascq==0x00) -> device does not support READ(16).
 		} 
 		else 
 		{

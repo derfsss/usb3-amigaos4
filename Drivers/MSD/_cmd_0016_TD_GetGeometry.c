@@ -88,12 +88,12 @@ S32 reply;
 	}
 
 	// todo : 
-	// Make sure blksz is non-zero and reasonable (often 512/1024/2048/4096 and power-of-two). If it’s weird, default to 512 or fail gracefully.
+	// Make sure blksz is non-zero and reasonable (often 512/1024/2048/4096 and power-of-two). If it is weird, default to 512 or fail gracefully.
 
 	// Sanity on block size
 	if (( ! blk_size ) || (( blk_size & ( blk_size - 1 )))) 
 	{
-		// Not a power of two → fail (or fallback to 512 if you prefer)
+		// Not a power of two -> fail (or fallback to 512 if you prefer)
 		USBERROR( "MSD : TD_GetGeometry : bad Block Size %llu (Defaults to 512)", blk_size );
 		blk_size = 512;
 	}

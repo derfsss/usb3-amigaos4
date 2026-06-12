@@ -26,7 +26,6 @@ U32 slotid;
 U32 dci;
 U32 ring_idx;
 U32 data_len;
-U32 pid;
 PTR bounce;
 U32 bounce_phy;
 

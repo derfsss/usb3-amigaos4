@@ -28,20 +28,20 @@ S32 old;
 
 	// --
 
-	usbbase->usb_IExec->DebugPrintF( "USB: IFC_Entry: dn=%p entry=%p lock...\n", dn, dn ? dn->dn_Entry : 0 );
+	usbbase->usb_IExec->DebugPrintF( "USB3: IFC_Entry: dn=%p entry=%p lock...\n", dn, dn ? dn->dn_Entry : 0 );
 
 	if ( DRIVER_LOCK( dn ) == LSTAT_Okay )
 	{
-		usbbase->usb_IExec->DebugPrintF( "USB: IFC_Entry: locked, entry=%p filename=%p\n",
+		usbbase->usb_IExec->DebugPrintF( "USB3: IFC_Entry: locked, entry=%p filename=%p\n",
 			dn->dn_Entry, dn->dn_Filename );
 
 		/**/ if ( dn->dn_Entry )
 		{
-			usbbase->usb_IExec->DebugPrintF( "USB: IFC_Entry: calling entry %p\n", dn->dn_Entry );
+			usbbase->usb_IExec->DebugPrintF( "USB3: IFC_Entry: calling entry %p\n", dn->dn_Entry );
 
 			dn->dn_Entry( usbbase, & dn->dn_Message.rdm_Public );
 
-			usbbase->usb_IExec->DebugPrintF( "USB: IFC_Entry: entry returned\n" );
+			usbbase->usb_IExec->DebugPrintF( "USB3: IFC_Entry: entry returned\n" );
 		}
 		else if (( dn->dn_Filename ) && ( usbbase->usb_DriverDirLock ))
 		{
@@ -115,17 +115,17 @@ U32 retval;
 
 	retval = TASK_Return_Stack_Error;
 
-	usbbase->usb_IExec->DebugPrintF( "USB: _StartIfc: 1 alloc driver\n" );
+	usbbase->usb_IExec->DebugPrintF( "USB3: _StartIfc: 1 alloc driver\n" );
 
 	dn = DRIVER_ALLOC( fn, as );
 
 	if ( ! dn )
 	{
-		usbbase->usb_IExec->DebugPrintF( "USB: _StartIfc: DRIVER_ALLOC failed\n" );
+		usbbase->usb_IExec->DebugPrintF( "USB3: _StartIfc: DRIVER_ALLOC failed\n" );
 		goto bailout;
 	}
 
-	usbbase->usb_IExec->DebugPrintF( "USB: _StartIfc: 2 dn=%p entry=%p\n", dn, fdn->fdn_Entry );
+	usbbase->usb_IExec->DebugPrintF( "USB3: _StartIfc: 2 dn=%p entry=%p\n", dn, fdn->fdn_Entry );
 
 	dn->dn_Entry = fdn->fdn_Entry;
 	dn->dn_Filename = fdn->fdn_Driver_Filename;
@@ -138,7 +138,7 @@ U32 retval;
 
 	if ( INTERFACE_VALIDGROUP(ig) != VSTAT_Okay )
 	{
-		usbbase->usb_IExec->DebugPrintF( "USB: _StartIfc: VALIDGROUP failed ig=%p\n", ig );
+		usbbase->usb_IExec->DebugPrintF( "USB3: _StartIfc: VALIDGROUP failed ig=%p\n", ig );
 		goto bailout;
 	}
 
@@ -146,11 +146,11 @@ U32 retval;
 
 	if ( INTERFACE_VALIDHEADER(ih) != VSTAT_Okay )
 	{
-		usbbase->usb_IExec->DebugPrintF( "USB: _StartIfc: VALIDHEADER failed ih=%p\n", ih );
+		usbbase->usb_IExec->DebugPrintF( "USB3: _StartIfc: VALIDHEADER failed ih=%p\n", ih );
 		goto bailout;
 	}
 
-	usbbase->usb_IExec->DebugPrintF( "USB: _StartIfc: 3 ih=%p ih_Active=%p ih_Owner=%p\n",
+	usbbase->usb_IExec->DebugPrintF( "USB3: _StartIfc: 3 ih=%p ih_Active=%p ih_Owner=%p\n",
 		ih, ih->ih_Active, ih->ih_Owner );
 
 	#ifdef DO_DEBUG
@@ -164,17 +164,17 @@ U32 retval;
 
 	if ( ih->ih_Owner )
 	{
-		usbbase->usb_IExec->DebugPrintF( "USB: _StartIfc: ALREADY OWNED by %p\n", ih->ih_Owner );
+		usbbase->usb_IExec->DebugPrintF( "USB3: _StartIfc: ALREADY OWNED by %p\n", ih->ih_Owner );
 		goto bailout;
 	}
 
 	if ( ! ih->ih_Active )
 	{
-		usbbase->usb_IExec->DebugPrintF( "USB: _StartIfc: ih_Active is NULL!\n" );
+		usbbase->usb_IExec->DebugPrintF( "USB3: _StartIfc: ih_Active is NULL!\n" );
 		goto bailout;
 	}
 
-	usbbase->usb_IExec->DebugPrintF( "USB: _StartIfc: 4 starting task '%s'\n",
+	usbbase->usb_IExec->DebugPrintF( "USB3: _StartIfc: 4 starting task '%s'\n",
 		fdn->fdn_Title ? fdn->fdn_Title : "(null)" );
 
 	dn->dn_Message.rdm_Public.Interface = (PTR) & ih->ih_Public ;
@@ -195,7 +195,7 @@ U32 retval;
 
 	// --
 
-	usbbase->usb_IExec->DebugPrintF( "USB: _StartIfc: 5 TASK_START returned stat=0x%08lx\n", (U32) stat );
+	usbbase->usb_IExec->DebugPrintF( "USB3: _StartIfc: 5 TASK_START returned stat=0x%08lx\n", (U32) stat );
 
 	retval = stat;
 
@@ -285,17 +285,17 @@ S32 stat;
 
 	fdn = Header_Head( & usbbase->usb_FDriver_Header );
 
-	usbbase->usb_IExec->DebugPrintF( "USB: _CheckIfc: first fdn=%p ig_class=%ld\n", fdn, (U32) ig->ig_Class );
+	usbbase->usb_IExec->DebugPrintF( "USB3: _CheckIfc: first fdn=%p ig_class=%ld\n", fdn, (U32) ig->ig_Class );
 
 	while( fdn )
 	{
-		usbbase->usb_IExec->DebugPrintF( "USB: _CheckIfc: fdn=%p type=%ld class=%ld title=%s\n",
+		usbbase->usb_IExec->DebugPrintF( "USB3: _CheckIfc: fdn=%p type=%ld class=%ld title=%s\n",
 			fdn, (U32) fdn->fdn_Type, (U32) fdn->fdn_Class,
 			fdn->fdn_Title ? fdn->fdn_Title : "(null)" );
 
 		while( fdn->fdn_Type == USB2Val_FDriver_Interface )
 		{
-			usbbase->usb_IExec->DebugPrintF( "USB: _CheckIfc match: fdn class=%ld sub=%ld proto=%ld vs ig class=%ld sub=%ld proto=%ld\n",
+			usbbase->usb_IExec->DebugPrintF( "USB3: _CheckIfc match: fdn class=%ld sub=%ld proto=%ld vs ig class=%ld sub=%ld proto=%ld\n",
 				(U32) fdn->fdn_Class, (U32) fdn->fdn_SubClass, (U32) fdn->fdn_Protocol,
 				(U32) ig->ig_Class, (U32) ig->ig_SubClass, (U32) ig->ig_Protocol );
 //			usbbase->usb_IExec->DebugPrintF( "FDN Check Interface : %p\n", fdn );
@@ -327,12 +327,12 @@ S32 stat;
 //			USBDEBUG( "Found Interface [ possible : '%s' ]", (fdn->fdn_Title)?fdn->fdn_Title:"" );
 //			USBERROR( "Found Interface [ possible : '%s' ]", (fdn->fdn_Title)?fdn->fdn_Title:"" );
 
-			usbbase->usb_IExec->DebugPrintF( "USB: _CheckIfc: MATCH! Starting '%s'\n",
+			usbbase->usb_IExec->DebugPrintF( "USB3: _CheckIfc: MATCH! Starting '%s'\n",
 				fdn->fdn_Title ? fdn->fdn_Title : "(null)" );
 
 			stat = _Start_Interface( usbbase, fn, fdn, ig, as );
 
-			usbbase->usb_IExec->DebugPrintF( "USB: _CheckIfc: _Start_Interface returned %ld\n", (S32) stat );
+			usbbase->usb_IExec->DebugPrintF( "USB3: _CheckIfc: _Start_Interface returned %ld\n", (S32) stat );
 
 			if ( myIS_TASKRETURN_ERR( stat ))
 			{
@@ -373,17 +373,17 @@ enum FDSTAT stat;
 
 	cn = fn->fkt_Config_Active;
 
-	usbbase->usb_IExec->DebugPrintF( "USB: CheckInterfaces: cfgActive=%p addr=%ld\n", cn, (U32) fn->fkt_Address );
+	usbbase->usb_IExec->DebugPrintF( "USB3: CheckInterfaces: cfgActive=%p addr=%ld\n", cn, (U32) fn->fkt_Address );
 
 	if ( cn )
 	{
 		ig = cn->cfg_InterfaceGroups.uh_Head;
 
-		usbbase->usb_IExec->DebugPrintF( "USB: CheckInterfaces: first ig=%p\n", ig );
+		usbbase->usb_IExec->DebugPrintF( "USB3: CheckInterfaces: first ig=%p\n", ig );
 
 		while( ig )
 		{
-			usbbase->usb_IExec->DebugPrintF( "USB: CheckInterfaces: ig=%p class=%ld sub=%ld proto=%ld\n",
+			usbbase->usb_IExec->DebugPrintF( "USB3: CheckInterfaces: ig=%p class=%ld sub=%ld proto=%ld\n",
 				ig, (U32) ig->ig_Class, (U32) ig->ig_SubClass, (U32) ig->ig_Protocol );
 
 			if ( _Check_Interface( usbbase, fn, ig, as ))

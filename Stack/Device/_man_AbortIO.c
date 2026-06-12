@@ -20,7 +20,7 @@ struct USB2_HCDNode *hn;
 struct USBBase *usbbase;
 U32 send;
 
-	TASK_NAME_ENTER( "USB : _manager_AbortIO" );
+	TASK_NAME_ENTER( "USB3: _manager_AbortIO" );
 
 	usbbase = (PTR) Self->Data.LibBase;
 

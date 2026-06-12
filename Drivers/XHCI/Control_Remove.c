@@ -15,7 +15,7 @@
 
 SEC_CODE void XHCI_Control_Remove( struct USB2_HCDNode *hn UNUSED, struct RealRequest *ioreq )
 {
-	// XHCI TRBs are consumed by the controller — nothing to unlink
+	// XHCI TRBs are consumed by the controller -- nothing to unlink
 	ioreq->req_PublicStat = IORS_HCD;
 }
 

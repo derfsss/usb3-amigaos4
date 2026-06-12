@@ -143,7 +143,7 @@ U8 *mem;
 		// Max Packet Size
 		val1 |= EHCI_QH_SET_MPL( ep->ep_MaxPacketSize );
 
-		// Data Toggle Control — use hardware toggle tracking for
+		// Data Toggle Control -- use hardware toggle tracking for
 		// non-control endpoints. Control endpoints use explicit
 		// toggle values from TDs (Setup=0, Data=1, Status=1).
 		if ( ep->ep_Type != EPATT_Type_Control )
