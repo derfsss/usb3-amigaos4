@@ -6,12 +6,12 @@
 ** SPDX-License-Identifier: GPL-3.0-or-later
 */
 
-#ifndef INC_PRIVATE_USB2_ALL_H
-#error Include "usb2_all.h" first
+#ifndef INC_PRIVATE_USB3_ALL_H
+#error Include "usb3_all.h" first
 #endif
 
-#ifndef INC_PRIVATE_USB2_DEBUG_H
-#define INC_PRIVATE_USB2_DEBUG_H
+#ifndef INC_PRIVATE_USB3_DEBUG_H
+#define INC_PRIVATE_USB3_DEBUG_H
 
 /***************************************************************************/
 
@@ -101,4 +101,4 @@ void VARARGS68K _USBDEBUG( U32 lvl, STR fmt, ... );
 
 /***************************************************************************/
 
-#endif // INC_PRIVATE_USB2_DEBUG_H
+#endif // INC_PRIVATE_USB3_DEBUG_H

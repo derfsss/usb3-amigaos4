@@ -26,7 +26,7 @@
 #include <proto/layout.h>
 #include <proto/listbrowser.h>
 // #include <proto/mounter.h>
-#include <proto/usb2.h>
+#include <proto/usb3.h>
 #include <proto/utility.h>
 // #include <proto/timer.h>
 #include <proto/window.h>

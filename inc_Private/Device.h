@@ -6,8 +6,8 @@
 ** SPDX-License-Identifier: GPL-3.0-or-later
 */
 
-#ifndef INC_PRIVATE_USB2_ALL_H
-#error Include "usb2_all.h" first
+#ifndef INC_PRIVATE_USB3_ALL_H
+#error Include "usb3_all.h" first
 #endif
 
 #ifndef INC_PRIVATE_DEVICE_H
@@ -148,7 +148,7 @@ struct USBBase
 	*/
 
 	#define USB2_CREATEFUNC(ret_type, name, ...)	ret_type (*_##name)(__VA_ARGS__)
-	#include "usb2_Protos.h"
+	#include "usb3_Protos.h"
 	#undef USB2_CREATEFUNC
 };
 

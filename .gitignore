@@ -57,7 +57,7 @@ dkms.conf
 # usb stack
 rsync__git_to_svn.sh
 rsync__svn_to_git.sh
-usb2.lha
+usb3.lha
 _Data/
 bin/
 obj/

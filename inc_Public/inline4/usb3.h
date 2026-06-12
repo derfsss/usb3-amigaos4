@@ -6,13 +6,13 @@
 ** SPDX-License-Identifier: GPL-3.0-or-later
 */
 
-#ifndef INLINE4_USB2_H
-#define INLINE4_USB2_H
+#ifndef INLINE4_USB3_H
+#define INLINE4_USB3_H
 
 /****************************************************************************/
 
-#ifndef DEVICES_USB2_H
-#include <devices/usb2.h>
+#ifndef DEVICES_USB3_H
+#include <devices/usb3.h>
 #endif
 
 /****************************************************************************/
@@ -51,10 +51,10 @@
 #include <exec/interfaces.h>
 #endif
 
-#ifndef DEVICES_USB2_H
-#include <devices/usb2.h>
+#ifndef DEVICES_USB3_H
+#include <devices/usb3.h>
 #endif
-#include <interfaces/usb2.h>
+#include <interfaces/usb3.h>
 
 /* Inline macros for Interface "main" */
 #define RegisterList(tags) IUSB2->RegisterList((tags)) 
@@ -109,4 +109,4 @@
 #define FreeIOBuffer(buf) IUSB2->FreeIOBuffer((buf)) 
 	#endif
 
-#endif /* INLINE4_USB2_H */
+#endif /* INLINE4_USB3_H */

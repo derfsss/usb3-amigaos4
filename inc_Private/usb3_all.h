@@ -6,8 +6,8 @@
 ** SPDX-License-Identifier: GPL-3.0-or-later
 */
 
-#ifndef INC_PRIVATE_USB2_ALL_H
-#define INC_PRIVATE_USB2_ALL_H
+#ifndef INC_PRIVATE_USB3_ALL_H
+#define INC_PRIVATE_USB3_ALL_H
 
 /***************************************************************************/
 
@@ -20,7 +20,7 @@
 #include <proto/input.h>
 #include <proto/intuition.h>
 #include <proto/mounter.h>
-#include <proto/usb2.h>
+#include <proto/usb3.h>
 #include <proto/utility.h>
 #include <proto/timer.h>
 
@@ -38,14 +38,14 @@
 
 // --
 
-#include "inc_Private/usb2_IDs.h"
-#include "inc_Private/usb2_Debug.h"
-#include "inc_Private/usb2_Node.h"
-#include "inc_Private/usb2_Signal.h"
-#include "inc_Private/usb2_Semaphore.h"
-#include "inc_Private/usb2_MsgPort.h"
-#include "inc_Private/usb2_ASync.h"
-#include "inc_Private/usb2_Misc.h"
+#include "inc_Private/usb3_IDs.h"
+#include "inc_Private/usb3_Debug.h"
+#include "inc_Private/usb3_Node.h"
+#include "inc_Private/usb3_Signal.h"
+#include "inc_Private/usb3_Semaphore.h"
+#include "inc_Private/usb3_MsgPort.h"
+#include "inc_Private/usb3_ASync.h"
+#include "inc_Private/usb3_Misc.h"
 
 #include "inc_Private/Command.h"
 #include "inc_Private/EndPoint.h"
@@ -170,7 +170,7 @@ struct CMD_AddFunctionData
 // Build Protos
 
 #define USB2_CREATEFUNC(ret_type, name, ...)	ret_type __##name(__VA_ARGS__)
-#include "usb2_Protos.h"
+#include "usb3_Protos.h"
 #undef USB2_CREATEFUNC
 
 // --

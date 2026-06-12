@@ -251,10 +251,10 @@ install:
 #	$(MKDIR) $(SDK)local/common/include/inline4
 #	$(MKDIR) $(SDK)local/common/include/interfaces
 #	$(MKDIR) $(SDK)local/common/include/proto
-#	$(COPY) include/devices/usb2.h		$(SDK)local/common/include/devices
-#	$(COPY) include/inline4/usb2.h		$(SDK)local/common/include/inline4
-#	$(COPY) include/interfaces/usb2.h	$(SDK)local/common/include/interfaces
-#	$(COPY) include/proto/usb2.h		$(SDK)local/common/include/proto
+#	$(COPY) include/devices/usb3.h		$(SDK)local/common/include/devices
+#	$(COPY) include/inline4/usb3.h		$(SDK)local/common/include/inline4
+#	$(COPY) include/interfaces/usb3.h	$(SDK)local/common/include/interfaces
+#	$(COPY) include/proto/usb3.h		$(SDK)local/common/include/proto
 
 ###############################################################################
 

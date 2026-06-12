@@ -6,12 +6,12 @@
 ** SPDX-License-Identifier: GPL-3.0-or-later
 */
 
-#ifndef INC_PRIVATE_USB2_ALL_H
-#error Include "usb2_all.h" first
+#ifndef INC_PRIVATE_USB3_ALL_H
+#error Include "usb3_all.h" first
 #endif
 
-#ifndef INC_PRIVATE_USB2_MISC_H
-#define INC_PRIVATE_USB2_MISC_H
+#ifndef INC_PRIVATE_USB3_MISC_H
+#define INC_PRIVATE_USB3_MISC_H
 
 /***************************************************************************/
 
@@ -24,4 +24,4 @@ struct RealSetupData
 
 /***************************************************************************/
 
-#endif // INC_PRIVATE_USB2_MISC_H
+#endif // INC_PRIVATE_USB3_MISC_H

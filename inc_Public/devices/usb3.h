@@ -6,8 +6,8 @@
 ** SPDX-License-Identifier: GPL-3.0-or-later
 */
 
-#ifndef DEVICES_USB2_H
-#define DEVICES_USB2_H
+#ifndef DEVICES_USB3_H
+#define DEVICES_USB3_H
 
 /***************************************************************************/
 
@@ -901,4 +901,4 @@ struct USB2_DeviceNode
 
 #pragma pack()
 
-#endif /* DEVICES_USB2_H */
+#endif /* DEVICES_USB3_H */

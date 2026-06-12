@@ -6,12 +6,12 @@
 ** SPDX-License-Identifier: GPL-3.0-or-later
 */
 
-#ifndef INC_PRIVATE_USB2_ALL_H
-#error Include "usb2_all.h" first
+#ifndef INC_PRIVATE_USB3_ALL_H
+#error Include "usb3_all.h" first
 #endif
 
-#ifndef INC_PRIVATE_USB2_NODE_H
-#define INC_PRIVATE_USB2_NODE_H
+#ifndef INC_PRIVATE_USB3_NODE_H
+#define INC_PRIVATE_USB3_NODE_H
 
 /***************************************************************************/
 
@@ -55,4 +55,4 @@ struct USB2_Node
 
 /***************************************************************************/
 
-#endif // INC_PRIVATE_USB2_NODE_H
+#endif // INC_PRIVATE_USB3_NODE_H

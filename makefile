@@ -10,17 +10,17 @@
 .PHONY: clean revision install installsdk includes strip
 ###########################################################################
 
-TARGET		:= usb2.device
+TARGET		:= usb3.device
 VERSION		:= 1
-REVISION	:= 9
+REVISION	:= 10
 
 # Add Drivers 0/1
 DRV_MSD		:= 1
 DRV_HID		:= 1
 DRV_HUB		:= 1
-DRV_EHCI	:= 1
-DRV_OHCI	:= 1
-DRV_UHCI	:= 1
+DRV_EHCI	:= 0
+DRV_OHCI	:= 0
+DRV_UHCI	:= 0
 DRV_XHCI	:= 1
 
 CFLAGS		:= -O2
@@ -45,10 +45,10 @@ CFLAGS		+= -fno-builtin
 LDFLAGS		:= -nostartfiles
 
 # Use Linker script
-#LDFLAGS		+= -T usb2.ld
+#LDFLAGS		+= -T usb3.ld
 
 # Put link data into this file
-LDFLAGS		+= -Wl,--cref,-M,-Map=usb2.map
+LDFLAGS		+= -Wl,--cref,-M,-Map=usb3.map
 
 # Remove unused data .. super strip
 #LDFLAGS		+= -Wl,--gc-sections
@@ -436,7 +436,7 @@ info:
 ###########################################################################
 
 clean:
-	$(RM) $(OBJDIR) $(DEPS) $(BINDIR)/$(TARGET) usb2.map
+	$(RM) $(OBJDIR) $(DEPS) $(BINDIR)/$(TARGET) usb3.map
 
 ###########################################################################
 
@@ -446,7 +446,7 @@ clean:
 ###########################################################################
 
 install:
-	copy $(BINDIR)/usb2.device sys:kickstart/
+	copy $(BINDIR)/usb3.device DEVS:
 
 ###########################################################################
 
@@ -455,10 +455,10 @@ install:
 #	$(MKDIR) $(SDK)local/common/include/inline4
 #	$(MKDIR) $(SDK)local/common/include/interfaces
 #	$(MKDIR) $(SDK)local/common/include/proto
-#	$(COPY) include/devices/usb2.h		$(SDK)local/common/include/devices
-#	$(COPY) include/inline4/usb2.h		$(SDK)local/common/include/inline4
-#	$(COPY) include/interfaces/usb2.h	$(SDK)local/common/include/interfaces
-#	$(COPY) include/proto/usb2.h		$(SDK)local/common/include/proto
+#	$(COPY) include/devices/usb3.h		$(SDK)local/common/include/devices
+#	$(COPY) include/inline4/usb3.h		$(SDK)local/common/include/inline4
+#	$(COPY) include/interfaces/usb3.h	$(SDK)local/common/include/interfaces
+#	$(COPY) include/proto/usb3.h		$(SDK)local/common/include/proto
 
 ###########################################################################
 

@@ -6,13 +6,13 @@
 ** SPDX-License-Identifier: GPL-3.0-or-later
 */
 
-#ifndef INTERFACES_USB2_H
-#define INTERFACES_USB2_H
+#ifndef INTERFACES_USB3_H
+#define INTERFACES_USB3_H
 
 /****************************************************************************/
 
-#ifndef DEVICES_USB2_H
-#include <devices/usb2.h>
+#ifndef DEVICES_USB3_H
+#include <devices/usb3.h>
 #endif
 
 /****************************************************************************/
@@ -76,8 +76,8 @@ struct USB2DriverIFace
 #include <exec/interfaces.h>
 #endif
 
-#ifndef DEVICES_USB2_H
-#include <devices/usb2.h>
+#ifndef DEVICES_USB3_H
+#include <devices/usb3.h>
 #endif
 
 #ifdef __cplusplus

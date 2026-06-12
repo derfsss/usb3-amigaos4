@@ -6,22 +6,21 @@
 ** SPDX-License-Identifier: GPL-3.0-or-later
 */
 
-#ifndef INC_PRIVATE_USB2_ALL_H
-#error Include "usb2_all.h" first
+#ifndef INC_PRIVATE_USB3_ALL_H
+#error Include "usb3_all.h" first
 #endif
 
-#ifndef INC_PRIVATE_USB2_MSGPORT_H
-#define INC_PRIVATE_USB2_MSGPORT_H
+#ifndef INC_PRIVATE_USB3_SEMAPHORE_H
+#define INC_PRIVATE_USB3_SEMAPHORE_H
 
 /***************************************************************************/
 
-struct USB2_MsgPort
+struct USB2_Semaphore
 {
-	U32								ump_StructID;
-	struct MsgPort					ump_MsgPort;
-	struct USB2_Signal				ump_Signal;
+	U32								us_StructID;
+	struct SignalSemaphore			us_Semaphore;
 };
 
 /***************************************************************************/
 
-#endif // INC_PRIVATE_USB2_MSGPORT_H
+#endif // INC_PRIVATE_USB3_SEMAPHORE_H

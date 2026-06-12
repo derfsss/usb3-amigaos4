@@ -8,8 +8,8 @@
 
 // --
 
-#ifndef INC_PRIVATE_USB2_ALL_H
-#error Include "usb2_all.h" first
+#ifndef INC_PRIVATE_USB3_ALL_H
+#error Include "usb3_all.h" first
 #endif
 
 #ifndef DRIVERS_XHCI_XHCI_H

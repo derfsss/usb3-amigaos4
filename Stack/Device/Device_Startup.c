@@ -8,7 +8,7 @@
 
 // --
 
-#include "usb2_all.h"
+#include "usb3_all.h"
 
 // --
 
@@ -275,7 +275,7 @@ PTR node;
 	// eg.  usbbase->_Config_Free	= __Config_Free;
 
 	#define USB2_CREATEFUNC(ret_type, name, ...) usbbase->_##name = __##name;
-	#include "usb2_Protos.h"
+	#include "usb3_Protos.h"
 	#undef USB2_CREATEFUNC
 
 	// --

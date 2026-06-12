@@ -15,7 +15,7 @@
 
 #include <proto/dos.h>
 #include <proto/exec.h>
-#include <proto/usb2.h>
+#include <proto/usb3.h>
 #include <proto/utility.h>
 
 #include <devices/newstyle.h>

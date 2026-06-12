@@ -6,23 +6,23 @@
 ** SPDX-License-Identifier: GPL-3.0-or-later
 */
 
-#ifndef PROTO_USB2_H
-#define PROTO_USB2_H
+#ifndef PROTO_USB3_H
+#define PROTO_USB3_H
 
 /****************************************************************************/
 
-#ifndef DEVICES_USB2_H
-#include <devices/usb2.h>
+#ifndef DEVICES_USB3_H
+#include <devices/usb3.h>
 #endif
 
 /****************************************************************************/
 
 #ifdef __amigaos4__
 
-  #include <interfaces/usb2.h>
+  #include <interfaces/usb3.h>
 
   #ifdef __USE_INLINE__
-  #include <inline4/usb2.h>
+  #include <inline4/usb3.h>
   #endif
 
   #ifndef CLIB_USB2_PROTOS_H

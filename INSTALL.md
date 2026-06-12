@@ -1,109 +1,65 @@
-# USB2 Stack Installation Notes
+# Installing the usb3 stack
 
-To install the new USB2 stack, the recommended approach is to create a new boot configuration in Kickstart/Kicklayout rather than modifying your existing one. This allows you to safely test the new stack while keeping your original configuration intact.
+Unlike the upstream usb2 stack — which replaces the operating system's USB
+modules in Kickstart — **usb3 is loaded after boot and coexists with the
+stock AmigaOS USB stack**. Your Kicklayout is not modified, the onboard
+EHCI/OHCI controllers stay with `usbsys.device`, and removing usb3 is as
+simple as deleting two files.
 
-## Step 1: Clone Existing Configuration
+## Requirements
 
-Copy your default configuration section (for example “AmigaOS 4.1”) and rename it to something like:
+- AmigaOne X5000 running AmigaOS 4.1 Final Edition
+- A PCIe xHCI (USB 3.0) controller card — tested with the Renesas uPD720202
+- `bin/usb3.device` and `Programs/usb3start/usb3start` from this repository
+  (see README for build instructions)
 
-```
-LABEL AmigaOS 4.1 (USB2)
-```
-
-## Step 2: Remove Old USB Stack Modules
-
-In the new section only, remove the following modules from the Kickstart list:
-
-```
-MODULE Kickstart/usbresource.library
-MODULE Kickstart/usbsys.device
-MODULE Kickstart/bootmouse.usbfd
-MODULE Kickstart/bootkeyboard.usbfd
-MODULE Kickstart/hub.usbfd
-MODULE Kickstart/massstorage.usbfd
-MODULE Kickstart/uhci.usbhcd
-MODULE Kickstart/ohci.usbhcd
-MODULE Kickstart/ehci.usbhcd
-```
-
-These belong to the old USB stack and must not be loaded together with USB2.
-
-## Step 3: Add USB2 Module
-
-In the same location where the old USB modules were listed, add:
+## Step 1: Copy the device driver
 
 ```
-MODULE Kickstart/usb2.kmod
+Copy usb3.device DEVS:
 ```
 
-Do NOT load any of the old USB stack components together with usb2.kmod.
+## Step 2: Create the class-driver directory
 
-## Important Notes
+The stack scans `LIBS:USB3/` for external class drivers. The built-in
+drivers (hub, HID, mass storage) are compiled in, so the directory can be
+empty — but it must exist:
 
-* Only modify the new configuration section.
-* Keep your original configuration unchanged as a fallback.
-* Do not mix old USB stack modules with usb2.kmod.
-* If the system fails to boot, select your original configuration from the boot menu.
-
-After saving the updated Kicklayout, reboot and select the new configuration to test the USB2 stack.
-
-Here is an example of an Amiga X5000 config section.
-
-```asm
-; Configuration name
-LABEL AmigaOS 4.1 (USB2)
-EXEC Kickstart/loader
-MODULE Kickstart/kernel
-;
-MODULE Kickstart/FastFileSystem
-MODULE Kickstart/CDFileSystem
-MODULE Kickstart/NGFileSystem
-MODULE Kickstart/SmartFileSystem
-;
-MODULE Kickstart/battclock.resource.kmod
-MODULE Kickstart/bootmenu.kmod
-MODULE Kickstart/bootimage
-MODULE Kickstart/bootsd.resource.kmod
-MODULE Kickstart/con-handler.kmod
-MODULE Kickstart/console.device.kmod
-MODULE Kickstart/dos.library.kmod
-MODULE Kickstart/diskboot.kmod
-MODULE Kickstart/diskboot.config
-MODULE Kickstart/elf.library.kmod
-MODULE Kickstart/env-handler.kmod
-MODULE Kickstart/FileSystem.resource.kmod
-MODULE Kickstart/gadtools.library.kmod
-MODULE Kickstart/hunk.library.kmod
-MODULE Kickstart/input.device.kmod
-MODULE Kickstart/intuition.library.kmod
-MODULE Kickstart/keyboard.device.kmod
-MODULE Kickstart/keymap.library.kmod
-MODULE Kickstart/mounter.library
-MODULE Kickstart/newlib.library.kmod
-MODULE Kickstart/nonvolatile.library.kmod
-MODULE Kickstart/petunia.library.kmod
-MODULE Kickstart/ram-handler.kmod
-MODULE Kickstart/ramdrive.device.kmod
-MODULE Kickstart/ramlib.kmod
-MODULE Kickstart/shell.kmod
-MODULE Kickstart/strap.kmod
-MODULE Kickstart/timer.device.kmod
-;
-MODULE Kickstart/graphics.library.kmod
-MODULE Kickstart/PCIGraphics.card
-MODULE Kickstart/RadeonHD.chip
-MODULE Kickstart/ATIRadeon.chip
-MODULE Kickstart/3DLabsPermedia2.chip
-MODULE Kickstart/3dfxVoodoo.chip
-;
-MODULE Kickstart/p5020sata.device.kmod
-MODULE Kickstart/sii3112ide.device.kmod
-MODULE Kickstart/sii3114ide.device.kmod
-MODULE Kickstart/sii3512ide.device.kmod
-MODULE Kickstart/sii0680ide.device.kmod
-MODULE Kickstart/lsi53c8xx.device.kmod
-MODULE Kickstart/it8212ide.device.kmod
-;
-MODULE Kickstart/usb2.kmod
-MODULE Kickstart/xena.resource.kmod
 ```
+MakeDir LIBS:USB3
+```
+
+## Step 3: Start the stack
+
+```
+Run usb3start
+```
+
+`usb3start` opens `usb3.device` — which triggers the PCI scan, controller
+initialisation and HCD/hub task creation — prints the result, and exits.
+The stack keeps running in the background. Mass-storage devices attached to
+the card are exposed through `usb3disk.device` and mounted automatically by
+the system Mounter.
+
+To start the stack on every boot, add the `Run usb3start` line to
+`S:User-Startup`, or place `usb3start` in `SYS:WBStartup`.
+
+## Stopping / uninstalling
+
+There is no unload utility yet; the stack runs until reboot. To uninstall,
+delete `DEVS:usb3.device`, `LIBS:USB3/` and the `usb3start` file, then
+reboot.
+
+## Troubleshooting
+
+- **`usb3start` reports "No Controllers found".** The xHCI card is not
+  visible on the PCIe bus. This occasionally happens on a cold power-on;
+  reboot and try again. Verify the card is seated and shows up in
+  `SYS:Utilities/PCITool` (class `0C0330`).
+- **The controller fails to reset (debug output shows `HCRST` stuck).**
+  See "Known issues" in the README — the card was most likely left running
+  across a hardware reset. Power the machine off completely at the PSU
+  switch for ~30 seconds and power back on.
+- **Diagnostics.** The stack logs extensively to the kernel debug buffer.
+  Capture it with `DumpDebugBuffer >RAM:usb3.log` after a run when
+  reporting problems.
