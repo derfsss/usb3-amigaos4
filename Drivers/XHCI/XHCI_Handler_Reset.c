@@ -17,13 +17,19 @@
 ** Called just before the system resets/reboots (software reboot only --
 ** an MCU/hardware reset gives us no chance to run).
 **
-** Halting + resetting the controller here is CRITICAL on the Renesas
-** uPD720202: if it is left RUNNING across a warm reboot it retains
-** internal state and wedges with HCRST stuck, and no software path can
-** recover it afterwards (all six PCI/PCIe tiers in Chip_1_Reset fail;
-** even an ATX power-off doesn't clear it because the PCIe slot keeps
-** 3.3Vaux from the standby rail). Prefer software reboots while the
-** usb3 stack is running.
+** Halting the controller here is CRITICAL on the Renesas uPD720202: if
+** it is left RUNNING across a warm reboot it retains internal state and
+** wedges with HCRST stuck, and no software path can recover it
+** afterwards (all six PCI/PCIe tiers in Chip_1_Reset fail; even an ATX
+** power-off doesn't clear it because the PCIe slot keeps 3.3Vaux from
+** the standby rail). Prefer software reboots while the stack runs.
+**
+** Halt ONLY -- deliberately no HCRST. Tested June 2026: issuing HCRST
+** here and letting the platform reset interrupt the chip's internal
+** re-initialisation left the chip with HCRST latched and stuck on the
+** next boot (the very wedge this handler exists to prevent). The next
+** boot's Chip_Reset performs the HCRST from the halted state instead,
+** which is the proven-clean path.
 **
 ** Runs in reset-callback context: no waiting primitives, so the HCH
 ** poll below is a bounded busy-read.
@@ -53,9 +59,6 @@ U32 cnt;
 				break;
 			}
 		}
-
-		// Reset the controller so it reboots into a clean state
-		PCI_WRITELONG( xhci->OpBase + XHCI_USBCMD, XHCI_CMD_HCRST );
 	}
 
 	return( TRUE );
