@@ -32,6 +32,39 @@ S32 reply;
 			break;
 		}
 
+		// Device gone: fail data commands immediately instead of
+		// timing out against dead hardware. Status commands and the
+		// ones filesystems need for an orderly teardown still work.
+		if ( msddev->msddev_Detached )
+		{
+			switch( ioreq->io_Command )
+			{
+				case TD_CHANGESTATE:
+				case TD_PROTSTATUS:
+				case TD_GETDRIVETYPE:
+				case TD_REMCHANGEINT:
+				case NSCMD_TD_REMSTATCALLBACK:
+				case NSCMD_DEVICEQUERY:
+				case CMD_UPDATE:
+				case CMD_CLEAR:
+				{
+					// Handled normally below
+					break;
+				}
+
+				default:
+				{
+					USBERROR( "MSD : __myHandle_Begin : Detached, failing cmd $%04lx", (U32) ioreq->io_Command );
+
+					ioreq->io_Error  = TDERR_DiskChanged;
+					ioreq->io_Actual = 0;
+
+					MSGPORT_REPLYMSG( ioreq );
+					continue;
+				}
+			}
+		}
+
 		switch( ioreq->io_Command )
 		{
 			case /* 0002 */ CMD_READ:					reply = MSD_Cmd_0002_CMD_Read( usbbase, msddev, (PTR) ioreq ); break;

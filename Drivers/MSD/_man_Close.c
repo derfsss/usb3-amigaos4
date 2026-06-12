@@ -38,6 +38,20 @@ struct MSDDisk *msddisk;
 	ioreq->io_Unit	 = NULL;
 	ioreq->io_Device = NULL;
 
+	// If the device is detaching, its task sits in the Stopping loop
+	// waiting for the open counts to drain -- wake it so it can
+	// re-check and finish its teardown
+	if (( msddisk->msddisk_MSDDev )
+	&&	( msddisk->msddisk_MSDDev->msddev_Detached ))
+	{
+		struct MsgPort *port = & msddisk->msddisk_MSDDev->msddev_MsgPort_Begin.ump_MsgPort;
+
+		if ( port->mp_SigTask )
+		{
+			usbbase->usb_IExec->Signal( port->mp_SigTask, 1UL << port->mp_SigBit );
+		}
+	}
+
 	SEMAPHORE_RELEASE( & MSDBase->msdbase_MSDDisk_Semaphore );
 
 	TASK_NAME_LEAVE();

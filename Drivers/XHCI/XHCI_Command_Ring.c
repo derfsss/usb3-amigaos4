@@ -377,3 +377,32 @@ U32 cc;
 }
 
 // --
+
+// Set TR Dequeue Pointer command -- repositions an endpoint's transfer
+// ring dequeue pointer. The endpoint must be in the Stopped state (issue
+// Stop Endpoint first). deq_dcs = physical TRB address with the Dequeue
+// Cycle State in bit 0. Used to flush a cancelled/aborted TD.
+
+SEC_CODE S32 XHCI_Cmd_SetTRDequeue( struct USB3_HCDNode *hn, U32 slotid, U32 dci, U32 deq_dcs )
+{
+struct XHCI_TRB trb;
+U32 cc;
+
+	struct USBBase *usbbase UNUSED = hn->hn_USBBase;
+
+	MEM_SET( & trb, 0, sizeof( trb ) );
+	trb.trb_param_lo = LE_SWAP32( deq_dcs );
+	trb.trb_param_hi = 0;
+	trb.trb_control  = LE_SWAP32(
+		XHCI_TRB_SET_TYPE( XHCI_TRB_SET_TR_DEQUEUE ) |
+		XHCI_TRB_SET_SLOT( slotid ) |
+		XHCI_TRB_SET_EP( dci ) );
+
+	XHCI_Cmd_Enqueue( hn, & trb );
+
+	cc = XHCI_Cmd_Wait( hn );
+
+	return( cc == XHCI_CC_SUCCESS );
+}
+
+// --

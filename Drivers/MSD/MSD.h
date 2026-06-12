@@ -320,6 +320,8 @@ void					MSD_Disk_Free(			struct USBBase *usbbase, struct MSDDisk *msddisk );
 S32						MSD_Disk_DoBulk(		struct USBBase *usbbase, struct MSDDisk *msddisk, struct DoBulkStruct *dbs );
 S32						MSD_Disk_TestUnitReady(	struct USBBase *usbbase, struct MSDDisk *msddisk );
 void					MSD_Disk_Detach(		struct USBBase *usbbase, struct MSDDisk *msddisk );
+void					MSD_Disk_FireChangeInts( struct USBBase *usbbase, struct MSDDisk *msddisk );
+void					MSD_Device_Detach(		struct USBBase *usbbase, struct MSDDevice *msddev );
 
 // --
 

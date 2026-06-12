@@ -32,6 +32,8 @@ SEC_CODE void	XHCI_Handler_HCD( struct USB3_HCDNode *hn, U32 mask );
 
 SEC_CODE S32	XHCI_Transfer_Check( struct USB3_HCDNode *hn, struct RealRequest *ioreq );
 SEC_CODE void	XHCI_Transfer_Free( struct USB3_HCDNode *hn, struct RealRequest *ioreq );
+SEC_CODE void	XHCI_Transfer_Abort( struct USB3_HCDNode *hn, struct RealRequest *ioreq );
+SEC_CODE void	XHCI_Function_Detach( struct USB3_HCDNode *hn, struct RealFunctionNode *fn );
 
 SEC_CODE S32	XHCI_Port_Clr_Connect_Chg( struct USB3_HCDNode *hn, U32 port );
 SEC_CODE S32	XHCI_Port_Clr_Reset_Chg( struct USB3_HCDNode *hn, U32 port );
@@ -67,6 +69,7 @@ SEC_CODE S32	XHCI_Cmd_ConfigureEndpoint( struct USB3_HCDNode *hn, U32 slotid );
 SEC_CODE S32	XHCI_Cmd_EvaluateContext( struct USB3_HCDNode *hn, U32 slotid );
 SEC_CODE S32	XHCI_Cmd_ResetEndpoint( struct USB3_HCDNode *hn, U32 slotid, U32 dci );
 SEC_CODE S32	XHCI_Cmd_StopEndpoint( struct USB3_HCDNode *hn, U32 slotid, U32 dci );
+SEC_CODE S32	XHCI_Cmd_SetTRDequeue( struct USB3_HCDNode *hn, U32 slotid, U32 dci, U32 deq_dcs );
 
 // -- Slot management
 

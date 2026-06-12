@@ -13,9 +13,14 @@
 
 // --
 
-SEC_CODE void XHCI_Interrupt_Remove( struct USB3_HCDNode *hn UNUSED, struct RealRequest *ioreq )
+SEC_CODE void XHCI_Interrupt_Remove( struct USB3_HCDNode *hn, struct RealRequest *ioreq )
 {
-	// XHCI TRBs are consumed by the controller -- nothing to unlink
+	// If the transfer completed, its TRBs were consumed by the
+	// controller and there is nothing to unlink. Otherwise (AbortIO,
+	// timeout, device detach) the hardware still owns the TD and must
+	// be stopped and flushed first.
+	XHCI_Transfer_Abort( hn, ioreq );
+
 	ioreq->req_PublicStat = IORS_HCD;
 }
 

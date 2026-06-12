@@ -96,6 +96,13 @@ struct HCDFunctions
 	// -- Check if IORequest is done
 	S32		( *Transfer_Check )					( struct USB3_HCDNode *hn, struct RealRequest *ioreq );
 	void	( *Transfer_Free )					( struct USB3_HCDNode *hn, struct RealRequest *ioreq );
+
+	// -- Optional: release per-device hardware state (e.g. the xHCI
+	// device slot) when a function's USB address is given back to the
+	// pool. Called from __HCD_Addr_Release with all of the function's
+	// IORequests already stopped. May be NULL (EHCI/OHCI/UHCI keep no
+	// per-device hardware state).
+	void	( *Function_Detach )				( struct USB3_HCDNode *hn, struct RealFunctionNode *fn );
 };
 
 #define PCI_READBYTE(x)						hn->HCD_ReadByte(hn,x)

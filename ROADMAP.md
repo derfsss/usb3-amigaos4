@@ -25,21 +25,22 @@ PTP class drivers inherited from upstream.
 **Known gaps** (discovered during the hardware bring-up, see also README
 "Known issues"):
 
-- Removal of a storage device is only noticed when an I/O fails: the Mounter
-  `DenounceDevice` call lives solely in the bulk-transport error path
-  (`MSD_2_Disk_DoBulk_*`); a surprise unplug of an idle stick leaves the
-  volume mounted
-- `TD_ADDCHANGEINT` / `NSCMD_AddStatCallBack` requests are queued but never
-  fired -- filesystems are never told about media changes
-- The xHCI slot is never freed on device detach (`Disable Slot` is only
-  issued on enumeration errors); repeated plug/unplug leaks slots and leaves
-  stale `SlotID_ByAddress` entries
-- No `AbortIO`-driven cancellation of in-flight xHCI transfers
-  (Stop Endpoint / Set TR Dequeue are unimplemented)
+- ~~Removal of a storage device is only noticed when an I/O fails~~ —
+  *implemented June 2026 (Phase 1), pending hardware verification:* the MSD
+  task now denounces every LUN and fires the change interrupts the moment
+  the hub driver signals detach
+- ~~`TD_ADDCHANGEINT` / `NSCMD_AddStatCallBack` requests are queued but
+  never fired~~ — *implemented June 2026 (Phase 1), pending verification*
+- ~~The xHCI slot is never freed on device detach~~ — *implemented June
+  2026 (Phase 1) via the new `Function_Detach` HCD hook, pending
+  verification*
+- ~~No `AbortIO`-driven cancellation of in-flight xHCI transfers~~ —
+  *implemented June 2026 (Phase 1): Stop Endpoint + Set TR Dequeue flush,
+  pending verification*
 - Endpoint stall recovery issues the USB-level `CLEAR_FEATURE` but not the
   xHCI `Reset Endpoint` command, so a stalled endpoint stays halted at the
-  controller
-- A failed controller initialisation does not fail `OpenDevice()`
+  controller (Phase 2)
+- A failed controller initialisation does not fail `OpenDevice()` (Phase 2)
 - SuperSpeed (ports 1-2 on the card) and isochronous transfers unimplemented
 
 ---
@@ -123,7 +124,25 @@ robustness work everything else needs.*
 - Isochronous transfer support (audio class, then video) — needs xHCI isoch
   TD scheduling; largest single work item on this list
 
-## Phase 6 — User experience and distribution
+## Phase 6 — Kickstart integration and USB boot
+
+- Build the stack as a Kickstart module (`usb3.device.kmod`) loadable from
+  a `Kicklayout` entry, so the xHCI controller comes up during early boot
+  with no `usb3start` step — the upstream usb2 stack already boots this
+  way, so the device framework supports it; what is new is doing it
+  *alongside* the stock USB modules rather than instead of them
+- Early-boot ordering: initialise after PCI enumeration, announce
+  storage units early enough that `mounter.library` / `diskboot` can
+  consider them as boot candidates
+- The goal: **boot AmigaOS 4.1 from a USB stick on the xHCI card**
+  (Kickstart files still come from the existing boot device via U-Boot;
+  the OS partition is what moves to USB). Investigate whether the
+  bootmenu's boot-device selection accepts `usb3disk.device` volumes
+- Fallback safety: a Kicklayout entry must never break the machine —
+  document a recovery boot configuration, mirroring the upstream
+  INSTALL.md approach of cloning the boot section before editing
+
+## Phase 7 — User experience and distribution
 
 - Desktop notifications on attach/detach (the stack has a `DO_NOTIFY`
   Ringhio hook; finish and enable it)
@@ -139,6 +158,6 @@ robustness work everything else needs.*
 ---
 
 *Phases 1-2 are about correctness and are prerequisites for everything
-else. Phases 3-4 widen the hardware envelope and speed. Phases 5-6 broaden
+else. Phases 3-4 widen the hardware envelope and speed. Phases 5-7 broaden
 what the stack is useful for. Suggestions and patches welcome — see
 README.md for contribution notes.*

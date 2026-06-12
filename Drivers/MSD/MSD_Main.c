@@ -24,8 +24,10 @@ SEC_CODE void MSD_Main( struct USBBase *usbbase, struct MSDDevice *msddev )
 	MSD_Main_1_Normal( usbbase, msddev );
 
 	// --
-	// Signal subtasks to shutdown
-//	__Signal( 	usbbase, in );
+	// The device is detaching (unplugged or stack shutdown): denounce
+	// every LUN and fire the disk-change interrupts NOW, so volumes
+	// disappear immediately instead of on the next failed I/O
+	MSD_Device_Detach( usbbase, msddev );
 
 	// --
 	// Stopping loop, wait for Resources to be released

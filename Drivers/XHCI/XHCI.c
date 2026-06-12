@@ -36,6 +36,7 @@ SEC_RODATA const struct HCDFunctions XHCIFunctions =
 
 	.Transfer_Check			= XHCI_Transfer_Check,
 	.Transfer_Free			= XHCI_Transfer_Free,
+	.Function_Detach		= XHCI_Function_Detach,
 
 	// -- Port Functions
 

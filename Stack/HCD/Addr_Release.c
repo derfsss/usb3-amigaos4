@@ -49,6 +49,13 @@ U32 adr;
 		goto bailout;
 	}
 
+	// Let the HCD drop per-device hardware state (e.g. the xHCI device
+	// slot) while fn->fkt_Address is still valid for lookup
+	if ( hn->HCD_Functions.Function_Detach )
+	{
+		hn->HCD_Functions.Function_Detach( hn, fn );
+	}
+
 	SEMAPHORE_OBTAIN( & usbbase->usb_Addr_Semaphore );
 
 	if ( adr )

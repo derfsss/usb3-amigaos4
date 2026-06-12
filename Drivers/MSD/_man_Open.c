@@ -40,8 +40,17 @@ struct MSDDisk *msddisk;
 		msddisk = NULL;
 	}
 
+	// Refuse opens on a unit whose device is already detaching
 	if (( msddisk )
-	&&	( ioreq->io_Message.mn_Length ) 
+	&&	( msddisk->msddisk_MSDDev )
+	&&	( msddisk->msddisk_MSDDev->msddev_Detached ))
+	{
+		USBERROR( "MSD : MSD_Manager_Open : Unit %ld is detached", unit_number );
+		msddisk = NULL;
+	}
+
+	if (( msddisk )
+	&&	( ioreq->io_Message.mn_Length )
 	&&	( ioreq->io_Message.mn_Length >= sizeof( struct IORequest )))
 	{
 		// okay
