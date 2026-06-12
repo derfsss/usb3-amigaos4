@@ -13,11 +13,10 @@
 
 // --
 
-// Stub -- will be implemented in Phase 3c/3d/3e
-
-SEC_CODE void XHCI_Bulk_Remove( struct USB2_HCDNode *hn UNUSED, struct RealRequest *ioreq UNUSED )
+SEC_CODE void XHCI_Bulk_Remove( struct USB2_HCDNode *hn UNUSED, struct RealRequest *ioreq )
 {
-	
+	// XHCI TRBs are consumed by the controller -- nothing to unlink
+	ioreq->req_PublicStat = IORS_HCD;
 }
 
 // --

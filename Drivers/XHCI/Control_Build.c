@@ -232,6 +232,7 @@ U32 status_dir;
 
 	MEM_SET( & ioreq->req_HCD.XHCI, 0, sizeof( struct __xhci ) );
 	ioreq->req_HCD.XHCI.SlotID = slotid;
+	ioreq->req_HCD.XHCI.DCI    = 1;		// EP0
 
 	// -- Determine transfer type
 
@@ -292,9 +293,10 @@ U32 status_dir;
 		bounce_phy = ((struct Mem_FreeNode *) bounce)->mfn_Addr;
 
 		// Store in IORequest for later copy-back and free
-		ioreq->req_HCD.XHCI.DataBuffer    = bounce;
-		ioreq->req_HCD.XHCI.DataBufferPhy = bounce_phy;
-		ioreq->req_HCD.XHCI.DataBufferLen = data_len;
+		ioreq->req_HCD.XHCI.DataBuffer     = bounce;
+		ioreq->req_HCD.XHCI.DataBufferPhy  = bounce_phy;
+		ioreq->req_HCD.XHCI.DataBufferLen  = data_len;
+		ioreq->req_HCD.XHCI.DataBufferPool = MEMID_HCD_20k;
 
 		// For OUT transfers, copy data to bounce buffer
 		if (( ioreq->req_Public.io_Command != CMD_READ ) && ( ioreq->req_Public.io_Data ))

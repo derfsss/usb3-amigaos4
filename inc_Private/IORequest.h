@@ -38,6 +38,16 @@ struct __ehci
 	U32						Start_Slot;
 };
 
+// One bounce-buffer chunk of a chained bulk TD. The chunk table lives in
+// a MEMID_HCD_4k allocation pointed to by __xhci.BounceTable.
+
+struct XHCI_BounceChunk
+{
+	PTR						Virt;				// Chunk virtual address (MEMID_HCD_20k)
+	U32						Phy;				// Chunk physical address
+	U32						Len;				// Bytes of payload in this chunk
+};
+
 struct __xhci
 {
 	U32						SlotID;				// XHCI slot for this transfer
@@ -48,6 +58,13 @@ struct __xhci
 	PTR						DataBuffer;			// DMA bounce buffer (virtual)
 	U32						DataBufferPhy;		// Physical address
 	U32						DataBufferLen;		// Requested length
+	U32						DataBufferPool;		// MEMID pool DataBuffer came from
+	PTR						BounceTable;		// Bulk: XHCI_BounceChunk[] (MEMID_HCD_4k)
+	U32						BounceTablePhy;		// Physical address of the table allocation
+	U32						BounceCnt;			// Number of chunks in BounceTable
+	U32						EventData;			// 1 = TD ends in an Event Data TRB, so the
+												//     Transfer Event length is EDTLA (bytes
+												//     TRANSFERRED), not a residual
 };
 
 /*[ Real Private Struct ]***************************************************/

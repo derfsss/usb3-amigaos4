@@ -90,9 +90,10 @@ U32 bounce_phy;
 
 	bounce_phy = ((struct Mem_FreeNode *) bounce)->mfn_Addr;
 
-	ioreq->req_HCD.XHCI.DataBuffer    = bounce;
-	ioreq->req_HCD.XHCI.DataBufferPhy = bounce_phy;
-	ioreq->req_HCD.XHCI.DataBufferLen = data_len;
+	ioreq->req_HCD.XHCI.DataBuffer     = bounce;
+	ioreq->req_HCD.XHCI.DataBufferPhy  = bounce_phy;
+	ioreq->req_HCD.XHCI.DataBufferLen  = data_len;
+	ioreq->req_HCD.XHCI.DataBufferPool = MEMID_HCD_4k;
 
 	// For OUT transfers, copy data to bounce buffer
 	if (( ioreq->req_Public.io_Command != CMD_READ ) && ( ioreq->req_Public.io_Data ))

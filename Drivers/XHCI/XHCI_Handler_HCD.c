@@ -64,13 +64,15 @@ U32 ctrl;
 		}
 		else if ( type == XHCI_TRB_TRANSFER_EVENT )
 		{
-			// Transfer Event -- match to pending IORequest by slot ID
+			// Transfer Event -- match to pending IORequest by slot + DCI
 			U32 evt_slot = XHCI_TRB_GET_SLOT( ctrl );
+			U32 evt_dci  = XHCI_TRB_GET_EP( ctrl );
+			U32 evt_ed   = ( ctrl & XHCI_TRB_EVENT_ED ) ? 1 : 0;
 			U32 evt_cc   = XHCI_TRB_GET_COMPCODE( LE_SWAP32( trb->trb_status ) );
 			U32 evt_len  = XHCI_TRB_GET_XFERLEN( LE_SWAP32( trb->trb_status ) );
 
-			usbbase->usb_IExec->DebugPrintF( "XHCI: TransferEvent slot=%ld cc=%ld residual=%ld\n",
-				evt_slot, evt_cc, evt_len );
+			usbbase->usb_IExec->DebugPrintF( "XHCI: TransferEvent slot=%ld dci=%ld cc=%ld len=%ld ed=%ld\n",
+				evt_slot, evt_dci, evt_cc, evt_len, evt_ed );
 
 			// Stash the last transfer outcome on the slot itself so that
 			// in-context callers (e.g. the GET_DESCRIPTOR(8) injection in
@@ -86,11 +88,27 @@ U32 ctrl;
 
 			while( scan )
 			{
-				if ( scan->req_HCD.XHCI.SlotID == evt_slot )
+				if (( scan->req_HCD.XHCI.SlotID == evt_slot )
+				&&	( scan->req_HCD.XHCI.DCI == evt_dci )
+				&&	( ! scan->req_HCD.XHCI.Completed ))
 				{
-					scan->req_HCD.XHCI.Completed     = 1;
+					scan->req_HCD.XHCI.Completed      = 1;
 					scan->req_HCD.XHCI.CompletionCode = evt_cc;
-					scan->req_HCD.XHCI.Residual       = evt_len;
+
+					if ( scan->req_HCD.XHCI.EventData )
+					{
+						// Event Data TRB completion: evt_len is the EDTLA,
+						// i.e. total bytes TRANSFERRED for the TD
+						U32 total = scan->req_HCD.XHCI.DataBufferLen;
+
+						scan->req_HCD.XHCI.Residual =
+							( evt_len <= total ) ? ( total - evt_len ) : 0;
+					}
+					else
+					{
+						// Plain TRB completion: evt_len is the residual
+						scan->req_HCD.XHCI.Residual = evt_len;
+					}
 
 					if ( evt_cc != XHCI_CC_SUCCESS && evt_cc != XHCI_CC_SHORT_PACKET )
 					{

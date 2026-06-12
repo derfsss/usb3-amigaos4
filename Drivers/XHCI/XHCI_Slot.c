@@ -34,12 +34,14 @@ struct XHCI_TRB *link;
 
 	MEM_SET( ring->trbs, 0, 4096 );
 
-	// Place Link TRB at last position
+	// Place Link TRB at last position. CHAIN is set so a multi-TRB TD
+	// (chained bulk) may legally span the ring wrap; it is harmless for
+	// single-TRB TDs since the link TRB then sits between TDs.
 	link = & ring->trbs[ ring->size - 1 ];
 	link->trb_param_lo = LE_SWAP32( ring->phys );
 	link->trb_param_hi = 0;
 	link->trb_status   = 0;
-	link->trb_control  = LE_SWAP32( XHCI_TRB_SET_TYPE( XHCI_TRB_LINK ) | XHCI_TRB_TC );
+	link->trb_control  = LE_SWAP32( XHCI_TRB_SET_TYPE( XHCI_TRB_LINK ) | XHCI_TRB_TC | XHCI_TRB_CHAIN );
 
 	return( TRUE );
 }
